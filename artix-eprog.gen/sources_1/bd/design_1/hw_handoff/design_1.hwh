@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sat Nov 20 13:14:47 2021" VIVADOVERSION="2021.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Nov 30 12:52:10 2021" VIVADOVERSION="2021.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="design_1" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -25,10 +25,9 @@
         <CONNECTION INSTANCE="vga_sync_0" PORT="vsync"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" LEFT="1" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
+    <PORT DIR="I" LEFT="2" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="pong_graph_0" PORT="btn"/>
-        <CONNECTION INSTANCE="pong_fsm_0" PORT="btn"/>
+        <CONNECTION INSTANCE="util_vector_logic_0" PORT="Op2"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" NAME="led" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -36,19 +35,24 @@
         <CONNECTION INSTANCE="clk_wiz_0" PORT="locked"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="3" NAME="outred" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_outred">
+    <PORT DIR="O" LEFT="3" NAME="outred" RIGHT="0" SIGIS="undef" SIGNAME="vga_mux_0_outr">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="pong_fsm_0" PORT="outred"/>
+        <CONNECTION INSTANCE="vga_mux_0" PORT="outr"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="3" NAME="outgreen" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_outgreen">
+    <PORT DIR="O" LEFT="3" NAME="outgreen" RIGHT="0" SIGIS="undef" SIGNAME="vga_mux_0_outg">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="pong_fsm_0" PORT="outgreen"/>
+        <CONNECTION INSTANCE="vga_mux_0" PORT="outg"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="3" NAME="outblue" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_outblue">
+    <PORT DIR="O" LEFT="3" NAME="outblue" RIGHT="0" SIGIS="undef" SIGNAME="vga_mux_0_outb">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="pong_fsm_0" PORT="outblue"/>
+        <CONNECTION INSTANCE="vga_mux_0" PORT="outb"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="dbg" SIGIS="undef" SIGNAME="timer_1_done">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="timer_1" PORT="done"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -649,13 +653,20 @@
         <PORT CLKFREQUENCY="50000000" DIR="O" NAME="clk_out1" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
           <CONNECTIONS>
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="slowest_sync_clk"/>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="clk"/>
-            <CONNECTION INSTANCE="timer_0" PORT="clk"/>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="clk"/>
-            <CONNECTION INSTANCE="m100_counter_0" PORT="clk"/>
             <CONNECTION INSTANCE="font_rom_0" PORT="clk"/>
-            <CONNECTION INSTANCE="pong_text_0" PORT="clk"/>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="clk"/>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="clk"/>
+            <CONNECTION INSTANCE="text_0" PORT="clk"/>
+            <CONNECTION INSTANCE="timer_0" PORT="clk"/>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="clk"/>
+            <CONNECTION INSTANCE="counter_mod10_0" PORT="clk"/>
+            <CONNECTION INSTANCE="counter_mod10_1" PORT="clk"/>
+            <CONNECTION INSTANCE="counter_mod10_2" PORT="clk"/>
+            <CONNECTION INSTANCE="counter_mod10_3" PORT="clk"/>
+            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="clk"/>
+            <CONNECTION INSTANCE="clock_divider_25_MHz" PORT="clk"/>
+            <CONNECTION INSTANCE="timer_1" PORT="clk"/>
+            <CONNECTION INSTANCE="controller_0" PORT="clk"/>
+            <CONNECTION INSTANCE="graph_0" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -667,10 +678,11 @@
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/font_rom_0" HWVERSION="1.0" INSTANCE="font_rom_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="font_rom" VLNV="xilinx.com:module_ref:font_rom:1.0">
+    <MODULE COREREVISION="1" FULLNAME="/clock_divider_1_Hz" HWVERSION="1.0" INSTANCE="clock_divider_1_Hz" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="clock_divider" VLNV="xilinx.com:module_ref:clock_divider:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_font_rom_0_2"/>
+        <PARAMETER NAME="DIV" VALUE="50000000"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_clock_divider_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
@@ -684,14 +696,311 @@
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="10" NAME="addr" RIGHT="0" SIGIS="undef" SIGNAME="pong_text_0_rom_addr">
+        <PORT DIR="O" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_Hz_tick">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="rom_addr"/>
+            <CONNECTION INSTANCE="timer_0" PORT="tick"/>
+            <CONNECTION INSTANCE="timer_1" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/clock_divider_25_MHz" HWVERSION="1.0" INSTANCE="clock_divider_25_MHz" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="clock_divider" VLNV="xilinx.com:module_ref:clock_divider:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIV" VALUE="2"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_clock_divider_1_Hz_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_25_MHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_tick"/>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="pixel_tick"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/controller_0" HWVERSION="1.0" INSTANCE="controller_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="controller" VLNV="xilinx.com:module_ref:controller:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_controller_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="text_on" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_on">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="text_on"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="graph_on" SIGIS="undef" SIGNAME="graph_0_graph_on">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="graph_on"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="gra_still" SIGIS="undef" SIGNAME="controller_0_gra_still">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="gra_still"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="killed" SIGIS="undef" SIGNAME="graph_0_killed">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="killed"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="died" SIGIS="undef" SIGNAME="graph_0_died">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="died"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="timer_top" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="timer_0" PORT="top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="timer_start" SIGIS="undef" SIGNAME="controller_0_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="timer_0" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="timer_up" SIGIS="undef" SIGNAME="timer_0_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="timer_0" PORT="done"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="util_reduced_logic_0_Res">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_reduced_logic_0" PORT="Res"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="score_inc" SIGIS="undef" SIGNAME="controller_0_score_inc">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_0" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="score_clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_0" PORT="clear"/>
+            <CONNECTION INSTANCE="counter_mod10_1" PORT="clear"/>
+            <CONNECTION INSTANCE="counter_mod10_2" PORT="clear"/>
+            <CONNECTION INSTANCE="counter_mod10_3" PORT="clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="lives" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_lives">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="lives"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="rgb_mux_sel" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_rgb_mux_sel">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="mux_sel"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_0" HWVERSION="1.0" INSTANCE="counter_mod10_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="controller_0_score_inc">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_inc"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_0_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="counter_mod10_0_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_1" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_1" HWVERSION="1.0" INSTANCE="counter_mod10_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="counter_mod10_0_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_0" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_1_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="counter_mod10_1_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_2" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_2" HWVERSION="1.0" INSTANCE="counter_mod10_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_2"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="counter_mod10_1_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_1" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_2_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig2"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="counter_mod10_2_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_3" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_3" HWVERSION="1.0" INSTANCE="counter_mod10_3" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_3"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="counter_mod10_2_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_2" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_3_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig3"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef"/>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/font_rom_0" HWVERSION="1.0" INSTANCE="font_rom_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="font_rom" VLNV="xilinx.com:module_ref:font_rom:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_font_rom_0_3"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="10" NAME="addr" RIGHT="0" SIGIS="undef" SIGNAME="text_0_rom_addr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="rom_addr"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="7" NAME="data" RIGHT="0" SIGIS="undef" SIGNAME="font_rom_0_data">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="font_word"/>
+            <CONNECTION INSTANCE="text_0" PORT="rom_data"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -720,235 +1029,10 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/m100_counter_0" HWVERSION="1.0" INSTANCE="m100_counter_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="m100_counter" VLNV="xilinx.com:module_ref:m100_counter:1.0">
+    <MODULE COREREVISION="1" FULLNAME="/graph_0" HWVERSION="1.0" INSTANCE="graph_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="graph" VLNV="xilinx.com:module_ref:graph:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_m100_counter_0_0"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="d_inc" SIGIS="undef" SIGNAME="pong_fsm_0_d_inc">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="d_inc"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="d_clr" SIGIS="undef" SIGNAME="pong_fsm_0_d_clr">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="d_clr"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="dig0" RIGHT="0" SIGIS="undef" SIGNAME="m100_counter_0_dig0">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="dig0"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="dig1" RIGHT="0" SIGIS="undef" SIGNAME="m100_counter_0_dig1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="dig1"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/pong_fsm_0" HWVERSION="1.0" INSTANCE="pong_fsm_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="pong_fsm" VLNV="xilinx.com:module_ref:pong_fsm:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_pong_fsm_0_0"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="video_on" SIGIS="undef" SIGNAME="vga_sync_0_video_on">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="video_on"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="pixel_tick" SIGIS="undef" SIGNAME="vga_sync_0_p_tick">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="p_tick"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_x"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_y"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="3" NAME="text_on" RIGHT="0" SIGIS="undef" SIGNAME="pong_text_0_text_on">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="text_on"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="2" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="pong_text_0_text_rgb">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="text_rgb"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="1" NAME="ball" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_ball">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="ball"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="graph_on" SIGIS="undef" SIGNAME="pong_graph_0_graph_on">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="graph_on"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="gra_still" SIGIS="undef" SIGNAME="pong_fsm_0_gra_still">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="gra_still"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="hit" SIGIS="undef" SIGNAME="pong_graph_0_hit">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="hit"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="miss" SIGIS="undef" SIGNAME="pong_graph_0_miss">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="miss"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="2" NAME="graph_rgb" RIGHT="0" SIGIS="undef" SIGNAME="pong_graph_0_rgb">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="rgb"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="timer_tick" SIGIS="undef" SIGNAME="pong_fsm_0_timer_tick">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_0" PORT="timer_tick"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="timer_start" SIGIS="undef" SIGNAME="pong_fsm_0_timer_start">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_0" PORT="timer_start"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="timer_up" SIGIS="undef" SIGNAME="timer_0_timer_up">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_0" PORT="timer_up"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="d_inc" SIGIS="undef" SIGNAME="pong_fsm_0_d_inc">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="m100_counter_0" PORT="d_inc"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="d_clr" SIGIS="undef" SIGNAME="pong_fsm_0_d_clr">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="m100_counter_0" PORT="d_clr"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="1" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="btn"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="outred" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_outred">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="outred"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="outgreen" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_outgreen">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="outgreen"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="outblue" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_outblue">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="outblue"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/pong_graph_0" HWVERSION="1.0" INSTANCE="pong_graph_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="pong_graph" VLNV="xilinx.com:module_ref:pong_graph:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_pong_graph_0_0"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="1" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="btn"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_x"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_y"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="gra_still" SIGIS="undef" SIGNAME="pong_fsm_0_gra_still">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="gra_still"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="graph_on" SIGIS="undef" SIGNAME="pong_graph_0_graph_on">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="graph_on"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="hit" SIGIS="undef" SIGNAME="pong_graph_0_hit">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="hit"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="miss" SIGIS="undef" SIGNAME="pong_graph_0_miss">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="miss"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="2" NAME="rgb" RIGHT="0" SIGIS="undef" SIGNAME="pong_graph_0_rgb">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="graph_rgb"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/pong_text_0" HWVERSION="1.0" INSTANCE="pong_text_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="pong_text" VLNV="xilinx.com:module_ref:pong_text:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_pong_text_0_0"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_graph_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
@@ -972,49 +1056,53 @@
             <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_y"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="dig0" RIGHT="0" SIGIS="undef" SIGNAME="m100_counter_0_dig0">
+        <PORT DIR="I" NAME="gra_still" SIGIS="undef" SIGNAME="controller_0_gra_still">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="m100_counter_0" PORT="dig0"/>
+            <CONNECTION INSTANCE="controller_0" PORT="gra_still"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="dig1" RIGHT="0" SIGIS="undef" SIGNAME="m100_counter_0_dig1">
+        <PORT DIR="O" NAME="killed" SIGIS="undef" SIGNAME="graph_0_killed">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="m100_counter_0" PORT="dig1"/>
+            <CONNECTION INSTANCE="controller_0" PORT="killed"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="1" NAME="ball" RIGHT="0" SIGIS="undef" SIGNAME="pong_fsm_0_ball">
+        <PORT DIR="O" NAME="died" SIGIS="undef" SIGNAME="graph_0_died">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="ball"/>
+            <CONNECTION INSTANCE="controller_0" PORT="died"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="3" NAME="text_on" RIGHT="0" SIGIS="undef" SIGNAME="pong_text_0_text_on">
+        <PORT DIR="O" NAME="graph_on" SIGIS="undef" SIGNAME="graph_0_graph_on">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="text_on"/>
+            <CONNECTION INSTANCE="controller_0" PORT="graph_on"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="2" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="pong_text_0_text_rgb">
+        <PORT DIR="O" LEFT="2" NAME="graph_rgb" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_graph_rgb">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="text_rgb"/>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="graph_rgb"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="10" NAME="rom_addr" RIGHT="0" SIGIS="undef" SIGNAME="pong_text_0_rom_addr">
+        <PORT DIR="O" LEFT="31" NAME="fire_timer_top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_fire_timer_top">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="font_rom_0" PORT="addr"/>
+            <CONNECTION INSTANCE="timer_1" PORT="top"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="7" NAME="font_word" RIGHT="0" SIGIS="undef" SIGNAME="font_rom_0_data">
+        <PORT DIR="O" NAME="fire_timer_start" SIGIS="undef" SIGNAME="graph_0_fire_timer_start">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="font_rom_0" PORT="data"/>
+            <CONNECTION INSTANCE="timer_1" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="fire_timer_up" SIGIS="undef" SIGNAME="timer_1_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="timer_1" PORT="done"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="util_vector_logic_0_Res">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_vector_logic_0" PORT="Res"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
-      <BUSINTERFACES>
-        <BUSINTERFACE BUSNAME="__NOC__" NAME="rom" TYPE="TARGET" VLNV="analog.com:interface:jesd204_rx_ilas_config:1.0">
-          <PORTMAPS>
-            <PORTMAP LOGICAL="addr" PHYSICAL="rom_addr"/>
-          </PORTMAPS>
-        </BUSINTERFACE>
-      </BUSINTERFACES>
+      <BUSINTERFACES/>
     </MODULE>
     <MODULE COREREVISION="13" FULLNAME="/proc_sys_reset_0" HWVERSION="5.0" INSTANCE="proc_sys_reset_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="proc_sys_reset" VLNV="xilinx.com:ip:proc_sys_reset:5.0">
       <DOCUMENTS>
@@ -1057,13 +1145,20 @@
         <PORT DIR="O" LEFT="0" NAME="bus_struct_reset" POLARITY="ACTIVE_HIGH" RIGHT="0" SIGIS="rst"/>
         <PORT DIR="O" LEFT="0" NAME="peripheral_reset" POLARITY="ACTIVE_HIGH" RIGHT="0" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="reset"/>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="reset"/>
-            <CONNECTION INSTANCE="timer_0" PORT="reset"/>
-            <CONNECTION INSTANCE="vga_sync_0" PORT="reset"/>
-            <CONNECTION INSTANCE="m100_counter_0" PORT="reset"/>
             <CONNECTION INSTANCE="font_rom_0" PORT="reset"/>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="reset"/>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="reset"/>
+            <CONNECTION INSTANCE="text_0" PORT="reset"/>
+            <CONNECTION INSTANCE="timer_0" PORT="reset"/>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="reset"/>
+            <CONNECTION INSTANCE="counter_mod10_0" PORT="reset"/>
+            <CONNECTION INSTANCE="counter_mod10_1" PORT="reset"/>
+            <CONNECTION INSTANCE="counter_mod10_2" PORT="reset"/>
+            <CONNECTION INSTANCE="counter_mod10_3" PORT="reset"/>
+            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="reset"/>
+            <CONNECTION INSTANCE="clock_divider_25_MHz" PORT="reset"/>
+            <CONNECTION INSTANCE="timer_1" PORT="reset"/>
+            <CONNECTION INSTANCE="controller_0" PORT="reset"/>
+            <CONNECTION INSTANCE="graph_0" PORT="reset"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
@@ -1071,10 +1166,10 @@
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/timer_0" HWVERSION="1.0" INSTANCE="timer_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+    <MODULE COREREVISION="1" FULLNAME="/text_0" HWVERSION="1.0" INSTANCE="text_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="text" VLNV="xilinx.com:module_ref:text:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_timer_0_0"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_text_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
@@ -1088,19 +1183,258 @@
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="timer_start" SIGIS="undef" SIGNAME="pong_fsm_0_timer_start">
+        <PORT DIR="I" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="timer_start"/>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_x"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="timer_tick" SIGIS="undef" SIGNAME="pong_fsm_0_timer_tick">
+        <PORT DIR="I" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="timer_tick"/>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_y"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="timer_up" SIGIS="undef" SIGNAME="timer_0_timer_up">
+        <PORT DIR="I" LEFT="3" NAME="score_dig3" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_3_dig">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="timer_up"/>
+            <CONNECTION INSTANCE="counter_mod10_3" PORT="dig"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="score_dig2" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_2_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_2" PORT="dig"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="score_dig1" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_1_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_1" PORT="dig"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="score_dig0" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_0_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="counter_mod10_0" PORT="dig"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="lives" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_lives">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="lives"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="text_on" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_on">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="text_on"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_rgb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="text_rgb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="10" NAME="rom_addr" RIGHT="0" SIGIS="undef" SIGNAME="text_0_rom_addr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="font_rom_0" PORT="addr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="rom_data" RIGHT="0" SIGIS="undef" SIGNAME="font_rom_0_data">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="font_rom_0" PORT="data"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="__NOC__" NAME="rom" TYPE="TARGET" VLNV="analog.com:interface:fifo_rd:1.0">
+          <PORTMAPS>
+            <PORTMAP LOGICAL="DATA" PHYSICAL="rom_data"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/timer_0" HWVERSION="1.0" INSTANCE="timer_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_timer_0_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_Hz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="timer_top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="controller_0_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="timer_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="timer_0_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="timer_up"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/timer_1" HWVERSION="1.0" INSTANCE="timer_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_timer_0_2"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_Hz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_fire_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="graph_0_fire_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="timer_1_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="dbg"/>
+            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_up"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="4" FULLNAME="/util_reduced_logic_0" HWVERSION="2.0" INSTANCE="util_reduced_logic_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="util_reduced_logic" VLNV="xilinx.com:ip:util_reduced_logic:2.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="C_OPERATION" VALUE="or"/>
+        <PARAMETER NAME="C_SIZE" VALUE="3"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_util_reduced_logic_0_0"/>
+        <PARAMETER NAME="LOGO_FILE" VALUE="data/sym_orgate.png"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="2" NAME="Op1" RIGHT="0" SIGIS="undef" SIGNAME="util_vector_logic_0_Res">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_vector_logic_0" PORT="Res"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="Res" SIGIS="undef" SIGNAME="util_reduced_logic_0_Res">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/util_vector_logic_0" HWVERSION="2.0" INSTANCE="util_vector_logic_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="util_vector_logic" VLNV="xilinx.com:ip:util_vector_logic:2.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="C_OPERATION" VALUE="or"/>
+        <PARAMETER NAME="C_SIZE" VALUE="3"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_util_vector_logic_0_0"/>
+        <PARAMETER NAME="LOGO_FILE" VALUE="data/sym_orgate.png"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="2" NAME="Op1" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="Op2" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="btn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="Res" RIGHT="0" SIGIS="undef" SIGNAME="util_vector_logic_0_Res">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_reduced_logic_0" PORT="Op1"/>
+            <CONNECTION INSTANCE="graph_0" PORT="btn"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/vga_mux_0" HWVERSION="1.0" INSTANCE="vga_mux_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="vga_mux" VLNV="xilinx.com:module_ref:vga_mux:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_vga_mux_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="video_on" SIGIS="undef" SIGNAME="vga_sync_0_video_on">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="vga_sync_0" PORT="video_on"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="pixel_tick" SIGIS="undef" SIGNAME="clock_divider_25_MHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_25_MHz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_rgb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="text_rgb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="graph_rgb" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_graph_rgb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="graph_rgb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="mux_sel" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_rgb_mux_sel">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="rgb_mux_sel"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="outr" RIGHT="0" SIGIS="undef" SIGNAME="vga_mux_0_outr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="outred"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="outg" RIGHT="0" SIGIS="undef" SIGNAME="vga_mux_0_outg">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="outgreen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="outb" RIGHT="0" SIGIS="undef" SIGNAME="vga_mux_0_outb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="outblue"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1109,7 +1443,7 @@
     <MODULE COREREVISION="1" FULLNAME="/vga_sync_0" HWVERSION="1.0" INSTANCE="vga_sync_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="vga_sync" VLNV="xilinx.com:module_ref:vga_sync:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_vga_sync_0_0"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_vga_sync_0_1"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
@@ -1121,6 +1455,11 @@
         <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
           <CONNECTIONS>
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="pixel_tick" SIGIS="undef" SIGNAME="clock_divider_25_MHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_25_MHz" PORT="tick"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="hsync" SIGIS="undef" SIGNAME="vga_sync_0_hsync">
@@ -1135,26 +1474,36 @@
         </PORT>
         <PORT DIR="O" NAME="video_on" SIGIS="undef" SIGNAME="vga_sync_0_video_on">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="video_on"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="p_tick" SIGIS="undef" SIGNAME="vga_sync_0_p_tick">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="pixel_tick"/>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="video_on"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="pixel_x"/>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="pixel_x"/>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="pixel_x"/>
+            <CONNECTION INSTANCE="text_0" PORT="pixel_x"/>
+            <CONNECTION INSTANCE="graph_0" PORT="pixel_x"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="pong_text_0" PORT="pixel_y"/>
-            <CONNECTION INSTANCE="pong_graph_0" PORT="pixel_y"/>
-            <CONNECTION INSTANCE="pong_fsm_0" PORT="pixel_y"/>
+            <CONNECTION INSTANCE="text_0" PORT="pixel_y"/>
+            <CONNECTION INSTANCE="graph_0" PORT="pixel_y"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="7" FULLNAME="/xlconstant_0" HWVERSION="1.1" INSTANCE="xlconstant_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="3"/>
+        <PARAMETER NAME="CONST_VAL" VALUE="0x0"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_xlconstant_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="O" LEFT="2" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_vector_logic_0" PORT="Op1"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

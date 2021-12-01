@@ -63,11 +63,12 @@ module design_1_text_0_0 (
   score_dig2,
   score_dig1,
   score_dig0,
+  combo_dig2,
+  combo_dig1,
+  combo_dig0,
   lives,
   text_on,
-  text_rgb,
-  rom_addr,
-  rom_data
+  text_rgb
 );
 
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME clk, ASSOCIATED_RESET reset, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1, INSERT_VIP 0" *)
@@ -82,12 +83,12 @@ input wire [3 : 0] score_dig3;
 input wire [3 : 0] score_dig2;
 input wire [3 : 0] score_dig1;
 input wire [3 : 0] score_dig0;
+input wire [3 : 0] combo_dig2;
+input wire [3 : 0] combo_dig1;
+input wire [3 : 0] combo_dig0;
 input wire [2 : 0] lives;
 output wire [3 : 0] text_on;
 output wire [2 : 0] text_rgb;
-output wire [10 : 0] rom_addr;
-(* X_INTERFACE_INFO = "analog.com:interface:fifo_rd:1.0 rom DATA" *)
-input wire [7 : 0] rom_data;
 
   text inst (
     .clk(clk),
@@ -98,10 +99,11 @@ input wire [7 : 0] rom_data;
     .score_dig2(score_dig2),
     .score_dig1(score_dig1),
     .score_dig0(score_dig0),
+    .combo_dig2(combo_dig2),
+    .combo_dig1(combo_dig1),
+    .combo_dig0(combo_dig0),
     .lives(lives),
     .text_on(text_on),
-    .text_rgb(text_rgb),
-    .rom_addr(rom_addr),
-    .rom_data(rom_data)
+    .text_rgb(text_rgb)
   );
 endmodule

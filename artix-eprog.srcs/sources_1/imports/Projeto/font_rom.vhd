@@ -2209,4 +2209,3 @@ begin
 
     data <= ROM(to_integer(unsigned(addr_reg)));
 end arch;
-

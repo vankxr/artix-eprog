@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Nov 30 12:52:10 2021" VIVADOVERSION="2021.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Dec  1 20:06:06 2021" VIVADOVERSION="2021.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="design_1" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -50,9 +50,9 @@
         <CONNECTION INSTANCE="vga_mux_0" PORT="outb"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" NAME="dbg" SIGIS="undef" SIGNAME="timer_1_done">
+    <PORT DIR="O" NAME="dbg" SIGIS="undef" SIGNAME="fire_cooldown_timer_done">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="timer_1" PORT="done"/>
+        <CONNECTION INSTANCE="fire_cooldown_timer" PORT="done"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -653,20 +653,25 @@
         <PORT CLKFREQUENCY="50000000" DIR="O" NAME="clk_out1" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
           <CONNECTIONS>
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="slowest_sync_clk"/>
-            <CONNECTION INSTANCE="font_rom_0" PORT="clk"/>
             <CONNECTION INSTANCE="vga_sync_0" PORT="clk"/>
-            <CONNECTION INSTANCE="text_0" PORT="clk"/>
-            <CONNECTION INSTANCE="timer_0" PORT="clk"/>
+            <CONNECTION INSTANCE="menu_timer" PORT="clk"/>
             <CONNECTION INSTANCE="vga_mux_0" PORT="clk"/>
-            <CONNECTION INSTANCE="counter_mod10_0" PORT="clk"/>
-            <CONNECTION INSTANCE="counter_mod10_1" PORT="clk"/>
-            <CONNECTION INSTANCE="counter_mod10_2" PORT="clk"/>
-            <CONNECTION INSTANCE="counter_mod10_3" PORT="clk"/>
-            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="clk"/>
+            <CONNECTION INSTANCE="score_counter_0" PORT="clk"/>
+            <CONNECTION INSTANCE="score_counter_1" PORT="clk"/>
+            <CONNECTION INSTANCE="score_counter_2" PORT="clk"/>
+            <CONNECTION INSTANCE="score_counter_3" PORT="clk"/>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="clk"/>
             <CONNECTION INSTANCE="clock_divider_25_MHz" PORT="clk"/>
-            <CONNECTION INSTANCE="timer_1" PORT="clk"/>
+            <CONNECTION INSTANCE="fire_cooldown_timer" PORT="clk"/>
+            <CONNECTION INSTANCE="monster_spawn_timer" PORT="clk"/>
+            <CONNECTION INSTANCE="monster_move_timer" PORT="clk"/>
+            <CONNECTION INSTANCE="combo_counter_1" PORT="clk"/>
+            <CONNECTION INSTANCE="combo_counter_0" PORT="clk"/>
+            <CONNECTION INSTANCE="combo_counter_2" PORT="clk"/>
             <CONNECTION INSTANCE="controller_0" PORT="clk"/>
+            <CONNECTION INSTANCE="prng_0" PORT="clk"/>
             <CONNECTION INSTANCE="graph_0" PORT="clk"/>
+            <CONNECTION INSTANCE="text_0" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -678,10 +683,10 @@
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/clock_divider_1_Hz" HWVERSION="1.0" INSTANCE="clock_divider_1_Hz" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="clock_divider" VLNV="xilinx.com:module_ref:clock_divider:1.0">
+    <MODULE COREREVISION="1" FULLNAME="/clock_divider_1_kHz" HWVERSION="1.0" INSTANCE="clock_divider_1_kHz" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="clock_divider" VLNV="xilinx.com:module_ref:clock_divider:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="DIV" VALUE="50000000"/>
+        <PARAMETER NAME="DIV" VALUE="50000"/>
         <PARAMETER NAME="Component_Name" VALUE="design_1_clock_divider_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
@@ -696,10 +701,12 @@
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_Hz_tick">
+        <PORT DIR="O" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_kHz_tick">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_0" PORT="tick"/>
-            <CONNECTION INSTANCE="timer_1" PORT="tick"/>
+            <CONNECTION INSTANCE="menu_timer" PORT="tick"/>
+            <CONNECTION INSTANCE="fire_cooldown_timer" PORT="tick"/>
+            <CONNECTION INSTANCE="monster_spawn_timer" PORT="tick"/>
+            <CONNECTION INSTANCE="monster_move_timer" PORT="tick"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -729,6 +736,123 @@
             <CONNECTION INSTANCE="vga_mux_0" PORT="pixel_tick"/>
           </CONNECTIONS>
         </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/combo_counter_0" HWVERSION="1.0" INSTANCE="combo_counter_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_score_counter_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="controller_0_combo_inc">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="combo_inc"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_combo_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="combo_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="combo_counter_0_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="combo_dig0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="combo_counter_0_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_1" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/combo_counter_1" HWVERSION="1.0" INSTANCE="combo_counter_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_combo_counter_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="combo_counter_0_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_0" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_combo_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="combo_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="combo_counter_1_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="combo_dig1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="combo_counter_1_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_2" PORT="inc"/>
+            <CONNECTION INSTANCE="controller_0" PORT="combo_hundred"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/combo_counter_2" HWVERSION="1.0" INSTANCE="combo_counter_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_combo_counter_1_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="combo_counter_1_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_1" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_combo_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="combo_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="combo_counter_2_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="combo_dig2"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef"/>
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
@@ -764,6 +888,16 @@
             <CONNECTION INSTANCE="graph_0" PORT="gra_still"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="I" NAME="fired" SIGIS="undef" SIGNAME="graph_0_fired">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="fired"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="missed" SIGIS="undef" SIGNAME="graph_0_missed">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="missed"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="I" NAME="killed" SIGIS="undef" SIGNAME="graph_0_killed">
           <CONNECTIONS>
             <CONNECTION INSTANCE="graph_0" PORT="killed"/>
@@ -776,17 +910,17 @@
         </PORT>
         <PORT DIR="O" LEFT="31" NAME="timer_top" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_timer_top">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_0" PORT="top"/>
+            <CONNECTION INSTANCE="menu_timer" PORT="top"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="timer_start" SIGIS="undef" SIGNAME="controller_0_timer_start">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_0" PORT="start"/>
+            <CONNECTION INSTANCE="menu_timer" PORT="start"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="timer_up" SIGIS="undef" SIGNAME="timer_0_done">
+        <PORT DIR="I" NAME="timer_up" SIGIS="undef" SIGNAME="menu_timer_done">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_0" PORT="done"/>
+            <CONNECTION INSTANCE="menu_timer" PORT="done"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="util_reduced_logic_0_Res">
@@ -796,15 +930,32 @@
         </PORT>
         <PORT DIR="O" NAME="score_inc" SIGIS="undef" SIGNAME="controller_0_score_inc">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_0" PORT="inc"/>
+            <CONNECTION INSTANCE="score_counter_0" PORT="inc"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="score_clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_0" PORT="clear"/>
-            <CONNECTION INSTANCE="counter_mod10_1" PORT="clear"/>
-            <CONNECTION INSTANCE="counter_mod10_2" PORT="clear"/>
-            <CONNECTION INSTANCE="counter_mod10_3" PORT="clear"/>
+            <CONNECTION INSTANCE="score_counter_0" PORT="clear"/>
+            <CONNECTION INSTANCE="score_counter_1" PORT="clear"/>
+            <CONNECTION INSTANCE="score_counter_2" PORT="clear"/>
+            <CONNECTION INSTANCE="score_counter_3" PORT="clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="combo_inc" SIGIS="undef" SIGNAME="controller_0_combo_inc">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_0" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="combo_clear" SIGIS="undef" SIGNAME="controller_0_combo_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_1" PORT="clear"/>
+            <CONNECTION INSTANCE="combo_counter_0" PORT="clear"/>
+            <CONNECTION INSTANCE="combo_counter_2" PORT="clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="combo_hundred" SIGIS="undef" SIGNAME="combo_counter_1_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_1" PORT="ovf"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="2" NAME="lives" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_lives">
@@ -820,10 +971,10 @@
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_0" HWVERSION="1.0" INSTANCE="counter_mod10_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+    <MODULE COREREVISION="1" FULLNAME="/fire_cooldown_timer" HWVERSION="1.0" INSTANCE="fire_cooldown_timer" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_0"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_timer_0_2"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
@@ -837,197 +988,29 @@
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="controller_0_score_inc">
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_kHz_tick">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="score_inc"/>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="tick"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_fire_timer_top">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_top"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_0_dig">
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="graph_0_fire_timer_start">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="score_dig0"/>
+            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_start"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="counter_mod10_0_ovf">
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="fire_cooldown_timer_done">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_1" PORT="inc"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="dbg"/>
+            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_up"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
       <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_1" HWVERSION="1.0" INSTANCE="counter_mod10_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_1"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="counter_mod10_0_ovf">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_0" PORT="ovf"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_1_dig">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="score_dig1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="counter_mod10_1_ovf">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_2" PORT="inc"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_2" HWVERSION="1.0" INSTANCE="counter_mod10_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_2"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="counter_mod10_1_ovf">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_1" PORT="ovf"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_2_dig">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="score_dig2"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="counter_mod10_2_ovf">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_3" PORT="inc"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/counter_mod10_3" HWVERSION="1.0" INSTANCE="counter_mod10_3" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_3"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="counter_mod10_2_ovf">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_2" PORT="ovf"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_3_dig">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="score_dig3"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="ovf" SIGIS="undef"/>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/font_rom_0" HWVERSION="1.0" INSTANCE="font_rom_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="font_rom" VLNV="xilinx.com:module_ref:font_rom:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_font_rom_0_3"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="10" NAME="addr" RIGHT="0" SIGIS="undef" SIGNAME="text_0_rom_addr">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="rom_addr"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="7" NAME="data" RIGHT="0" SIGIS="undef" SIGNAME="font_rom_0_data">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="rom_data"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES>
-        <BUSINTERFACE BUSNAME="__NOC__" NAME="interface_fifo_rd" TYPE="TARGET" VLNV="analog.com:interface:fifo_rd:1.0">
-          <PORTMAPS>
-            <PORTMAP LOGICAL="DATA" PHYSICAL="data"/>
-          </PORTMAPS>
-        </BUSINTERFACE>
-        <BUSINTERFACE BUSNAME="__NOC__" NAME="interface_fifo_wr" TYPE="TARGET" VLNV="analog.com:interface:fifo_wr:1.0">
-          <PORTMAPS>
-            <PORTMAP LOGICAL="DATA" PHYSICAL="data"/>
-          </PORTMAPS>
-        </BUSINTERFACE>
-        <BUSINTERFACE BUSNAME="__NOC__" NAME="interface_jesd204_rx_ilas_config" TYPE="TARGET" VLNV="analog.com:interface:jesd204_rx_ilas_config:1.0">
-          <PORTMAPS>
-            <PORTMAP LOGICAL="addr" PHYSICAL="addr"/>
-            <PORTMAP LOGICAL="data" PHYSICAL="data"/>
-          </PORTMAPS>
-        </BUSINTERFACE>
-        <BUSINTERFACE BUSNAME="__NOC__" NAME="interface_jesd204_tx_ilas_config" TYPE="TARGET" VLNV="analog.com:interface:jesd204_tx_ilas_config:1.0">
-          <PORTMAPS>
-            <PORTMAP LOGICAL="addr" PHYSICAL="addr"/>
-            <PORTMAP LOGICAL="data" PHYSICAL="data"/>
-          </PORTMAPS>
-        </BUSINTERFACE>
-      </BUSINTERFACES>
     </MODULE>
     <MODULE COREREVISION="1" FULLNAME="/graph_0" HWVERSION="1.0" INSTANCE="graph_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="graph" VLNV="xilinx.com:module_ref:graph:1.0">
       <DOCUMENTS/>
@@ -1061,6 +1044,16 @@
             <CONNECTION INSTANCE="controller_0" PORT="gra_still"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" NAME="fired" SIGIS="undef" SIGNAME="graph_0_fired">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="fired"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="missed" SIGIS="undef" SIGNAME="graph_0_missed">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="missed"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="O" NAME="killed" SIGIS="undef" SIGNAME="graph_0_killed">
           <CONNECTIONS>
             <CONNECTION INSTANCE="controller_0" PORT="killed"/>
@@ -1083,22 +1076,215 @@
         </PORT>
         <PORT DIR="O" LEFT="31" NAME="fire_timer_top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_fire_timer_top">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_1" PORT="top"/>
+            <CONNECTION INSTANCE="fire_cooldown_timer" PORT="top"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="fire_timer_start" SIGIS="undef" SIGNAME="graph_0_fire_timer_start">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_1" PORT="start"/>
+            <CONNECTION INSTANCE="fire_cooldown_timer" PORT="start"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="fire_timer_up" SIGIS="undef" SIGNAME="timer_1_done">
+        <PORT DIR="I" NAME="fire_timer_up" SIGIS="undef" SIGNAME="fire_cooldown_timer_done">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="timer_1" PORT="done"/>
+            <CONNECTION INSTANCE="fire_cooldown_timer" PORT="done"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="monster_spawn_x" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_0_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_0" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="monster_spawn_y" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_1_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_1" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="monster_spawn_time" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_2_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_2" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="monster_spawn_timer_top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_monster_spawn_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_spawn_timer" PORT="top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="monster_spawn_timer_start" SIGIS="undef" SIGNAME="graph_0_monster_spawn_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_spawn_timer" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="monster_spawn_timer_up" SIGIS="undef" SIGNAME="monster_spawn_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_spawn_timer" PORT="done"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="monster_move_timer_top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_monster_move_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_move_timer" PORT="top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="monster_move_timer_start" SIGIS="undef" SIGNAME="graph_0_monster_move_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_move_timer" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="monster_move_timer_up" SIGIS="undef" SIGNAME="monster_move_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_move_timer" PORT="done"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="2" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="util_vector_logic_0_Res">
           <CONNECTIONS>
             <CONNECTION INSTANCE="util_vector_logic_0" PORT="Res"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/menu_timer" HWVERSION="1.0" INSTANCE="menu_timer" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_timer_0_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_kHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="timer_top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="controller_0_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="timer_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="menu_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="timer_up"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/monster_move_timer" HWVERSION="1.0" INSTANCE="monster_move_timer" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_monster_spawn_timer_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_kHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_monster_move_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_move_timer_top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="graph_0_monster_move_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_move_timer_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="monster_move_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_move_timer_up"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/monster_spawn_timer" HWVERSION="1.0" INSTANCE="monster_spawn_timer" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_fire_cooldown_timer_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_kHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_monster_spawn_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_spawn_timer_top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="graph_0_monster_spawn_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_spawn_timer_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="monster_spawn_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_spawn_timer_up"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/prng_0" HWVERSION="1.0" INSTANCE="prng_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="prng" VLNV="xilinx.com:module_ref:prng:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="OUTPUT_SIZE" VALUE="64"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_prng_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="63" NAME="seq" RIGHT="0" SIGIS="undef" SIGNAME="prng_0_seq">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_0" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_1" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_2" PORT="Din"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1145,24 +1331,185 @@
         <PORT DIR="O" LEFT="0" NAME="bus_struct_reset" POLARITY="ACTIVE_HIGH" RIGHT="0" SIGIS="rst"/>
         <PORT DIR="O" LEFT="0" NAME="peripheral_reset" POLARITY="ACTIVE_HIGH" RIGHT="0" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="font_rom_0" PORT="reset"/>
             <CONNECTION INSTANCE="vga_sync_0" PORT="reset"/>
-            <CONNECTION INSTANCE="text_0" PORT="reset"/>
-            <CONNECTION INSTANCE="timer_0" PORT="reset"/>
+            <CONNECTION INSTANCE="menu_timer" PORT="reset"/>
             <CONNECTION INSTANCE="vga_mux_0" PORT="reset"/>
-            <CONNECTION INSTANCE="counter_mod10_0" PORT="reset"/>
-            <CONNECTION INSTANCE="counter_mod10_1" PORT="reset"/>
-            <CONNECTION INSTANCE="counter_mod10_2" PORT="reset"/>
-            <CONNECTION INSTANCE="counter_mod10_3" PORT="reset"/>
-            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="reset"/>
+            <CONNECTION INSTANCE="score_counter_0" PORT="reset"/>
+            <CONNECTION INSTANCE="score_counter_1" PORT="reset"/>
+            <CONNECTION INSTANCE="score_counter_2" PORT="reset"/>
+            <CONNECTION INSTANCE="score_counter_3" PORT="reset"/>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="reset"/>
             <CONNECTION INSTANCE="clock_divider_25_MHz" PORT="reset"/>
-            <CONNECTION INSTANCE="timer_1" PORT="reset"/>
+            <CONNECTION INSTANCE="fire_cooldown_timer" PORT="reset"/>
+            <CONNECTION INSTANCE="monster_spawn_timer" PORT="reset"/>
+            <CONNECTION INSTANCE="monster_move_timer" PORT="reset"/>
+            <CONNECTION INSTANCE="combo_counter_1" PORT="reset"/>
+            <CONNECTION INSTANCE="combo_counter_0" PORT="reset"/>
+            <CONNECTION INSTANCE="combo_counter_2" PORT="reset"/>
             <CONNECTION INSTANCE="controller_0" PORT="reset"/>
+            <CONNECTION INSTANCE="prng_0" PORT="reset"/>
             <CONNECTION INSTANCE="graph_0" PORT="reset"/>
+            <CONNECTION INSTANCE="text_0" PORT="reset"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
         <PORT DIR="O" LEFT="0" NAME="peripheral_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/score_counter_0" HWVERSION="1.0" INSTANCE="score_counter_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="controller_0_score_inc">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_inc"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_0_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="score_counter_0_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="score_counter_1" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/score_counter_1" HWVERSION="1.0" INSTANCE="score_counter_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="score_counter_0_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="score_counter_0" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_1_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="score_counter_1_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="score_counter_2" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/score_counter_2" HWVERSION="1.0" INSTANCE="score_counter_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_2"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="score_counter_1_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="score_counter_1" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_2_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig2"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="score_counter_2_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="score_counter_3" PORT="inc"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/score_counter_3" HWVERSION="1.0" INSTANCE="score_counter_3" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_counter_mod10_0_3"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="inc" SIGIS="undef" SIGNAME="score_counter_2_ovf">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="score_counter_2" PORT="ovf"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clear" SIGIS="undef" SIGNAME="controller_0_score_clear">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="score_clear"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="dig" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_3_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="text_0" PORT="score_dig3"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ovf" SIGIS="undef"/>
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
@@ -1193,24 +1540,39 @@
             <CONNECTION INSTANCE="vga_sync_0" PORT="pixel_y"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="score_dig3" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_3_dig">
+        <PORT DIR="I" LEFT="3" NAME="score_dig3" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_3_dig">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_3" PORT="dig"/>
+            <CONNECTION INSTANCE="score_counter_3" PORT="dig"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="score_dig2" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_2_dig">
+        <PORT DIR="I" LEFT="3" NAME="score_dig2" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_2_dig">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_2" PORT="dig"/>
+            <CONNECTION INSTANCE="score_counter_2" PORT="dig"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="score_dig1" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_1_dig">
+        <PORT DIR="I" LEFT="3" NAME="score_dig1" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_1_dig">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_1" PORT="dig"/>
+            <CONNECTION INSTANCE="score_counter_1" PORT="dig"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="score_dig0" RIGHT="0" SIGIS="undef" SIGNAME="counter_mod10_0_dig">
+        <PORT DIR="I" LEFT="3" NAME="score_dig0" RIGHT="0" SIGIS="undef" SIGNAME="score_counter_0_dig">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="counter_mod10_0" PORT="dig"/>
+            <CONNECTION INSTANCE="score_counter_0" PORT="dig"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="combo_dig2" RIGHT="0" SIGIS="undef" SIGNAME="combo_counter_2_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_2" PORT="dig"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="combo_dig1" RIGHT="0" SIGIS="undef" SIGNAME="combo_counter_1_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_1" PORT="dig"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="combo_dig0" RIGHT="0" SIGIS="undef" SIGNAME="combo_counter_0_dig">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="combo_counter_0" PORT="dig"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="2" NAME="lives" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_lives">
@@ -1226,103 +1588,6 @@
         <PORT DIR="O" LEFT="2" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_rgb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="vga_mux_0" PORT="text_rgb"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="10" NAME="rom_addr" RIGHT="0" SIGIS="undef" SIGNAME="text_0_rom_addr">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="font_rom_0" PORT="addr"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="7" NAME="rom_data" RIGHT="0" SIGIS="undef" SIGNAME="font_rom_0_data">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="font_rom_0" PORT="data"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES>
-        <BUSINTERFACE BUSNAME="__NOC__" NAME="rom" TYPE="TARGET" VLNV="analog.com:interface:fifo_rd:1.0">
-          <PORTMAPS>
-            <PORTMAP LOGICAL="DATA" PHYSICAL="rom_data"/>
-          </PORTMAPS>
-        </BUSINTERFACE>
-      </BUSINTERFACES>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/timer_0" HWVERSION="1.0" INSTANCE="timer_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_timer_0_1"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_Hz_tick">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="tick"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_timer_top">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="timer_top"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="controller_0_timer_start">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="timer_start"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="timer_0_done">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="timer_up"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/timer_1" HWVERSION="1.0" INSTANCE="timer_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_timer_0_2"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_Hz_tick">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="clock_divider_1_Hz" PORT="tick"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_fire_timer_top">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_top"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="graph_0_fire_timer_start">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_start"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="timer_1_done">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="dbg"/>
-            <CONNECTION INSTANCE="graph_0" PORT="fire_timer_up"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1479,14 +1744,14 @@
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="pixel_x"/>
             <CONNECTION INSTANCE="graph_0" PORT="pixel_x"/>
+            <CONNECTION INSTANCE="text_0" PORT="pixel_x"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="pixel_y"/>
             <CONNECTION INSTANCE="graph_0" PORT="pixel_y"/>
+            <CONNECTION INSTANCE="text_0" PORT="pixel_y"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1504,6 +1769,78 @@
         <PORT DIR="O" LEFT="2" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
           <CONNECTIONS>
             <CONNECTION INSTANCE="util_vector_logic_0" PORT="Op1"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_0" HWVERSION="1.0" INSTANCE="xlslice_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="64"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="63"/>
+        <PARAMETER NAME="DIN_TO" VALUE="54"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_xlslice_0_0"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="10"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="63" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="prng_0_seq">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="prng_0" PORT="seq"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="9" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_0_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_spawn_x"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_1" HWVERSION="1.0" INSTANCE="xlslice_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="64"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="53"/>
+        <PARAMETER NAME="DIN_TO" VALUE="44"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_xlslice_0_1"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="10"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="63" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="prng_0_seq">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="prng_0" PORT="seq"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="9" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_1_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_spawn_y"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_2" HWVERSION="1.0" INSTANCE="xlslice_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="64"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="11"/>
+        <PARAMETER NAME="DIN_TO" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_xlslice_1_0"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="63" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="prng_0_seq">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="prng_0" PORT="seq"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_2_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_spawn_time"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

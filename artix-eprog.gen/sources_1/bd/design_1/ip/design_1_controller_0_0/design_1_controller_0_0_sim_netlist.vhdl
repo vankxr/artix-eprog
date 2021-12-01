@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
--- Date        : Tue Nov 30 12:53:27 2021
+-- Date        : Wed Dec  1 18:06:25 2021
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 -- Command     : write_vhdl -force -mode funcsim
 --               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_controller_0_0/design_1_controller_0_0_sim_netlist.vhdl
@@ -19,19 +19,22 @@ entity design_1_controller_0_0_controller is
     gra_still : out STD_LOGIC;
     \lives_reg_reg[1]_0\ : out STD_LOGIC;
     \lives_reg_reg[0]_0\ : out STD_LOGIC;
-    lives : out STD_LOGIC_VECTOR ( 0 to 0 );
+    \lives_reg_reg[2]_0\ : out STD_LOGIC;
+    combo_clear : out STD_LOGIC;
     rgb_mux_sel : out STD_LOGIC_VECTOR ( 1 downto 0 );
     score_clear : out STD_LOGIC;
     score_inc : out STD_LOGIC;
     timer_start : out STD_LOGIC;
-    killed : in STD_LOGIC;
     died : in STD_LOGIC;
     timer_up : in STD_LOGIC;
     start : in STD_LOGIC;
     clk : in STD_LOGIC;
     reset : in STD_LOGIC;
+    combo_hundred : in STD_LOGIC;
+    missed : in STD_LOGIC;
     graph_on : in STD_LOGIC;
-    text_on : in STD_LOGIC_VECTOR ( 3 downto 0 )
+    text_on : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    killed : in STD_LOGIC
   );
   attribute ORIG_REF_NAME : string;
   attribute ORIG_REF_NAME of design_1_controller_0_0_controller : entity is "controller";
@@ -41,31 +44,34 @@ architecture STRUCTURE of design_1_controller_0_0_controller is
   signal \FSM_sequential_state_reg[0]_i_1_n_0\ : STD_LOGIC;
   signal \FSM_sequential_state_reg[0]_i_2_n_0\ : STD_LOGIC;
   signal \FSM_sequential_state_reg[1]_i_1_n_0\ : STD_LOGIC;
-  signal \^lives\ : STD_LOGIC_VECTOR ( 0 to 0 );
   signal lives_next : STD_LOGIC;
   signal \lives_reg[0]_i_1_n_0\ : STD_LOGIC;
   signal \lives_reg[1]_i_1_n_0\ : STD_LOGIC;
   signal \lives_reg[2]_i_1_n_0\ : STD_LOGIC;
+  signal \lives_reg[2]_i_2_n_0\ : STD_LOGIC;
   signal \^lives_reg_reg[0]_0\ : STD_LOGIC;
   signal \^lives_reg_reg[1]_0\ : STD_LOGIC;
+  signal \^lives_reg_reg[2]_0\ : STD_LOGIC;
   signal \rgb_mux_sel[1]_INST_0_i_1_n_0\ : STD_LOGIC;
   signal state_reg : STD_LOGIC_VECTOR ( 1 downto 0 );
+  attribute SOFT_HLUTNM : string;
+  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[0]_i_2\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[1]_i_1\ : label is "soft_lutpair0";
   attribute FSM_ENCODED_STATES : string;
   attribute FSM_ENCODED_STATES of \FSM_sequential_state_reg_reg[0]\ : label is "newgame:00,play:01,newlife:11,over:10";
   attribute FSM_ENCODED_STATES of \FSM_sequential_state_reg_reg[1]\ : label is "newgame:00,play:01,newlife:11,over:10";
-  attribute SOFT_HLUTNM : string;
-  attribute SOFT_HLUTNM of gra_still_INST_0 : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of \lives_reg[2]_i_2\ : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of \rgb_mux_sel[0]_INST_0\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0_i_1\ : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of score_clear_INST_0 : label is "soft_lutpair3";
-  attribute SOFT_HLUTNM of score_inc_INST_0 : label is "soft_lutpair3";
-  attribute SOFT_HLUTNM of timer_start_INST_0 : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of combo_clear_INST_0 : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of combo_inc_INST_0 : label is "soft_lutpair4";
+  attribute SOFT_HLUTNM of gra_still_INST_0 : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of \lives_reg[1]_i_2\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of \rgb_mux_sel[0]_INST_0\ : label is "soft_lutpair3";
+  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0\ : label is "soft_lutpair3";
+  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0_i_1\ : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of score_clear_INST_0 : label is "soft_lutpair4";
 begin
-  lives(0) <= \^lives\(0);
   \lives_reg_reg[0]_0\ <= \^lives_reg_reg[0]_0\;
   \lives_reg_reg[1]_0\ <= \^lives_reg_reg[1]_0\;
+  \lives_reg_reg[2]_0\ <= \^lives_reg_reg[2]_0\;
 \FSM_sequential_state_reg[0]_i_1\: unisim.vcomponents.LUT6
     generic map(
       INIT => X"FFFEFFFF00FF0000"
@@ -73,36 +79,34 @@ begin
         port map (
       I0 => \^lives_reg_reg[1]_0\,
       I1 => \^lives_reg_reg[0]_0\,
-      I2 => \^lives\(0),
+      I2 => \^lives_reg_reg[2]_0\,
       I3 => state_reg(1),
       I4 => \FSM_sequential_state_reg[0]_i_2_n_0\,
       I5 => state_reg(0),
       O => \FSM_sequential_state_reg[0]_i_1_n_0\
     );
-\FSM_sequential_state_reg[0]_i_2\: unisim.vcomponents.LUT6
+\FSM_sequential_state_reg[0]_i_2\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"F0F044FF00F04400"
+      INIT => X"CCAF0CA0"
     )
         port map (
-      I0 => killed,
-      I1 => died,
-      I2 => timer_up,
-      I3 => state_reg(0),
-      I4 => state_reg(1),
-      I5 => start,
+      I0 => died,
+      I1 => timer_up,
+      I2 => state_reg(0),
+      I3 => state_reg(1),
+      I4 => start,
       O => \FSM_sequential_state_reg[0]_i_2_n_0\
     );
-\FSM_sequential_state_reg[1]_i_1\: unisim.vcomponents.LUT6
+\FSM_sequential_state_reg[1]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"0F0F4400FF0F4400"
+      INIT => X"33A0F3A0"
     )
         port map (
-      I0 => killed,
-      I1 => died,
-      I2 => timer_up,
-      I3 => state_reg(0),
-      I4 => state_reg(1),
-      I5 => start,
+      I0 => died,
+      I1 => timer_up,
+      I2 => state_reg(0),
+      I3 => state_reg(1),
+      I4 => start,
       O => \FSM_sequential_state_reg[1]_i_1_n_0\
     );
 \FSM_sequential_state_reg_reg[0]\: unisim.vcomponents.FDCE
@@ -121,6 +125,27 @@ begin
       D => \FSM_sequential_state_reg[1]_i_1_n_0\,
       Q => state_reg(1)
     );
+combo_clear_INST_0: unisim.vcomponents.LUT4
+    generic map(
+      INIT => X"5455"
+    )
+        port map (
+      I0 => state_reg(1),
+      I1 => missed,
+      I2 => died,
+      I3 => state_reg(0),
+      O => combo_clear
+    );
+combo_inc_INST_0: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"40"
+    )
+        port map (
+      I0 => state_reg(1),
+      I1 => state_reg(0),
+      I2 => killed,
+      O => score_inc
+    );
 gra_still_INST_0: unisim.vcomponents.LUT2
     generic map(
       INIT => X"B"
@@ -132,52 +157,66 @@ gra_still_INST_0: unisim.vcomponents.LUT2
     );
 \lives_reg[0]_i_1\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"FFCFDDDD00303333"
+      INIT => X"CCCFDDDD33303333"
     )
         port map (
       I0 => start,
       I1 => state_reg(1),
       I2 => died,
-      I3 => killed,
+      I3 => combo_hundred,
       I4 => state_reg(0),
       I5 => \^lives_reg_reg[0]_0\,
       O => \lives_reg[0]_i_1_n_0\
     );
-\lives_reg[1]_i_1\: unisim.vcomponents.LUT5
+\lives_reg[1]_i_1\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"F1FF1F00"
+      INIT => X"BB47FFFF47BB0000"
     )
         port map (
-      I0 => state_reg(0),
-      I1 => start,
-      I2 => \^lives_reg_reg[0]_0\,
-      I3 => lives_next,
-      I4 => \^lives_reg_reg[1]_0\,
+      I0 => died,
+      I1 => state_reg(0),
+      I2 => start,
+      I3 => \^lives_reg_reg[0]_0\,
+      I4 => lives_next,
+      I5 => \^lives_reg_reg[1]_0\,
       O => \lives_reg[1]_i_1_n_0\
     );
-\lives_reg[2]_i_1\: unisim.vcomponents.LUT6
+\lives_reg[1]_i_2\: unisim.vcomponents.LUT4
     generic map(
-      INIT => X"FFF1FFFF111F0000"
-    )
-        port map (
-      I0 => state_reg(0),
-      I1 => start,
-      I2 => \^lives_reg_reg[0]_0\,
-      I3 => \^lives_reg_reg[1]_0\,
-      I4 => lives_next,
-      I5 => \^lives\(0),
-      O => \lives_reg[2]_i_1_n_0\
-    );
-\lives_reg[2]_i_2\: unisim.vcomponents.LUT4
-    generic map(
-      INIT => X"0455"
+      INIT => X"5455"
     )
         port map (
       I0 => state_reg(1),
       I1 => died,
-      I2 => killed,
+      I2 => combo_hundred,
       I3 => state_reg(0),
       O => lives_next
+    );
+\lives_reg[2]_i_1\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"EEEFEEEE22202222"
+    )
+        port map (
+      I0 => \lives_reg[2]_i_2_n_0\,
+      I1 => state_reg(1),
+      I2 => died,
+      I3 => combo_hundred,
+      I4 => state_reg(0),
+      I5 => \^lives_reg_reg[2]_0\,
+      O => \lives_reg[2]_i_1_n_0\
+    );
+\lives_reg[2]_i_2\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"B844FC00FC0044B8"
+    )
+        port map (
+      I0 => died,
+      I1 => state_reg(0),
+      I2 => start,
+      I3 => \^lives_reg_reg[2]_0\,
+      I4 => \^lives_reg_reg[0]_0\,
+      I5 => \^lives_reg_reg[1]_0\,
+      O => \lives_reg[2]_i_2_n_0\
     );
 \lives_reg_reg[0]\: unisim.vcomponents.FDCE
      port map (
@@ -201,7 +240,7 @@ gra_still_INST_0: unisim.vcomponents.LUT2
       CE => '1',
       CLR => reset,
       D => \lives_reg[2]_i_1_n_0\,
-      Q => \^lives\(0)
+      Q => \^lives_reg_reg[2]_0\
     );
 \rgb_mux_sel[0]_INST_0\: unisim.vcomponents.LUT3
     generic map(
@@ -244,25 +283,14 @@ score_clear_INST_0: unisim.vcomponents.LUT2
       I1 => state_reg(1),
       O => score_clear
     );
-score_inc_INST_0: unisim.vcomponents.LUT3
+timer_start_INST_0: unisim.vcomponents.LUT3
     generic map(
       INIT => X"40"
     )
         port map (
       I0 => state_reg(1),
       I1 => state_reg(0),
-      I2 => killed,
-      O => score_inc
-    );
-timer_start_INST_0: unisim.vcomponents.LUT4
-    generic map(
-      INIT => X"0040"
-    )
-        port map (
-      I0 => state_reg(1),
-      I1 => state_reg(0),
       I2 => died,
-      I3 => killed,
       O => timer_start
     );
 end STRUCTURE;
@@ -277,6 +305,8 @@ entity design_1_controller_0_0 is
     text_on : in STD_LOGIC_VECTOR ( 3 downto 0 );
     graph_on : in STD_LOGIC;
     gra_still : out STD_LOGIC;
+    fired : in STD_LOGIC;
+    missed : in STD_LOGIC;
     killed : in STD_LOGIC;
     died : in STD_LOGIC;
     timer_top : out STD_LOGIC_VECTOR ( 31 downto 0 );
@@ -285,6 +315,9 @@ entity design_1_controller_0_0 is
     start : in STD_LOGIC;
     score_inc : out STD_LOGIC;
     score_clear : out STD_LOGIC;
+    combo_inc : out STD_LOGIC;
+    combo_clear : out STD_LOGIC;
+    combo_hundred : in STD_LOGIC;
     lives : out STD_LOGIC_VECTOR ( 2 downto 0 );
     rgb_mux_sel : out STD_LOGIC_VECTOR ( 1 downto 0 )
   );
@@ -303,6 +336,7 @@ end design_1_controller_0_0;
 architecture STRUCTURE of design_1_controller_0_0 is
   signal \<const0>\ : STD_LOGIC;
   signal \<const1>\ : STD_LOGIC;
+  signal \^score_inc\ : STD_LOGIC;
   attribute X_INTERFACE_INFO : string;
   attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 clk CLK";
   attribute X_INTERFACE_PARAMETER : string;
@@ -310,6 +344,8 @@ architecture STRUCTURE of design_1_controller_0_0 is
   attribute X_INTERFACE_INFO of reset : signal is "xilinx.com:signal:reset:1.0 reset RST";
   attribute X_INTERFACE_PARAMETER of reset : signal is "XIL_INTERFACENAME reset, POLARITY ACTIVE_HIGH, INSERT_VIP 0";
 begin
+  combo_inc <= \^score_inc\;
+  score_inc <= \^score_inc\;
   timer_top(31) <= \<const0>\;
   timer_top(30) <= \<const0>\;
   timer_top(29) <= \<const0>\;
@@ -331,16 +367,16 @@ begin
   timer_top(13) <= \<const0>\;
   timer_top(12) <= \<const0>\;
   timer_top(11) <= \<const0>\;
-  timer_top(10) <= \<const0>\;
-  timer_top(9) <= \<const0>\;
-  timer_top(8) <= \<const0>\;
-  timer_top(7) <= \<const0>\;
-  timer_top(6) <= \<const0>\;
+  timer_top(10) <= \<const1>\;
+  timer_top(9) <= \<const1>\;
+  timer_top(8) <= \<const1>\;
+  timer_top(7) <= \<const1>\;
+  timer_top(6) <= \<const1>\;
   timer_top(5) <= \<const0>\;
-  timer_top(4) <= \<const0>\;
+  timer_top(4) <= \<const1>\;
   timer_top(3) <= \<const0>\;
   timer_top(2) <= \<const0>\;
-  timer_top(1) <= \<const1>\;
+  timer_top(1) <= \<const0>\;
   timer_top(0) <= \<const0>\;
 GND: unisim.vcomponents.GND
      port map (
@@ -353,17 +389,20 @@ VCC: unisim.vcomponents.VCC
 inst: entity work.design_1_controller_0_0_controller
      port map (
       clk => clk,
+      combo_clear => combo_clear,
+      combo_hundred => combo_hundred,
       died => died,
       gra_still => gra_still,
       graph_on => graph_on,
       killed => killed,
-      lives(0) => lives(2),
       \lives_reg_reg[0]_0\ => lives(0),
       \lives_reg_reg[1]_0\ => lives(1),
+      \lives_reg_reg[2]_0\ => lives(2),
+      missed => missed,
       reset => reset,
       rgb_mux_sel(1 downto 0) => rgb_mux_sel(1 downto 0),
       score_clear => score_clear,
-      score_inc => score_inc,
+      score_inc => \^score_inc\,
       start => start,
       text_on(3 downto 0) => text_on(3 downto 0),
       timer_start => timer_start,

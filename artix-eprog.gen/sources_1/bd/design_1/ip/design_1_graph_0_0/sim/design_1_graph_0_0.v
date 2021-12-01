@@ -60,6 +60,8 @@ module design_1_graph_0_0 (
   pixel_x,
   pixel_y,
   gra_still,
+  fired,
+  missed,
   killed,
   died,
   graph_on,
@@ -67,6 +69,15 @@ module design_1_graph_0_0 (
   fire_timer_top,
   fire_timer_start,
   fire_timer_up,
+  monster_spawn_x,
+  monster_spawn_y,
+  monster_spawn_time,
+  monster_spawn_timer_top,
+  monster_spawn_timer_start,
+  monster_spawn_timer_up,
+  monster_move_timer_top,
+  monster_move_timer_start,
+  monster_move_timer_up,
   btn
 );
 
@@ -79,6 +90,8 @@ input wire reset;
 input wire [9 : 0] pixel_x;
 input wire [9 : 0] pixel_y;
 input wire gra_still;
+output wire fired;
+output wire missed;
 output wire killed;
 output wire died;
 output wire graph_on;
@@ -86,6 +99,15 @@ output wire [2 : 0] graph_rgb;
 output wire [31 : 0] fire_timer_top;
 output wire fire_timer_start;
 input wire fire_timer_up;
+input wire [9 : 0] monster_spawn_x;
+input wire [9 : 0] monster_spawn_y;
+input wire [11 : 0] monster_spawn_time;
+output wire [31 : 0] monster_spawn_timer_top;
+output wire monster_spawn_timer_start;
+input wire monster_spawn_timer_up;
+output wire [31 : 0] monster_move_timer_top;
+output wire monster_move_timer_start;
+input wire monster_move_timer_up;
 input wire [2 : 0] btn;
 
   graph inst (
@@ -94,6 +116,8 @@ input wire [2 : 0] btn;
     .pixel_x(pixel_x),
     .pixel_y(pixel_y),
     .gra_still(gra_still),
+    .fired(fired),
+    .missed(missed),
     .killed(killed),
     .died(died),
     .graph_on(graph_on),
@@ -101,6 +125,15 @@ input wire [2 : 0] btn;
     .fire_timer_top(fire_timer_top),
     .fire_timer_start(fire_timer_start),
     .fire_timer_up(fire_timer_up),
+    .monster_spawn_x(monster_spawn_x),
+    .monster_spawn_y(monster_spawn_y),
+    .monster_spawn_time(monster_spawn_time),
+    .monster_spawn_timer_top(monster_spawn_timer_top),
+    .monster_spawn_timer_start(monster_spawn_timer_start),
+    .monster_spawn_timer_up(monster_spawn_timer_up),
+    .monster_move_timer_top(monster_move_timer_top),
+    .monster_move_timer_start(monster_move_timer_start),
+    .monster_move_timer_up(monster_move_timer_up),
     .btn(btn)
   );
 endmodule

@@ -61,6 +61,8 @@ module design_1_controller_0_0 (
   text_on,
   graph_on,
   gra_still,
+  fired,
+  missed,
   killed,
   died,
   timer_top,
@@ -69,6 +71,9 @@ module design_1_controller_0_0 (
   start,
   score_inc,
   score_clear,
+  combo_inc,
+  combo_clear,
+  combo_hundred,
   lives,
   rgb_mux_sel
 );
@@ -82,6 +87,8 @@ input wire reset;
 input wire [3 : 0] text_on;
 input wire graph_on;
 output wire gra_still;
+input wire fired;
+input wire missed;
 input wire killed;
 input wire died;
 output wire [31 : 0] timer_top;
@@ -90,6 +97,9 @@ input wire timer_up;
 input wire start;
 output wire score_inc;
 output wire score_clear;
+output wire combo_inc;
+output wire combo_clear;
+input wire combo_hundred;
 output wire [2 : 0] lives;
 output wire [1 : 0] rgb_mux_sel;
 
@@ -99,6 +109,8 @@ output wire [1 : 0] rgb_mux_sel;
     .text_on(text_on),
     .graph_on(graph_on),
     .gra_still(gra_still),
+    .fired(fired),
+    .missed(missed),
     .killed(killed),
     .died(died),
     .timer_top(timer_top),
@@ -107,6 +119,9 @@ output wire [1 : 0] rgb_mux_sel;
     .start(start),
     .score_inc(score_inc),
     .score_clear(score_clear),
+    .combo_inc(combo_inc),
+    .combo_clear(combo_clear),
+    .combo_hundred(combo_hundred),
     .lives(lives),
     .rgb_mux_sel(rgb_mux_sel)
   );

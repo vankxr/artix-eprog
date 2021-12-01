@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# clock_divider, clock_divider, controller, counter_mod10, counter_mod10, counter_mod10, counter_mod10, font_rom, graph, text, timer, timer, vga_mux, vga_sync
+# clock_divider, clock_divider, counter_mod10, counter_mod10, counter_mod10, controller, timer, graph, timer, timer, timer, prng, counter_mod10, counter_mod10, counter_mod10, counter_mod10, text, vga_mux, vga_sync
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -193,17 +193,20 @@ proc create_root_design { parentCell } {
    CONFIG.USE_BOARD_FLOW {true} \
  ] $clk_wiz_0
 
-  # Create instance: clock_divider_1_Hz, and set properties
+  # Create instance: clock_divider_1_kHz, and set properties
   set block_name clock_divider
-  set block_cell_name clock_divider_1_Hz
-  if { [catch {set clock_divider_1_Hz [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+  set block_cell_name clock_divider_1_kHz
+  if { [catch {set clock_divider_1_kHz [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
-   } elseif { $clock_divider_1_Hz eq "" } {
+   } elseif { $clock_divider_1_kHz eq "" } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    }
-  
+    set_property -dict [ list \
+   CONFIG.DIV {50000} \
+ ] $clock_divider_1_kHz
+
   # Create instance: clock_divider_25_MHz, and set properties
   set block_name clock_divider
   set block_cell_name clock_divider_25_MHz
@@ -218,6 +221,39 @@ proc create_root_design { parentCell } {
    CONFIG.DIV {2} \
  ] $clock_divider_25_MHz
 
+  # Create instance: combo_counter_0, and set properties
+  set block_name counter_mod10
+  set block_cell_name combo_counter_0
+  if { [catch {set combo_counter_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $combo_counter_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: combo_counter_1, and set properties
+  set block_name counter_mod10
+  set block_cell_name combo_counter_1
+  if { [catch {set combo_counter_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $combo_counter_1 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: combo_counter_2, and set properties
+  set block_name counter_mod10
+  set block_cell_name combo_counter_2
+  if { [catch {set combo_counter_2 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $combo_counter_2 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: controller_0, and set properties
   set block_name controller
   set block_cell_name controller_0
@@ -229,57 +265,13 @@ proc create_root_design { parentCell } {
      return 1
    }
   
-  # Create instance: counter_mod10_0, and set properties
-  set block_name counter_mod10
-  set block_cell_name counter_mod10_0
-  if { [catch {set counter_mod10_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+  # Create instance: fire_cooldown_timer, and set properties
+  set block_name timer
+  set block_cell_name fire_cooldown_timer
+  if { [catch {set fire_cooldown_timer [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
-   } elseif { $counter_mod10_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: counter_mod10_1, and set properties
-  set block_name counter_mod10
-  set block_cell_name counter_mod10_1
-  if { [catch {set counter_mod10_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $counter_mod10_1 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: counter_mod10_2, and set properties
-  set block_name counter_mod10
-  set block_cell_name counter_mod10_2
-  if { [catch {set counter_mod10_2 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $counter_mod10_2 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: counter_mod10_3, and set properties
-  set block_name counter_mod10
-  set block_cell_name counter_mod10_3
-  if { [catch {set counter_mod10_3 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $counter_mod10_3 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: font_rom_0, and set properties
-  set block_name font_rom
-  set block_cell_name font_rom_0
-  if { [catch {set font_rom_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $font_rom_0 eq "" } {
+   } elseif { $fire_cooldown_timer eq "" } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    }
@@ -295,9 +287,97 @@ proc create_root_design { parentCell } {
      return 1
    }
   
+  # Create instance: menu_timer, and set properties
+  set block_name timer
+  set block_cell_name menu_timer
+  if { [catch {set menu_timer [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $menu_timer eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: monster_move_timer, and set properties
+  set block_name timer
+  set block_cell_name monster_move_timer
+  if { [catch {set monster_move_timer [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $monster_move_timer eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: monster_spawn_timer, and set properties
+  set block_name timer
+  set block_cell_name monster_spawn_timer
+  if { [catch {set monster_spawn_timer [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $monster_spawn_timer eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: prng_0, and set properties
+  set block_name prng
+  set block_cell_name prng_0
+  if { [catch {set prng_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $prng_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: proc_sys_reset_0, and set properties
   set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0 ]
 
+  # Create instance: score_counter_0, and set properties
+  set block_name counter_mod10
+  set block_cell_name score_counter_0
+  if { [catch {set score_counter_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $score_counter_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: score_counter_1, and set properties
+  set block_name counter_mod10
+  set block_cell_name score_counter_1
+  if { [catch {set score_counter_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $score_counter_1 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: score_counter_2, and set properties
+  set block_name counter_mod10
+  set block_cell_name score_counter_2
+  if { [catch {set score_counter_2 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $score_counter_2 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: score_counter_3, and set properties
+  set block_name counter_mod10
+  set block_cell_name score_counter_3
+  if { [catch {set score_counter_3 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $score_counter_3 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: text_0, and set properties
   set block_name text
   set block_cell_name text_0
@@ -305,28 +385,6 @@ proc create_root_design { parentCell } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    } elseif { $text_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: timer_0, and set properties
-  set block_name timer
-  set block_cell_name timer_0
-  if { [catch {set timer_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $timer_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: timer_1, and set properties
-  set block_name timer
-  set block_cell_name timer_1
-  if { [catch {set timer_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $timer_1 eq "" } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    }
@@ -376,41 +434,82 @@ proc create_root_design { parentCell } {
    CONFIG.CONST_WIDTH {3} \
  ] $xlconstant_0
 
+  # Create instance: xlslice_0, and set properties
+  set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_0 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {63} \
+   CONFIG.DIN_TO {54} \
+   CONFIG.DIN_WIDTH {64} \
+   CONFIG.DOUT_WIDTH {10} \
+ ] $xlslice_0
+
+  # Create instance: xlslice_1, and set properties
+  set xlslice_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_1 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {53} \
+   CONFIG.DIN_TO {44} \
+   CONFIG.DIN_WIDTH {64} \
+   CONFIG.DOUT_WIDTH {10} \
+ ] $xlslice_1
+
+  # Create instance: xlslice_2, and set properties
+  set xlslice_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_2 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {11} \
+   CONFIG.DIN_TO {0} \
+   CONFIG.DIN_WIDTH {64} \
+   CONFIG.DOUT_WIDTH {12} \
+ ] $xlslice_2
+
   # Create port connections
-  connect_bd_net -net Net [get_bd_pins controller_0/score_clear] [get_bd_pins counter_mod10_0/clear] [get_bd_pins counter_mod10_1/clear] [get_bd_pins counter_mod10_2/clear] [get_bd_pins counter_mod10_3/clear]
+  connect_bd_net -net Net [get_bd_pins controller_0/score_clear] [get_bd_pins score_counter_0/clear] [get_bd_pins score_counter_1/clear] [get_bd_pins score_counter_2/clear] [get_bd_pins score_counter_3/clear]
+  connect_bd_net -net Net1 [get_bd_pins combo_counter_0/clear] [get_bd_pins combo_counter_1/clear] [get_bd_pins combo_counter_2/clear] [get_bd_pins controller_0/combo_clear]
   connect_bd_net -net btn_1 [get_bd_ports btn] [get_bd_pins util_vector_logic_0/Op2]
-  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins clock_divider_1_Hz/clk] [get_bd_pins clock_divider_25_MHz/clk] [get_bd_pins controller_0/clk] [get_bd_pins counter_mod10_0/clk] [get_bd_pins counter_mod10_1/clk] [get_bd_pins counter_mod10_2/clk] [get_bd_pins counter_mod10_3/clk] [get_bd_pins font_rom_0/clk] [get_bd_pins graph_0/clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins text_0/clk] [get_bd_pins timer_0/clk] [get_bd_pins timer_1/clk] [get_bd_pins vga_mux_0/clk] [get_bd_pins vga_sync_0/clk]
+  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins clock_divider_1_kHz/clk] [get_bd_pins clock_divider_25_MHz/clk] [get_bd_pins combo_counter_0/clk] [get_bd_pins combo_counter_1/clk] [get_bd_pins combo_counter_2/clk] [get_bd_pins controller_0/clk] [get_bd_pins fire_cooldown_timer/clk] [get_bd_pins graph_0/clk] [get_bd_pins menu_timer/clk] [get_bd_pins monster_move_timer/clk] [get_bd_pins monster_spawn_timer/clk] [get_bd_pins prng_0/clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins score_counter_0/clk] [get_bd_pins score_counter_1/clk] [get_bd_pins score_counter_2/clk] [get_bd_pins score_counter_3/clk] [get_bd_pins text_0/clk] [get_bd_pins vga_mux_0/clk] [get_bd_pins vga_sync_0/clk]
   connect_bd_net -net clk_wiz_0_locked [get_bd_ports led] [get_bd_pins clk_wiz_0/locked] [get_bd_pins proc_sys_reset_0/dcm_locked]
-  connect_bd_net -net clock_divider_0_tick [get_bd_pins clock_divider_1_Hz/tick] [get_bd_pins timer_0/tick] [get_bd_pins timer_1/tick]
+  connect_bd_net -net clock_divider_0_tick [get_bd_pins clock_divider_1_kHz/tick] [get_bd_pins fire_cooldown_timer/tick] [get_bd_pins menu_timer/tick] [get_bd_pins monster_move_timer/tick] [get_bd_pins monster_spawn_timer/tick]
   connect_bd_net -net clock_divider_25_MHz_tick [get_bd_pins clock_divider_25_MHz/tick] [get_bd_pins vga_mux_0/pixel_tick] [get_bd_pins vga_sync_0/pixel_tick]
+  connect_bd_net -net combo_counter_0_dig [get_bd_pins combo_counter_0/dig] [get_bd_pins text_0/combo_dig0]
+  connect_bd_net -net combo_counter_0_ovf [get_bd_pins combo_counter_0/ovf] [get_bd_pins combo_counter_1/inc]
+  connect_bd_net -net combo_counter_1_dig [get_bd_pins combo_counter_1/dig] [get_bd_pins text_0/combo_dig1]
+  connect_bd_net -net combo_counter_1_ovf [get_bd_pins combo_counter_1/ovf] [get_bd_pins combo_counter_2/inc] [get_bd_pins controller_0/combo_hundred]
+  connect_bd_net -net combo_counter_2_dig [get_bd_pins combo_counter_2/dig] [get_bd_pins text_0/combo_dig2]
+  connect_bd_net -net controller_0_combo_inc [get_bd_pins combo_counter_0/inc] [get_bd_pins controller_0/combo_inc]
   connect_bd_net -net controller_0_gra_still [get_bd_pins controller_0/gra_still] [get_bd_pins graph_0/gra_still]
   connect_bd_net -net controller_0_lives [get_bd_pins controller_0/lives] [get_bd_pins text_0/lives]
   connect_bd_net -net controller_0_rgb_mux_sel [get_bd_pins controller_0/rgb_mux_sel] [get_bd_pins vga_mux_0/mux_sel]
-  connect_bd_net -net controller_0_score_inc [get_bd_pins controller_0/score_inc] [get_bd_pins counter_mod10_0/inc]
-  connect_bd_net -net controller_0_timer_start [get_bd_pins controller_0/timer_start] [get_bd_pins timer_0/start]
-  connect_bd_net -net controller_0_timer_top [get_bd_pins controller_0/timer_top] [get_bd_pins timer_0/top]
-  connect_bd_net -net counter_mod10_0_dig [get_bd_pins counter_mod10_0/dig] [get_bd_pins text_0/score_dig0]
-  connect_bd_net -net counter_mod10_0_ovf [get_bd_pins counter_mod10_0/ovf] [get_bd_pins counter_mod10_1/inc]
-  connect_bd_net -net counter_mod10_1_dig [get_bd_pins counter_mod10_1/dig] [get_bd_pins text_0/score_dig1]
-  connect_bd_net -net counter_mod10_1_ovf [get_bd_pins counter_mod10_1/ovf] [get_bd_pins counter_mod10_2/inc]
-  connect_bd_net -net counter_mod10_2_dig [get_bd_pins counter_mod10_2/dig] [get_bd_pins text_0/score_dig2]
-  connect_bd_net -net counter_mod10_2_ovf [get_bd_pins counter_mod10_2/ovf] [get_bd_pins counter_mod10_3/inc]
-  connect_bd_net -net counter_mod10_3_dig [get_bd_pins counter_mod10_3/dig] [get_bd_pins text_0/score_dig3]
-  connect_bd_net -net font_rom_0_data [get_bd_pins font_rom_0/data] [get_bd_pins text_0/rom_data]
+  connect_bd_net -net controller_0_score_inc [get_bd_pins controller_0/score_inc] [get_bd_pins score_counter_0/inc]
+  connect_bd_net -net controller_0_timer_start [get_bd_pins controller_0/timer_start] [get_bd_pins menu_timer/start]
+  connect_bd_net -net controller_0_timer_top [get_bd_pins controller_0/timer_top] [get_bd_pins menu_timer/top]
+  connect_bd_net -net counter_mod10_0_dig [get_bd_pins score_counter_0/dig] [get_bd_pins text_0/score_dig0]
+  connect_bd_net -net counter_mod10_0_ovf [get_bd_pins score_counter_0/ovf] [get_bd_pins score_counter_1/inc]
+  connect_bd_net -net counter_mod10_1_dig [get_bd_pins score_counter_1/dig] [get_bd_pins text_0/score_dig1]
+  connect_bd_net -net counter_mod10_1_ovf [get_bd_pins score_counter_1/ovf] [get_bd_pins score_counter_2/inc]
+  connect_bd_net -net counter_mod10_2_dig [get_bd_pins score_counter_2/dig] [get_bd_pins text_0/score_dig2]
+  connect_bd_net -net counter_mod10_2_ovf [get_bd_pins score_counter_2/ovf] [get_bd_pins score_counter_3/inc]
+  connect_bd_net -net counter_mod10_3_dig [get_bd_pins score_counter_3/dig] [get_bd_pins text_0/score_dig3]
   connect_bd_net -net graph_0_died [get_bd_pins controller_0/died] [get_bd_pins graph_0/died]
-  connect_bd_net -net graph_0_fire_timer_start [get_bd_pins graph_0/fire_timer_start] [get_bd_pins timer_1/start]
-  connect_bd_net -net graph_0_fire_timer_top [get_bd_pins graph_0/fire_timer_top] [get_bd_pins timer_1/top]
+  connect_bd_net -net graph_0_fire_timer_start [get_bd_pins fire_cooldown_timer/start] [get_bd_pins graph_0/fire_timer_start]
+  connect_bd_net -net graph_0_fire_timer_top [get_bd_pins fire_cooldown_timer/top] [get_bd_pins graph_0/fire_timer_top]
+  connect_bd_net -net graph_0_fired [get_bd_pins controller_0/fired] [get_bd_pins graph_0/fired]
   connect_bd_net -net graph_0_graph_on [get_bd_pins controller_0/graph_on] [get_bd_pins graph_0/graph_on]
   connect_bd_net -net graph_0_graph_rgb [get_bd_pins graph_0/graph_rgb] [get_bd_pins vga_mux_0/graph_rgb]
   connect_bd_net -net graph_0_killed [get_bd_pins controller_0/killed] [get_bd_pins graph_0/killed]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins clock_divider_1_Hz/reset] [get_bd_pins clock_divider_25_MHz/reset] [get_bd_pins controller_0/reset] [get_bd_pins counter_mod10_0/reset] [get_bd_pins counter_mod10_1/reset] [get_bd_pins counter_mod10_2/reset] [get_bd_pins counter_mod10_3/reset] [get_bd_pins font_rom_0/reset] [get_bd_pins graph_0/reset] [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins text_0/reset] [get_bd_pins timer_0/reset] [get_bd_pins timer_1/reset] [get_bd_pins vga_mux_0/reset] [get_bd_pins vga_sync_0/reset]
+  connect_bd_net -net graph_0_missed [get_bd_pins controller_0/missed] [get_bd_pins graph_0/missed]
+  connect_bd_net -net graph_0_monster_move_timer_start [get_bd_pins graph_0/monster_move_timer_start] [get_bd_pins monster_move_timer/start]
+  connect_bd_net -net graph_0_monster_move_timer_top [get_bd_pins graph_0/monster_move_timer_top] [get_bd_pins monster_move_timer/top]
+  connect_bd_net -net graph_0_monster_spawn_timer_start [get_bd_pins graph_0/monster_spawn_timer_start] [get_bd_pins monster_spawn_timer/start]
+  connect_bd_net -net graph_0_monster_spawn_timer_top [get_bd_pins graph_0/monster_spawn_timer_top] [get_bd_pins monster_spawn_timer/top]
+  connect_bd_net -net monster_move_timer_done [get_bd_pins graph_0/monster_move_timer_up] [get_bd_pins monster_move_timer/done]
+  connect_bd_net -net monster_spawn_timer_done [get_bd_pins graph_0/monster_spawn_timer_up] [get_bd_pins monster_spawn_timer/done]
+  connect_bd_net -net prng_0_seq [get_bd_pins prng_0/seq] [get_bd_pins xlslice_0/Din] [get_bd_pins xlslice_1/Din] [get_bd_pins xlslice_2/Din]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins clock_divider_1_kHz/reset] [get_bd_pins clock_divider_25_MHz/reset] [get_bd_pins combo_counter_0/reset] [get_bd_pins combo_counter_1/reset] [get_bd_pins combo_counter_2/reset] [get_bd_pins controller_0/reset] [get_bd_pins fire_cooldown_timer/reset] [get_bd_pins graph_0/reset] [get_bd_pins menu_timer/reset] [get_bd_pins monster_move_timer/reset] [get_bd_pins monster_spawn_timer/reset] [get_bd_pins prng_0/reset] [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins score_counter_0/reset] [get_bd_pins score_counter_1/reset] [get_bd_pins score_counter_2/reset] [get_bd_pins score_counter_3/reset] [get_bd_pins text_0/reset] [get_bd_pins vga_mux_0/reset] [get_bd_pins vga_sync_0/reset]
   connect_bd_net -net reset_1 [get_bd_ports reset] [get_bd_pins clk_wiz_0/reset] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net sys_clock_1 [get_bd_ports sys_clock] [get_bd_pins clk_wiz_0/clk_in1]
-  connect_bd_net -net text_0_rom_addr [get_bd_pins font_rom_0/addr] [get_bd_pins text_0/rom_addr]
   connect_bd_net -net text_0_text_on [get_bd_pins controller_0/text_on] [get_bd_pins text_0/text_on]
   connect_bd_net -net text_0_text_rgb [get_bd_pins text_0/text_rgb] [get_bd_pins vga_mux_0/text_rgb]
-  connect_bd_net -net timer_0_done [get_bd_pins controller_0/timer_up] [get_bd_pins timer_0/done]
-  connect_bd_net -net timer_1_done [get_bd_ports dbg] [get_bd_pins graph_0/fire_timer_up] [get_bd_pins timer_1/done]
+  connect_bd_net -net timer_0_done [get_bd_pins controller_0/timer_up] [get_bd_pins menu_timer/done]
+  connect_bd_net -net timer_1_done [get_bd_ports dbg] [get_bd_pins fire_cooldown_timer/done] [get_bd_pins graph_0/fire_timer_up]
   connect_bd_net -net util_reduced_logic_0_Res [get_bd_pins controller_0/start] [get_bd_pins util_reduced_logic_0/Res]
   connect_bd_net -net util_vector_logic_0_Res [get_bd_pins graph_0/btn] [get_bd_pins util_reduced_logic_0/Op1] [get_bd_pins util_vector_logic_0/Res]
   connect_bd_net -net vga_mux_0_outb [get_bd_ports outblue] [get_bd_pins vga_mux_0/outb]
@@ -422,6 +521,9 @@ proc create_root_design { parentCell } {
   connect_bd_net -net vga_sync_0_video_on [get_bd_pins vga_mux_0/video_on] [get_bd_pins vga_sync_0/video_on]
   connect_bd_net -net vga_sync_0_vsync [get_bd_ports vsync] [get_bd_pins vga_sync_0/vsync]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins util_vector_logic_0/Op1] [get_bd_pins xlconstant_0/dout]
+  connect_bd_net -net xlslice_0_Dout [get_bd_pins graph_0/monster_spawn_x] [get_bd_pins xlslice_0/Dout]
+  connect_bd_net -net xlslice_1_Dout [get_bd_pins graph_0/monster_spawn_y] [get_bd_pins xlslice_1/Dout]
+  connect_bd_net -net xlslice_2_Dout [get_bd_pins graph_0/monster_spawn_time] [get_bd_pins xlslice_2/Dout]
 
   # Create address segments
 

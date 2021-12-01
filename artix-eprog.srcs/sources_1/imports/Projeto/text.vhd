@@ -10,14 +10,13 @@ entity text is
         pixel_x, pixel_y: in std_logic_vector(9 downto 0);
         -- Score digits
         score_dig3, score_dig2, score_dig1, score_dig0: in std_logic_vector(3 downto 0);
+        -- Combo digits
+        combo_dig2, combo_dig1, combo_dig0: in std_logic_vector(3 downto 0);
         -- Current lives
         lives: in std_logic_vector(2 downto 0);
         -- VGA RGB signals
         text_on: out std_logic_vector(3 downto 0);
-        text_rgb: out std_logic_vector(2 downto 0);
-        -- Font ROM access
-        rom_addr: out std_logic_vector(10 downto 0);
-        rom_data: in std_logic_vector(7 downto 0)
+        text_rgb: out std_logic_vector(2 downto 0)
     );
 end text;
 
@@ -26,7 +25,9 @@ architecture arch of text is
     signal char_addr, char_addr_s, char_addr_l, char_addr_r, char_addr_o: std_logic_vector(6 downto 0);
     signal row_addr, row_addr_s, row_addr_l,row_addr_r, row_addr_o: std_logic_vector(3 downto 0);
     signal bit_addr, bit_addr_s, bit_addr_l,bit_addr_r, bit_addr_o: std_logic_vector(2 downto 0);
-    signal font_bit: std_logic;
+    signal font_rom_addr: std_logic_vector(10 downto 0);
+    signal font_rom_data: std_logic_vector(7 downto 0);
+    signal font_rom_bit: std_logic;
     signal score_on, logo_on, rule_on, over_on: std_logic;
     signal rule_rom_addr: unsigned(5 downto 0);
     type rule_rom_type is array (0 to 63) of std_logic_vector (6 downto 0);
@@ -106,13 +107,17 @@ begin
     pix_x <= unsigned(pixel_x);
     pix_y <= unsigned(pixel_y);
 
+    -- instantiate font rom
+    font_unit: entity work.font_rom
+        port map(clk => clk, reset => reset, addr => font_rom_addr, data => font_rom_data);
+
     ---------------------------------------------
     -- score region
     --  - display two-digit score, ball on top left
     --  - scale to 16-by-32 font
     --  - line 1, 16 chars: "Score:DD Ball:D"
     ---------------------------------------------
-    score_on <= '1' when pix_y(9 downto 5) = 0 and pix_x(9 downto 4) < 21 else '0';
+    score_on <= '1' when pix_y(9 downto 5) = 0 and pix_x(9 downto 4) < 30 else '0';
     row_addr_s <= std_logic_vector(pix_y(4 downto 1));
     bit_addr_s <= std_logic_vector(pix_x(3 downto 1));
 
@@ -124,39 +129,75 @@ begin
             "1110010"           when "00011", -- r x72
             "1100101"           when "00100", -- e x65
             "0111010"           when "00101", -- : x3a
-            "0100000"           when "00110", --   x20
             "011" & score_dig3  when "00111", -- digit 1000
             "011" & score_dig2  when "01000", -- digit 100
             "011" & score_dig1  when "01001", -- digit 10
             "011" & score_dig0  when "01010", -- digit 1
             "0100000"           when "01011", --   x20
-            "0100000"           when "01100", --   x20
-            "1001100"           when "01101", -- L x4C
-            "1101001"           when "01110", -- i x69
-            "1110110"           when "01111", -- v x76
-            "1100101"           when "10000", -- e x65
-            "1110011"           when "10001", -- s x73
-            "0111010"           when "10010", -- : x3a
-            "0100000"           when "10011", --   x20
-            "0110" & lives      when "10100",
+            "1000011"           when "01100", -- C x43
+            "1101111"           when "01101", -- o x6f
+            "1101101"           when "01110", -- m x6d
+            "1100010"           when "01111", -- b x62
+            "1101111"           when "10000", -- o x6f
+            "0111010"           when "10001", -- : x3a
+            "011" & combo_dig2  when "10010", -- digit 100
+            "011" & combo_dig1  when "10011", -- digit 10
+            "011" & combo_dig0  when "10100", -- digit 1
+            "0100000"           when "10101", --   x20
+            "1001100"           when "10110", -- L x4C
+            "1101001"           when "10111", -- i x69
+            "1110110"           when "11000", -- v x76
+            "1100101"           when "11001", -- e x65
+            "1110011"           when "11010", -- s x73
+            "0111010"           when "11011", -- : x3a
+            "0100000"           when "11100", --   x20
+            "0110" & lives      when "11101",
             "0100000"           when others;  --   x20
 
     ---------------------------------------------
     -- logo region:
-    --   - display logo "PONG" on top center
+    --   - display logo "SPACE INVADERS" on top center
     --   - used as background
-    --   - scale to 64-by-128 font
+    --   - scale to 32-by-64 font
     ---------------------------------------------
-    logo_on <= '1' when pix_y(9 downto 7) = 2 and (3 <= pix_x(9 downto 6) and pix_x(9 downto 6) <= 6) else '0';
-    row_addr_l <= std_logic_vector(pix_y(6 downto 3));
-    bit_addr_l <= std_logic_vector(pix_x(5 downto 3));
+    logo_on <= '1' when pix_y(9 downto 6) >= 3 and pix_y(9 downto 6) < 6 and pix_x(9 downto 5) >= 6 and pix_x(9 downto 5) < 15 else '0';
+    row_addr_l <= std_logic_vector(pix_y(5 downto 2));
+    bit_addr_l <= std_logic_vector(pix_x(4 downto 2));
 
-    with pix_x(8 downto 6) select
+    with pix_y(8 downto 6) & pix_x(9 downto 6) select
         char_addr_l <=
-            "1010000" when "011",  -- P x50
-            "1001111" when "100",  -- O x4f
-            "1001110" when "101",  -- N x4e
-            "1000111" when others; -- G x47
+            -- First line
+            "0100000" when "0110110",  --   x20
+            "0100000" when "0110111",  --   x20
+            "1010011" when "0111000",  -- S x53
+            "1010000" when "0111001",  -- P x50
+            "1000001" when "0111010",  -- A x41
+            "1000011" when "0111011",  -- C x43
+            "1000101" when "0111100",  -- E x45
+            "0100000" when "0111101",  --   x20
+            "0100000" when "0111110",  --   x20
+            -- Second line
+            "0100000" when "1000110",  --   x20
+            "0100000" when "1000111",  --   x20
+            "0100000" when "1001000",  --   x20
+            "0100000" when "1001001",  --   x20
+            "0100000" when "1001010",  --   x20
+            "0100000" when "1001011",  --   x20
+            "0100000" when "1001100",  --   x20
+            "0100000" when "1001101",  --   x20
+            "0100000" when "1001110",  --   x20
+            -- Third line
+            "1001001" when "1010110",  -- I x49
+            "1001110" when "1010111",  -- N x4e
+            "1010110" when "1011000",  -- V x56
+            "1000001" when "1011001",  -- A x41
+            "1000100" when "1011010",  -- D x44
+            "1000101" when "1011011",  -- E x45
+            "1010010" when "1011100",  -- R x52
+            "1010011" when "1011101",  -- S x53
+            "0100000" when "1011110",  --   x20
+
+            "0100000" when others; --   x20
 
     ---------------------------------------------
     -- rule region
@@ -197,7 +238,7 @@ begin
     ---------------------------------------------
     -- mux for font ROM addresses and rgb
     ---------------------------------------------
-    process(score_on, logo_on, rule_on, pix_x, pix_y, font_bit, char_addr_s, char_addr_l, char_addr_r, char_addr_o, row_addr_s, row_addr_l, row_addr_r, row_addr_o, bit_addr_s, bit_addr_l, bit_addr_r, bit_addr_o)
+    process(score_on, logo_on, rule_on, pix_x, pix_y, font_rom_bit, char_addr_s, char_addr_l, char_addr_r, char_addr_o, row_addr_s, row_addr_l, row_addr_r, row_addr_o, bit_addr_s, bit_addr_l, bit_addr_r, bit_addr_o)
     begin
         text_rgb <= "110";  -- background, yellow
 
@@ -206,7 +247,7 @@ begin
             row_addr <= row_addr_s;
             bit_addr <= bit_addr_s;
 
-            if font_bit = '1' then
+            if font_rom_bit = '1' then
                 text_rgb <= "001";
             end if;
         elsif rule_on = '1' then
@@ -214,7 +255,7 @@ begin
             row_addr <= row_addr_r;
             bit_addr <= bit_addr_r;
 
-            if font_bit = '1' then
+            if font_rom_bit = '1' then
                 text_rgb <= "001";
             end if;
         elsif logo_on = '1' then
@@ -222,7 +263,7 @@ begin
             row_addr <= row_addr_l;
             bit_addr <= bit_addr_l;
 
-            if font_bit = '1' then
+            if font_rom_bit = '1' then
                 text_rgb <= "011";
             end if;
         else
@@ -230,7 +271,7 @@ begin
             row_addr <= row_addr_o;
             bit_addr <= bit_addr_o;
 
-            if font_bit = '1' then
+            if font_rom_bit = '1' then
                 text_rgb <= "001";
             end if;
         end if;
@@ -241,6 +282,6 @@ begin
     ---------------------------------------------
     -- font rom interface
     ---------------------------------------------
-    rom_addr <= char_addr & row_addr;
-    font_bit <= rom_data(to_integer(unsigned(not bit_addr)));
+    font_rom_addr <= char_addr & row_addr;
+    font_rom_bit <= font_rom_data(to_integer(unsigned(not bit_addr)));
 end arch;

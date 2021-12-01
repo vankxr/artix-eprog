@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-//Date        : Tue Nov 30 12:52:09 2021
+//Date        : Wed Dec  1 20:06:05 2021
 //Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper

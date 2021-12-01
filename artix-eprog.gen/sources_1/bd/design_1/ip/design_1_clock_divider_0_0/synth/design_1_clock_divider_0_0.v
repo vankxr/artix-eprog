@@ -52,7 +52,7 @@
 
 (* X_CORE_INFO = "clock_divider,Vivado 2021.1" *)
 (* CHECK_LICENSE_TYPE = "design_1_clock_divider_0_0,clock_divider,{}" *)
-(* CORE_GENERATION_INFO = "design_1_clock_divider_0_0,clock_divider,{x_ipProduct=Vivado 2021.1,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=clock_divider,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,DIV=50000000}" *)
+(* CORE_GENERATION_INFO = "design_1_clock_divider_0_0,clock_divider,{x_ipProduct=Vivado 2021.1,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=clock_divider,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,DIV=50000}" *)
 (* IP_DEFINITION_SOURCE = "module_ref" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module design_1_clock_divider_0_0 (
@@ -70,7 +70,7 @@ input wire reset;
 output wire tick;
 
   clock_divider #(
-    .DIV(50000000)
+    .DIV(50000)
   ) inst (
     .clk(clk),
     .reset(reset),

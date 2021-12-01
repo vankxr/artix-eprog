@@ -69,7 +69,7 @@ input wire reset;
 output wire tick;
 
   clock_divider #(
-    .DIV(50000000)
+    .DIV(50000)
   ) inst (
     .clk(clk),
     .reset(reset),

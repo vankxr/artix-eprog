@@ -13,23 +13,31 @@
     "design_tree": {
       "clk_wiz_0": "",
       "proc_sys_reset_0": "",
-      "font_rom_0": "",
       "vga_sync_0": "",
-      "text_0": "",
       "util_vector_logic_0": "",
-      "timer_0": "",
+      "menu_timer": "",
       "vga_mux_0": "",
       "xlconstant_0": "",
-      "counter_mod10_0": "",
-      "counter_mod10_1": "",
-      "counter_mod10_2": "",
-      "counter_mod10_3": "",
-      "clock_divider_1_Hz": "",
+      "score_counter_0": "",
+      "score_counter_1": "",
+      "score_counter_2": "",
+      "score_counter_3": "",
+      "clock_divider_1_kHz": "",
       "clock_divider_25_MHz": "",
       "util_reduced_logic_0": "",
-      "timer_1": "",
+      "fire_cooldown_timer": "",
+      "xlslice_0": "",
+      "xlslice_1": "",
+      "xlslice_2": "",
+      "monster_spawn_timer": "",
+      "monster_move_timer": "",
+      "combo_counter_0": "",
+      "combo_counter_1": "",
+      "combo_counter_2": "",
       "controller_0": "",
-      "graph_0": ""
+      "prng_0": "",
+      "graph_0": "",
+      "text_0": ""
     },
     "ports": {
       "sys_clock": {
@@ -145,117 +153,6 @@
         "xci_path": "ip/design_1_proc_sys_reset_0_0/design_1_proc_sys_reset_0_0.xci",
         "inst_hier_path": "proc_sys_reset_0"
       },
-      "font_rom_0": {
-        "vlnv": "xilinx.com:module_ref:font_rom:1.0",
-        "xci_name": "design_1_font_rom_0_3",
-        "xci_path": "ip/design_1_font_rom_0_3/design_1_font_rom_0_3.xci",
-        "inst_hier_path": "font_rom_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "font_rom",
-          "boundary_crc": "0x0"
-        },
-        "interface_ports": {
-          "interface_fifo_rd": {
-            "mode": "Slave",
-            "vlnv_bus_definition": "analog.com:interface:fifo_rd:1.0",
-            "vlnv": "analog.com:interface:fifo_rd_rtl:1.0",
-            "port_maps": {
-              "DATA": {
-                "physical_name": "data",
-                "direction": "O",
-                "left": "7",
-                "right": "0"
-              }
-            }
-          },
-          "interface_fifo_wr": {
-            "mode": "Slave",
-            "vlnv_bus_definition": "analog.com:interface:fifo_wr:1.0",
-            "vlnv": "analog.com:interface:fifo_wr_rtl:1.0",
-            "port_maps": {
-              "DATA": {
-                "physical_name": "data",
-                "direction": "O",
-                "left": "7",
-                "right": "0"
-              }
-            }
-          },
-          "interface_jesd204_rx_ilas_config": {
-            "mode": "Slave",
-            "vlnv_bus_definition": "analog.com:interface:jesd204_rx_ilas_config:1.0",
-            "vlnv": "analog.com:interface:jesd204_rx_ilas_config_rtl:1.0",
-            "port_maps": {
-              "addr": {
-                "physical_name": "addr",
-                "direction": "I",
-                "left": "10",
-                "right": "0"
-              },
-              "data": {
-                "physical_name": "data",
-                "direction": "O",
-                "left": "7",
-                "right": "0"
-              }
-            }
-          },
-          "interface_jesd204_tx_ilas_config": {
-            "mode": "Slave",
-            "vlnv_bus_definition": "analog.com:interface:jesd204_tx_ilas_config:1.0",
-            "vlnv": "analog.com:interface:jesd204_tx_ilas_config_rtl:1.0",
-            "port_maps": {
-              "addr": {
-                "physical_name": "addr",
-                "direction": "I",
-                "left": "10",
-                "right": "0"
-              },
-              "data": {
-                "physical_name": "data",
-                "direction": "O",
-                "left": "7",
-                "right": "0"
-              }
-            }
-          }
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "50000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "reset": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "const_prop"
-              }
-            }
-          }
-        }
-      },
       "vga_sync_0": {
         "vlnv": "xilinx.com:module_ref:vga_sync:1.0",
         "xci_name": "design_1_vga_sync_0_1",
@@ -323,116 +220,6 @@
           }
         }
       },
-      "text_0": {
-        "vlnv": "xilinx.com:module_ref:text:1.0",
-        "xci_name": "design_1_text_0_0",
-        "xci_path": "ip/design_1_text_0_0/design_1_text_0_0.xci",
-        "inst_hier_path": "text_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "text",
-          "boundary_crc": "0x0"
-        },
-        "interface_ports": {
-          "rom": {
-            "mode": "Slave",
-            "vlnv_bus_definition": "analog.com:interface:fifo_rd:1.0",
-            "vlnv": "analog.com:interface:fifo_rd_rtl:1.0",
-            "port_maps": {
-              "DATA": {
-                "physical_name": "rom_data",
-                "direction": "I",
-                "left": "7",
-                "right": "0"
-              }
-            }
-          }
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "50000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "reset": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "const_prop"
-              }
-            }
-          },
-          "pixel_x": {
-            "direction": "I",
-            "left": "9",
-            "right": "0"
-          },
-          "pixel_y": {
-            "direction": "I",
-            "left": "9",
-            "right": "0"
-          },
-          "score_dig3": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "score_dig2": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "score_dig1": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "score_dig0": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "lives": {
-            "direction": "I",
-            "left": "2",
-            "right": "0"
-          },
-          "text_on": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
-          },
-          "text_rgb": {
-            "direction": "O",
-            "left": "2",
-            "right": "0"
-          },
-          "rom_addr": {
-            "direction": "O",
-            "left": "10",
-            "right": "0"
-          }
-        }
-      },
       "util_vector_logic_0": {
         "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
         "xci_name": "design_1_util_vector_logic_0_0",
@@ -447,11 +234,11 @@
           }
         }
       },
-      "timer_0": {
+      "menu_timer": {
         "vlnv": "xilinx.com:module_ref:timer:1.0",
         "xci_name": "design_1_timer_0_1",
         "xci_path": "ip/design_1_timer_0_1/design_1_timer_0_1.xci",
-        "inst_hier_path": "timer_0",
+        "inst_hier_path": "menu_timer",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "timer",
@@ -601,11 +388,11 @@
           }
         }
       },
-      "counter_mod10_0": {
+      "score_counter_0": {
         "vlnv": "xilinx.com:module_ref:counter_mod10:1.0",
         "xci_name": "design_1_counter_mod10_0_0",
         "xci_path": "ip/design_1_counter_mod10_0_0/design_1_counter_mod10_0_0.xci",
-        "inst_hier_path": "counter_mod10_0",
+        "inst_hier_path": "score_counter_0",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "counter_mod10",
@@ -660,11 +447,11 @@
           }
         }
       },
-      "counter_mod10_1": {
+      "score_counter_1": {
         "vlnv": "xilinx.com:module_ref:counter_mod10:1.0",
         "xci_name": "design_1_counter_mod10_0_1",
         "xci_path": "ip/design_1_counter_mod10_0_1/design_1_counter_mod10_0_1.xci",
-        "inst_hier_path": "counter_mod10_1",
+        "inst_hier_path": "score_counter_1",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "counter_mod10",
@@ -719,11 +506,11 @@
           }
         }
       },
-      "counter_mod10_2": {
+      "score_counter_2": {
         "vlnv": "xilinx.com:module_ref:counter_mod10:1.0",
         "xci_name": "design_1_counter_mod10_0_2",
         "xci_path": "ip/design_1_counter_mod10_0_2/design_1_counter_mod10_0_2.xci",
-        "inst_hier_path": "counter_mod10_2",
+        "inst_hier_path": "score_counter_2",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "counter_mod10",
@@ -778,11 +565,11 @@
           }
         }
       },
-      "counter_mod10_3": {
+      "score_counter_3": {
         "vlnv": "xilinx.com:module_ref:counter_mod10:1.0",
         "xci_name": "design_1_counter_mod10_0_3",
         "xci_path": "ip/design_1_counter_mod10_0_3/design_1_counter_mod10_0_3.xci",
-        "inst_hier_path": "counter_mod10_3",
+        "inst_hier_path": "score_counter_3",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "counter_mod10",
@@ -837,11 +624,16 @@
           }
         }
       },
-      "clock_divider_1_Hz": {
+      "clock_divider_1_kHz": {
         "vlnv": "xilinx.com:module_ref:clock_divider:1.0",
         "xci_name": "design_1_clock_divider_0_0",
         "xci_path": "ip/design_1_clock_divider_0_0/design_1_clock_divider_0_0.xci",
-        "inst_hier_path": "clock_divider_1_Hz",
+        "inst_hier_path": "clock_divider_1_kHz",
+        "parameters": {
+          "DIV": {
+            "value": "50000"
+          }
+        },
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "clock_divider",
@@ -952,11 +744,11 @@
           }
         }
       },
-      "timer_1": {
+      "fire_cooldown_timer": {
         "vlnv": "xilinx.com:module_ref:timer:1.0",
         "xci_name": "design_1_timer_0_2",
         "xci_path": "ip/design_1_timer_0_2/design_1_timer_0_2.xci",
-        "inst_hier_path": "timer_1",
+        "inst_hier_path": "fire_cooldown_timer",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "timer",
@@ -1007,6 +799,361 @@
             "direction": "I"
           },
           "done": {
+            "direction": "O"
+          }
+        }
+      },
+      "xlslice_0": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "xci_name": "design_1_xlslice_0_0",
+        "xci_path": "ip/design_1_xlslice_0_0/design_1_xlslice_0_0.xci",
+        "inst_hier_path": "xlslice_0",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "63"
+          },
+          "DIN_TO": {
+            "value": "54"
+          },
+          "DIN_WIDTH": {
+            "value": "64"
+          },
+          "DOUT_WIDTH": {
+            "value": "10"
+          }
+        }
+      },
+      "xlslice_1": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "xci_name": "design_1_xlslice_0_1",
+        "xci_path": "ip/design_1_xlslice_0_1/design_1_xlslice_0_1.xci",
+        "inst_hier_path": "xlslice_1",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "53"
+          },
+          "DIN_TO": {
+            "value": "44"
+          },
+          "DIN_WIDTH": {
+            "value": "64"
+          },
+          "DOUT_WIDTH": {
+            "value": "10"
+          }
+        }
+      },
+      "xlslice_2": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "xci_name": "design_1_xlslice_1_0",
+        "xci_path": "ip/design_1_xlslice_1_0/design_1_xlslice_1_0.xci",
+        "inst_hier_path": "xlslice_2",
+        "parameters": {
+          "DIN_FROM": {
+            "value": "11"
+          },
+          "DIN_TO": {
+            "value": "0"
+          },
+          "DIN_WIDTH": {
+            "value": "64"
+          },
+          "DOUT_WIDTH": {
+            "value": "12"
+          }
+        }
+      },
+      "monster_spawn_timer": {
+        "vlnv": "xilinx.com:module_ref:timer:1.0",
+        "xci_name": "design_1_fire_cooldown_timer_0",
+        "xci_path": "ip/design_1_fire_cooldown_timer_0/design_1_fire_cooldown_timer_0.xci",
+        "inst_hier_path": "monster_spawn_timer",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "timer",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "tick": {
+            "direction": "I"
+          },
+          "top": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "start": {
+            "direction": "I"
+          },
+          "done": {
+            "direction": "O"
+          }
+        }
+      },
+      "monster_move_timer": {
+        "vlnv": "xilinx.com:module_ref:timer:1.0",
+        "xci_name": "design_1_monster_spawn_timer_0",
+        "xci_path": "ip/design_1_monster_spawn_timer_0/design_1_monster_spawn_timer_0.xci",
+        "inst_hier_path": "monster_move_timer",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "timer",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "tick": {
+            "direction": "I"
+          },
+          "top": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "start": {
+            "direction": "I"
+          },
+          "done": {
+            "direction": "O"
+          }
+        }
+      },
+      "combo_counter_0": {
+        "vlnv": "xilinx.com:module_ref:counter_mod10:1.0",
+        "xci_name": "design_1_score_counter_0_0",
+        "xci_path": "ip/design_1_score_counter_0_0/design_1_score_counter_0_0.xci",
+        "inst_hier_path": "combo_counter_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "counter_mod10",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "inc": {
+            "direction": "I"
+          },
+          "clear": {
+            "direction": "I"
+          },
+          "dig": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "ovf": {
+            "direction": "O"
+          }
+        }
+      },
+      "combo_counter_1": {
+        "vlnv": "xilinx.com:module_ref:counter_mod10:1.0",
+        "xci_name": "design_1_combo_counter_0_0",
+        "xci_path": "ip/design_1_combo_counter_0_0/design_1_combo_counter_0_0.xci",
+        "inst_hier_path": "combo_counter_1",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "counter_mod10",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "inc": {
+            "direction": "I"
+          },
+          "clear": {
+            "direction": "I"
+          },
+          "dig": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "ovf": {
+            "direction": "O"
+          }
+        }
+      },
+      "combo_counter_2": {
+        "vlnv": "xilinx.com:module_ref:counter_mod10:1.0",
+        "xci_name": "design_1_combo_counter_1_0",
+        "xci_path": "ip/design_1_combo_counter_1_0/design_1_combo_counter_1_0.xci",
+        "inst_hier_path": "combo_counter_2",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "counter_mod10",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "inc": {
+            "direction": "I"
+          },
+          "clear": {
+            "direction": "I"
+          },
+          "dig": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "ovf": {
             "direction": "O"
           }
         }
@@ -1065,6 +1212,12 @@
           "gra_still": {
             "direction": "O"
           },
+          "fired": {
+            "direction": "I"
+          },
+          "missed": {
+            "direction": "I"
+          },
           "killed": {
             "direction": "I"
           },
@@ -1091,6 +1244,15 @@
           "score_clear": {
             "direction": "O"
           },
+          "combo_inc": {
+            "direction": "O"
+          },
+          "combo_clear": {
+            "direction": "O"
+          },
+          "combo_hundred": {
+            "direction": "I"
+          },
           "lives": {
             "direction": "O",
             "left": "2",
@@ -1099,6 +1261,56 @@
           "rgb_mux_sel": {
             "direction": "O",
             "left": "1",
+            "right": "0"
+          }
+        }
+      },
+      "prng_0": {
+        "vlnv": "xilinx.com:module_ref:prng:1.0",
+        "xci_name": "design_1_prng_0_0",
+        "xci_path": "ip/design_1_prng_0_0/design_1_prng_0_0.xci",
+        "inst_hier_path": "prng_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "prng",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "seq": {
+            "direction": "O",
+            "left": "63",
             "right": "0"
           }
         }
@@ -1159,6 +1371,12 @@
           "gra_still": {
             "direction": "I"
           },
+          "fired": {
+            "direction": "O"
+          },
+          "missed": {
+            "direction": "O"
+          },
           "killed": {
             "direction": "O"
           },
@@ -1184,6 +1402,43 @@
           "fire_timer_up": {
             "direction": "I"
           },
+          "monster_spawn_x": {
+            "direction": "I",
+            "left": "9",
+            "right": "0"
+          },
+          "monster_spawn_y": {
+            "direction": "I",
+            "left": "9",
+            "right": "0"
+          },
+          "monster_spawn_time": {
+            "direction": "I",
+            "left": "11",
+            "right": "0"
+          },
+          "monster_spawn_timer_top": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "monster_spawn_timer_start": {
+            "direction": "O"
+          },
+          "monster_spawn_timer_up": {
+            "direction": "I"
+          },
+          "monster_move_timer_top": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "monster_move_timer_start": {
+            "direction": "O"
+          },
+          "monster_move_timer_up": {
+            "direction": "I"
+          },
           "btn": {
             "direction": "I",
             "left": "2",
@@ -1200,16 +1455,129 @@
             }
           }
         }
+      },
+      "text_0": {
+        "vlnv": "xilinx.com:module_ref:text:1.0",
+        "xci_name": "design_1_text_0_0",
+        "xci_path": "ip/design_1_text_0_0/design_1_text_0_0.xci",
+        "inst_hier_path": "text_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "text",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "pixel_x": {
+            "direction": "I",
+            "left": "9",
+            "right": "0"
+          },
+          "pixel_y": {
+            "direction": "I",
+            "left": "9",
+            "right": "0"
+          },
+          "score_dig3": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "score_dig2": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "score_dig1": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "score_dig0": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "combo_dig2": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "combo_dig1": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "combo_dig0": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "lives": {
+            "direction": "I",
+            "left": "2",
+            "right": "0"
+          },
+          "text_on": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "text_rgb": {
+            "direction": "O",
+            "left": "2",
+            "right": "0"
+          }
+        }
       }
     },
     "nets": {
       "Net": {
         "ports": [
           "controller_0/score_clear",
-          "counter_mod10_0/clear",
-          "counter_mod10_1/clear",
-          "counter_mod10_2/clear",
-          "counter_mod10_3/clear"
+          "score_counter_0/clear",
+          "score_counter_1/clear",
+          "score_counter_2/clear",
+          "score_counter_3/clear"
+        ]
+      },
+      "Net1": {
+        "ports": [
+          "controller_0/combo_clear",
+          "combo_counter_1/clear",
+          "combo_counter_0/clear",
+          "combo_counter_2/clear"
         ]
       },
       "btn_1": {
@@ -1222,20 +1590,25 @@
         "ports": [
           "clk_wiz_0/clk_out1",
           "proc_sys_reset_0/slowest_sync_clk",
-          "font_rom_0/clk",
           "vga_sync_0/clk",
-          "text_0/clk",
-          "timer_0/clk",
+          "menu_timer/clk",
           "vga_mux_0/clk",
-          "counter_mod10_0/clk",
-          "counter_mod10_1/clk",
-          "counter_mod10_2/clk",
-          "counter_mod10_3/clk",
-          "clock_divider_1_Hz/clk",
+          "score_counter_0/clk",
+          "score_counter_1/clk",
+          "score_counter_2/clk",
+          "score_counter_3/clk",
+          "clock_divider_1_kHz/clk",
           "clock_divider_25_MHz/clk",
-          "timer_1/clk",
+          "fire_cooldown_timer/clk",
+          "monster_spawn_timer/clk",
+          "monster_move_timer/clk",
+          "combo_counter_1/clk",
+          "combo_counter_0/clk",
+          "combo_counter_2/clk",
           "controller_0/clk",
-          "graph_0/clk"
+          "prng_0/clk",
+          "graph_0/clk",
+          "text_0/clk"
         ]
       },
       "clk_wiz_0_locked": {
@@ -1247,9 +1620,11 @@
       },
       "clock_divider_0_tick": {
         "ports": [
-          "clock_divider_1_Hz/tick",
-          "timer_0/tick",
-          "timer_1/tick"
+          "clock_divider_1_kHz/tick",
+          "menu_timer/tick",
+          "fire_cooldown_timer/tick",
+          "monster_spawn_timer/tick",
+          "monster_move_timer/tick"
         ]
       },
       "clock_divider_25_MHz_tick": {
@@ -1257,6 +1632,43 @@
           "clock_divider_25_MHz/tick",
           "vga_sync_0/pixel_tick",
           "vga_mux_0/pixel_tick"
+        ]
+      },
+      "combo_counter_0_dig": {
+        "ports": [
+          "combo_counter_0/dig",
+          "text_0/combo_dig0"
+        ]
+      },
+      "combo_counter_0_ovf": {
+        "ports": [
+          "combo_counter_0/ovf",
+          "combo_counter_1/inc"
+        ]
+      },
+      "combo_counter_1_dig": {
+        "ports": [
+          "combo_counter_1/dig",
+          "text_0/combo_dig1"
+        ]
+      },
+      "combo_counter_1_ovf": {
+        "ports": [
+          "combo_counter_1/ovf",
+          "combo_counter_2/inc",
+          "controller_0/combo_hundred"
+        ]
+      },
+      "combo_counter_2_dig": {
+        "ports": [
+          "combo_counter_2/dig",
+          "text_0/combo_dig2"
+        ]
+      },
+      "controller_0_combo_inc": {
+        "ports": [
+          "controller_0/combo_inc",
+          "combo_counter_0/inc"
         ]
       },
       "controller_0_gra_still": {
@@ -1280,67 +1692,61 @@
       "controller_0_score_inc": {
         "ports": [
           "controller_0/score_inc",
-          "counter_mod10_0/inc"
+          "score_counter_0/inc"
         ]
       },
       "controller_0_timer_start": {
         "ports": [
           "controller_0/timer_start",
-          "timer_0/start"
+          "menu_timer/start"
         ]
       },
       "controller_0_timer_top": {
         "ports": [
           "controller_0/timer_top",
-          "timer_0/top"
+          "menu_timer/top"
         ]
       },
       "counter_mod10_0_dig": {
         "ports": [
-          "counter_mod10_0/dig",
+          "score_counter_0/dig",
           "text_0/score_dig0"
         ]
       },
       "counter_mod10_0_ovf": {
         "ports": [
-          "counter_mod10_0/ovf",
-          "counter_mod10_1/inc"
+          "score_counter_0/ovf",
+          "score_counter_1/inc"
         ]
       },
       "counter_mod10_1_dig": {
         "ports": [
-          "counter_mod10_1/dig",
+          "score_counter_1/dig",
           "text_0/score_dig1"
         ]
       },
       "counter_mod10_1_ovf": {
         "ports": [
-          "counter_mod10_1/ovf",
-          "counter_mod10_2/inc"
+          "score_counter_1/ovf",
+          "score_counter_2/inc"
         ]
       },
       "counter_mod10_2_dig": {
         "ports": [
-          "counter_mod10_2/dig",
+          "score_counter_2/dig",
           "text_0/score_dig2"
         ]
       },
       "counter_mod10_2_ovf": {
         "ports": [
-          "counter_mod10_2/ovf",
-          "counter_mod10_3/inc"
+          "score_counter_2/ovf",
+          "score_counter_3/inc"
         ]
       },
       "counter_mod10_3_dig": {
         "ports": [
-          "counter_mod10_3/dig",
+          "score_counter_3/dig",
           "text_0/score_dig3"
-        ]
-      },
-      "font_rom_0_data": {
-        "ports": [
-          "font_rom_0/data",
-          "text_0/rom_data"
         ]
       },
       "graph_0_died": {
@@ -1352,13 +1758,19 @@
       "graph_0_fire_timer_start": {
         "ports": [
           "graph_0/fire_timer_start",
-          "timer_1/start"
+          "fire_cooldown_timer/start"
         ]
       },
       "graph_0_fire_timer_top": {
         "ports": [
           "graph_0/fire_timer_top",
-          "timer_1/top"
+          "fire_cooldown_timer/top"
+        ]
+      },
+      "graph_0_fired": {
+        "ports": [
+          "graph_0/fired",
+          "controller_0/fired"
         ]
       },
       "graph_0_graph_on": {
@@ -1379,23 +1791,78 @@
           "controller_0/killed"
         ]
       },
+      "graph_0_missed": {
+        "ports": [
+          "graph_0/missed",
+          "controller_0/missed"
+        ]
+      },
+      "graph_0_monster_move_timer_start": {
+        "ports": [
+          "graph_0/monster_move_timer_start",
+          "monster_move_timer/start"
+        ]
+      },
+      "graph_0_monster_move_timer_top": {
+        "ports": [
+          "graph_0/monster_move_timer_top",
+          "monster_move_timer/top"
+        ]
+      },
+      "graph_0_monster_spawn_timer_start": {
+        "ports": [
+          "graph_0/monster_spawn_timer_start",
+          "monster_spawn_timer/start"
+        ]
+      },
+      "graph_0_monster_spawn_timer_top": {
+        "ports": [
+          "graph_0/monster_spawn_timer_top",
+          "monster_spawn_timer/top"
+        ]
+      },
+      "monster_move_timer_done": {
+        "ports": [
+          "monster_move_timer/done",
+          "graph_0/monster_move_timer_up"
+        ]
+      },
+      "monster_spawn_timer_done": {
+        "ports": [
+          "monster_spawn_timer/done",
+          "graph_0/monster_spawn_timer_up"
+        ]
+      },
+      "prng_0_seq": {
+        "ports": [
+          "prng_0/seq",
+          "xlslice_0/Din",
+          "xlslice_1/Din",
+          "xlslice_2/Din"
+        ]
+      },
       "proc_sys_reset_0_peripheral_aresetn": {
         "ports": [
           "proc_sys_reset_0/peripheral_reset",
-          "font_rom_0/reset",
           "vga_sync_0/reset",
-          "text_0/reset",
-          "timer_0/reset",
+          "menu_timer/reset",
           "vga_mux_0/reset",
-          "counter_mod10_0/reset",
-          "counter_mod10_1/reset",
-          "counter_mod10_2/reset",
-          "counter_mod10_3/reset",
-          "clock_divider_1_Hz/reset",
+          "score_counter_0/reset",
+          "score_counter_1/reset",
+          "score_counter_2/reset",
+          "score_counter_3/reset",
+          "clock_divider_1_kHz/reset",
           "clock_divider_25_MHz/reset",
-          "timer_1/reset",
+          "fire_cooldown_timer/reset",
+          "monster_spawn_timer/reset",
+          "monster_move_timer/reset",
+          "combo_counter_1/reset",
+          "combo_counter_0/reset",
+          "combo_counter_2/reset",
           "controller_0/reset",
-          "graph_0/reset"
+          "prng_0/reset",
+          "graph_0/reset",
+          "text_0/reset"
         ]
       },
       "reset_1": {
@@ -1409,12 +1876,6 @@
         "ports": [
           "sys_clock",
           "clk_wiz_0/clk_in1"
-        ]
-      },
-      "text_0_rom_addr": {
-        "ports": [
-          "text_0/rom_addr",
-          "font_rom_0/addr"
         ]
       },
       "text_0_text_on": {
@@ -1431,13 +1892,13 @@
       },
       "timer_0_done": {
         "ports": [
-          "timer_0/done",
+          "menu_timer/done",
           "controller_0/timer_up"
         ]
       },
       "timer_1_done": {
         "ports": [
-          "timer_1/done",
+          "fire_cooldown_timer/done",
           "dbg",
           "graph_0/fire_timer_up"
         ]
@@ -1482,15 +1943,15 @@
       "vga_sync_0_pixel_x": {
         "ports": [
           "vga_sync_0/pixel_x",
-          "text_0/pixel_x",
-          "graph_0/pixel_x"
+          "graph_0/pixel_x",
+          "text_0/pixel_x"
         ]
       },
       "vga_sync_0_pixel_y": {
         "ports": [
           "vga_sync_0/pixel_y",
-          "text_0/pixel_y",
-          "graph_0/pixel_y"
+          "graph_0/pixel_y",
+          "text_0/pixel_y"
         ]
       },
       "vga_sync_0_video_on": {
@@ -1509,6 +1970,24 @@
         "ports": [
           "xlconstant_0/dout",
           "util_vector_logic_0/Op1"
+        ]
+      },
+      "xlslice_0_Dout": {
+        "ports": [
+          "xlslice_0/Dout",
+          "graph_0/monster_spawn_x"
+        ]
+      },
+      "xlslice_1_Dout": {
+        "ports": [
+          "xlslice_1/Dout",
+          "graph_0/monster_spawn_y"
+        ]
+      },
+      "xlslice_2_Dout": {
+        "ports": [
+          "xlslice_2/Dout",
+          "graph_0/monster_spawn_time"
         ]
       }
     }

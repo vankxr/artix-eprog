@@ -11,7 +11,7 @@ entity controller is
         -- Graphics
         graph_on: in std_logic;
         gra_still: out std_logic;
-        killed, died: in std_logic;
+        fired, missed, killed, died: in std_logic;
         -- Timer
         timer_top: out std_logic_vector(31 downto 0);
         timer_start: out std_logic;
@@ -20,6 +20,9 @@ entity controller is
         start: in std_logic;
         -- Score counter
         score_inc, score_clear: out std_logic;
+        -- Combo counter
+        combo_inc, combo_clear: out std_logic;
+        combo_hundred: in std_logic;
         -- Lives out to text
         lives: out std_logic_vector(2 downto 0);
         -- VGA RGB mux selector
@@ -33,8 +36,6 @@ architecture arch of controller is
     signal rgb_reg, rgb_next: std_logic_vector(2 downto 0);
     signal lives_reg, lives_next: unsigned(2 downto 0);
 begin
-    lives <= std_logic_vector(lives_reg);
-
     -- registers
     process(clk, reset)
     begin
@@ -48,19 +49,27 @@ begin
     end process;
 
     -- fsmd next-state logic
-    process(start, killed, died, timer_up, state_reg, lives_reg)
+    process(start, fired, missed, killed, died, timer_up, state_reg, lives_reg, combo_hundred)
     begin
-        gra_still <= '1';
-        timer_start <='0';
-        score_inc <= '0';
-        score_clear <= '0';
         state_next <= state_reg;
         lives_next <= lives_reg;
 
+        gra_still <= '1';
+
+        score_inc <= '0';
+        score_clear <= '0';
+
+        combo_inc <= '0';
+        combo_clear <= '0';
+
+        timer_start <='0';
+        timer_top <= std_logic_vector(to_unsigned(2000, 32)); -- 2 seconds = 2000 ms
+
         case state_reg is
             when newgame =>
-                lives_next <= "111";
+                lives_next <= to_unsigned(3, 3);
                 score_clear <= '1';
+                combo_clear <= '1';
 
                 if start /= '0' then
                     state_next <= play;
@@ -71,14 +80,24 @@ begin
 
                 if killed = '1' then
                     score_inc <= '1';
-                elsif died = '1' then
+                    combo_inc <= '1';
+                end if;
+
+                if missed = '1' or died = '1' then
+                    combo_clear <= '1';
+                end if;
+
+                if combo_hundred = '1' then
+                    lives_next <= lives_reg + 1;
+                end if;
+
+                if died = '1' then
                     if lives_reg = 0 then
                         state_next <= over;
                     else
                         state_next <= newlife;
                     end if;
 
-                    timer_top <= std_logic_vector(to_unsigned(2, 32)); -- 2 seconds
                     timer_start <= '1';
                     lives_next <= lives_reg - 1;
                 end if;
@@ -108,4 +127,6 @@ begin
                 rgb_mux_sel <= "11"; -- yellow background
             end if;
     end process;
+
+    lives <= std_logic_vector(lives_reg);
 end arch;

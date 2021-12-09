@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Dec  1 20:06:06 2021" VIVADOVERSION="2021.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu Dec  9 17:45:30 2021" VIVADOVERSION="2021.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="design_1" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -668,8 +668,8 @@
             <CONNECTION INSTANCE="combo_counter_1" PORT="clk"/>
             <CONNECTION INSTANCE="combo_counter_0" PORT="clk"/>
             <CONNECTION INSTANCE="combo_counter_2" PORT="clk"/>
-            <CONNECTION INSTANCE="controller_0" PORT="clk"/>
             <CONNECTION INSTANCE="prng_0" PORT="clk"/>
+            <CONNECTION INSTANCE="controller_0" PORT="clk"/>
             <CONNECTION INSTANCE="graph_0" PORT="clk"/>
             <CONNECTION INSTANCE="text_0" PORT="clk"/>
           </CONNECTIONS>
@@ -1346,8 +1346,8 @@
             <CONNECTION INSTANCE="combo_counter_1" PORT="reset"/>
             <CONNECTION INSTANCE="combo_counter_0" PORT="reset"/>
             <CONNECTION INSTANCE="combo_counter_2" PORT="reset"/>
-            <CONNECTION INSTANCE="controller_0" PORT="reset"/>
             <CONNECTION INSTANCE="prng_0" PORT="reset"/>
+            <CONNECTION INSTANCE="controller_0" PORT="reset"/>
             <CONNECTION INSTANCE="graph_0" PORT="reset"/>
             <CONNECTION INSTANCE="text_0" PORT="reset"/>
           </CONNECTIONS>

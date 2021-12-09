@@ -87,7 +87,7 @@ begin
                     combo_clear <= '1';
                 end if;
 
-                if combo_hundred = '1' then
+                if combo_hundred = '1' and lives_reg < 7 then
                     lives_next <= lives_reg + 1;
                 end if;
 
@@ -96,10 +96,10 @@ begin
                         state_next <= over;
                     else
                         state_next <= newlife;
+                        lives_next <= lives_reg - 1;
                     end if;
 
                     timer_start <= '1';
-                    lives_next <= lives_reg - 1;
                 end if;
             when newlife =>
                 if timer_up = '1' and start /= '0' then

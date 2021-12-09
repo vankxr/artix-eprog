@@ -34,8 +34,8 @@
       "combo_counter_0": "",
       "combo_counter_1": "",
       "combo_counter_2": "",
-      "controller_0": "",
       "prng_0": "",
+      "controller_0": "",
       "graph_0": "",
       "text_0": ""
     },
@@ -1158,6 +1158,56 @@
           }
         }
       },
+      "prng_0": {
+        "vlnv": "xilinx.com:module_ref:prng:1.0",
+        "xci_name": "design_1_prng_0_0",
+        "xci_path": "ip/design_1_prng_0_0/design_1_prng_0_0.xci",
+        "inst_hier_path": "prng_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "prng",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "seq": {
+            "direction": "O",
+            "left": "63",
+            "right": "0"
+          }
+        }
+      },
       "controller_0": {
         "vlnv": "xilinx.com:module_ref:controller:1.0",
         "xci_name": "design_1_controller_0_0",
@@ -1261,56 +1311,6 @@
           "rgb_mux_sel": {
             "direction": "O",
             "left": "1",
-            "right": "0"
-          }
-        }
-      },
-      "prng_0": {
-        "vlnv": "xilinx.com:module_ref:prng:1.0",
-        "xci_name": "design_1_prng_0_0",
-        "xci_path": "ip/design_1_prng_0_0/design_1_prng_0_0.xci",
-        "inst_hier_path": "prng_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "prng",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "50000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "reset": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "const_prop"
-              }
-            }
-          },
-          "seq": {
-            "direction": "O",
-            "left": "63",
             "right": "0"
           }
         }
@@ -1605,8 +1605,8 @@
           "combo_counter_1/clk",
           "combo_counter_0/clk",
           "combo_counter_2/clk",
-          "controller_0/clk",
           "prng_0/clk",
+          "controller_0/clk",
           "graph_0/clk",
           "text_0/clk"
         ]
@@ -1859,8 +1859,8 @@
           "combo_counter_1/reset",
           "combo_counter_0/reset",
           "combo_counter_2/reset",
-          "controller_0/reset",
           "prng_0/reset",
+          "controller_0/reset",
           "graph_0/reset",
           "text_0/reset"
         ]

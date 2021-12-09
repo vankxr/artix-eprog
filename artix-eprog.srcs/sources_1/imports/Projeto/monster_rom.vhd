@@ -20,7 +20,7 @@ architecture arch of monster_rom is
     type rom_type is array (0 to 2 ** MONSTER_SIZE - 1) of std_logic_vector(2 ** MONSTER_SIZE - 1 downto 0);
 
     -- ROM definition
-    constant ROM: rom_type :=
+    signal ROM: rom_type :=
     (
         "11111111111111111111111111111111", --   ******
         "11111111111111110111111111111111", --  ******
@@ -55,6 +55,9 @@ architecture arch of monster_rom is
         "11111111111111111111111111111111", --  ******
         "11111111111111111111111111111111"  --   ******
     );
+
+    attribute rom_style : string;
+    attribute rom_style of ROM : signal is "block";
 begin
     -- addr register to infer block RAM
     process (clk, reset)

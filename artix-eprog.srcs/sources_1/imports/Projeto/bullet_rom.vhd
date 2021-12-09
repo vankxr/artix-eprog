@@ -20,7 +20,7 @@ architecture arch of bullet_rom is
     type rom_type is array (0 to 2 ** BULLET_SIZE - 1) of std_logic_vector(2 ** BULLET_SIZE - 1 downto 0);
 
     -- ROM definition
-    constant ROM: rom_type :=
+    signal ROM: rom_type :=
     (
         "00111111", --   ******
         "01111110", --  ******
@@ -31,6 +31,9 @@ architecture arch of bullet_rom is
         "01111110", --  ******
         "00111111"  --   ******
     );
+
+    attribute rom_style : string;
+    attribute rom_style of ROM : signal is "block";
 begin
     -- addr register to infer block RAM
     process (clk, reset)

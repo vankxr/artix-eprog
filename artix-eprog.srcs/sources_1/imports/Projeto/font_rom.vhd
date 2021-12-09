@@ -20,7 +20,7 @@ architecture arch of font_rom is
     type rom_type is array (0 to 2 ** ADDR_WIDTH - 1) of std_logic_vector(DATA_WIDTH - 1 downto 0);
 
     -- ROM definition
-    constant ROM: rom_type := (   -- 2^11-by-8
+    signal ROM: rom_type := (   -- 2^11-by-8
         "00000000", -- 0
         "00000000", -- 1
         "00000000", -- 2
@@ -2198,6 +2198,9 @@ architecture arch of font_rom is
         "00000000", -- e
         "00000000"  -- f
     );
+
+    attribute rom_style : string;
+    attribute rom_style of ROM : signal is "block";
 begin
     -- addr register to infer block RAM
     process (clk, reset)

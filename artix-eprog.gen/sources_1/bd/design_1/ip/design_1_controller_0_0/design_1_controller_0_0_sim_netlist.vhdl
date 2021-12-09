@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
--- Date        : Wed Dec  1 18:06:25 2021
+-- Date        : Tue Dec  7 13:06:22 2021
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 -- Command     : write_vhdl -force -mode funcsim
 --               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_controller_0_0/design_1_controller_0_0_sim_netlist.vhdl
@@ -16,21 +16,21 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity design_1_controller_0_0_controller is
   port (
-    gra_still : out STD_LOGIC;
+    \lives_reg_reg[2]_0\ : out STD_LOGIC;
     \lives_reg_reg[1]_0\ : out STD_LOGIC;
     \lives_reg_reg[0]_0\ : out STD_LOGIC;
-    \lives_reg_reg[2]_0\ : out STD_LOGIC;
+    gra_still : out STD_LOGIC;
     combo_clear : out STD_LOGIC;
     rgb_mux_sel : out STD_LOGIC_VECTOR ( 1 downto 0 );
     score_clear : out STD_LOGIC;
     score_inc : out STD_LOGIC;
     timer_start : out STD_LOGIC;
+    combo_hundred : in STD_LOGIC;
     died : in STD_LOGIC;
-    timer_up : in STD_LOGIC;
     start : in STD_LOGIC;
+    timer_up : in STD_LOGIC;
     clk : in STD_LOGIC;
     reset : in STD_LOGIC;
-    combo_hundred : in STD_LOGIC;
     missed : in STD_LOGIC;
     graph_on : in STD_LOGIC;
     text_on : in STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -44,30 +44,31 @@ architecture STRUCTURE of design_1_controller_0_0_controller is
   signal \FSM_sequential_state_reg[0]_i_1_n_0\ : STD_LOGIC;
   signal \FSM_sequential_state_reg[0]_i_2_n_0\ : STD_LOGIC;
   signal \FSM_sequential_state_reg[1]_i_1_n_0\ : STD_LOGIC;
-  signal lives_next : STD_LOGIC;
   signal \lives_reg[0]_i_1_n_0\ : STD_LOGIC;
   signal \lives_reg[1]_i_1_n_0\ : STD_LOGIC;
+  signal \lives_reg[1]_i_2_n_0\ : STD_LOGIC;
   signal \lives_reg[2]_i_1_n_0\ : STD_LOGIC;
   signal \lives_reg[2]_i_2_n_0\ : STD_LOGIC;
+  signal \lives_reg[2]_i_3_n_0\ : STD_LOGIC;
   signal \^lives_reg_reg[0]_0\ : STD_LOGIC;
   signal \^lives_reg_reg[1]_0\ : STD_LOGIC;
   signal \^lives_reg_reg[2]_0\ : STD_LOGIC;
   signal \rgb_mux_sel[1]_INST_0_i_1_n_0\ : STD_LOGIC;
   signal state_reg : STD_LOGIC_VECTOR ( 1 downto 0 );
   attribute SOFT_HLUTNM : string;
-  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[0]_i_2\ : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[1]_i_1\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[0]_i_2\ : label is "soft_lutpair1";
+  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[1]_i_1\ : label is "soft_lutpair1";
   attribute FSM_ENCODED_STATES : string;
   attribute FSM_ENCODED_STATES of \FSM_sequential_state_reg_reg[0]\ : label is "newgame:00,play:01,newlife:11,over:10";
   attribute FSM_ENCODED_STATES of \FSM_sequential_state_reg_reg[1]\ : label is "newgame:00,play:01,newlife:11,over:10";
-  attribute SOFT_HLUTNM of combo_clear_INST_0 : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of combo_inc_INST_0 : label is "soft_lutpair4";
-  attribute SOFT_HLUTNM of gra_still_INST_0 : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of \lives_reg[1]_i_2\ : label is "soft_lutpair2";
-  attribute SOFT_HLUTNM of \rgb_mux_sel[0]_INST_0\ : label is "soft_lutpair3";
-  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0\ : label is "soft_lutpair3";
-  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0_i_1\ : label is "soft_lutpair1";
-  attribute SOFT_HLUTNM of score_clear_INST_0 : label is "soft_lutpair4";
+  attribute SOFT_HLUTNM of combo_clear_INST_0 : label is "soft_lutpair3";
+  attribute SOFT_HLUTNM of gra_still_INST_0 : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \lives_reg[0]_i_1\ : label is "soft_lutpair0";
+  attribute SOFT_HLUTNM of \rgb_mux_sel[0]_INST_0\ : label is "soft_lutpair4";
+  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0\ : label is "soft_lutpair4";
+  attribute SOFT_HLUTNM of \rgb_mux_sel[1]_INST_0_i_1\ : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of score_clear_INST_0 : label is "soft_lutpair2";
+  attribute SOFT_HLUTNM of timer_start_INST_0 : label is "soft_lutpair3";
 begin
   \lives_reg_reg[0]_0\ <= \^lives_reg_reg[0]_0\;
   \lives_reg_reg[1]_0\ <= \^lives_reg_reg[1]_0\;
@@ -155,59 +156,56 @@ gra_still_INST_0: unisim.vcomponents.LUT2
       I1 => state_reg(0),
       O => gra_still
     );
-\lives_reg[0]_i_1\: unisim.vcomponents.LUT6
+\lives_reg[0]_i_1\: unisim.vcomponents.LUT5
     generic map(
-      INIT => X"CCCFDDDD33303333"
+      INIT => X"F0F0F01F"
     )
         port map (
-      I0 => start,
-      I1 => state_reg(1),
-      I2 => died,
-      I3 => combo_hundred,
-      I4 => state_reg(0),
-      I5 => \^lives_reg_reg[0]_0\,
+      I0 => state_reg(0),
+      I1 => start,
+      I2 => \^lives_reg_reg[0]_0\,
+      I3 => state_reg(1),
+      I4 => \lives_reg[2]_i_3_n_0\,
       O => \lives_reg[0]_i_1_n_0\
     );
-\lives_reg[1]_i_1\: unisim.vcomponents.LUT6
+\lives_reg[1]_i_1\: unisim.vcomponents.LUT4
     generic map(
-      INIT => X"BB47FFFF47BB0000"
+      INIT => X"FE02"
     )
         port map (
-      I0 => died,
-      I1 => state_reg(0),
-      I2 => start,
-      I3 => \^lives_reg_reg[0]_0\,
-      I4 => lives_next,
-      I5 => \^lives_reg_reg[1]_0\,
+      I0 => \lives_reg[1]_i_2_n_0\,
+      I1 => state_reg(1),
+      I2 => \lives_reg[2]_i_3_n_0\,
+      I3 => \^lives_reg_reg[1]_0\,
       O => \lives_reg[1]_i_1_n_0\
     );
-\lives_reg[1]_i_2\: unisim.vcomponents.LUT4
+\lives_reg[1]_i_2\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"5455"
+      INIT => X"CFCF303F303F8F8F"
     )
         port map (
-      I0 => state_reg(1),
+      I0 => \^lives_reg_reg[2]_0\,
       I1 => died,
-      I2 => combo_hundred,
-      I3 => state_reg(0),
-      O => lives_next
+      I2 => state_reg(0),
+      I3 => start,
+      I4 => \^lives_reg_reg[1]_0\,
+      I5 => \^lives_reg_reg[0]_0\,
+      O => \lives_reg[1]_i_2_n_0\
     );
-\lives_reg[2]_i_1\: unisim.vcomponents.LUT6
+\lives_reg[2]_i_1\: unisim.vcomponents.LUT4
     generic map(
-      INIT => X"EEEFEEEE22202222"
+      INIT => X"FE02"
     )
         port map (
       I0 => \lives_reg[2]_i_2_n_0\,
       I1 => state_reg(1),
-      I2 => died,
-      I3 => combo_hundred,
-      I4 => state_reg(0),
-      I5 => \^lives_reg_reg[2]_0\,
+      I2 => \lives_reg[2]_i_3_n_0\,
+      I3 => \^lives_reg_reg[2]_0\,
       O => \lives_reg[2]_i_1_n_0\
     );
 \lives_reg[2]_i_2\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"B844FC00FC0044B8"
+      INIT => X"B844FC00FC004430"
     )
         port map (
       I0 => died,
@@ -217,6 +215,19 @@ gra_still_INST_0: unisim.vcomponents.LUT2
       I4 => \^lives_reg_reg[0]_0\,
       I5 => \^lives_reg_reg[1]_0\,
       O => \lives_reg[2]_i_2_n_0\
+    );
+\lives_reg[2]_i_3\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"000000028000AAAA"
+    )
+        port map (
+      I0 => state_reg(0),
+      I1 => \^lives_reg_reg[2]_0\,
+      I2 => \^lives_reg_reg[1]_0\,
+      I3 => \^lives_reg_reg[0]_0\,
+      I4 => combo_hundred,
+      I5 => died,
+      O => \lives_reg[2]_i_3_n_0\
     );
 \lives_reg_reg[0]\: unisim.vcomponents.FDCE
      port map (

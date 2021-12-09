@@ -129,29 +129,28 @@ begin
             "1110010"           when "00011", -- r x72
             "1100101"           when "00100", -- e x65
             "0111010"           when "00101", -- : x3a
-            "011" & score_dig3  when "00111", -- digit 1000
-            "011" & score_dig2  when "01000", -- digit 100
-            "011" & score_dig1  when "01001", -- digit 10
-            "011" & score_dig0  when "01010", -- digit 1
-            "0100000"           when "01011", --   x20
-            "1000011"           when "01100", -- C x43
-            "1101111"           when "01101", -- o x6f
-            "1101101"           when "01110", -- m x6d
-            "1100010"           when "01111", -- b x62
-            "1101111"           when "10000", -- o x6f
-            "0111010"           when "10001", -- : x3a
-            "011" & combo_dig2  when "10010", -- digit 100
-            "011" & combo_dig1  when "10011", -- digit 10
-            "011" & combo_dig0  when "10100", -- digit 1
-            "0100000"           when "10101", --   x20
-            "1001100"           when "10110", -- L x4C
-            "1101001"           when "10111", -- i x69
-            "1110110"           when "11000", -- v x76
-            "1100101"           when "11001", -- e x65
-            "1110011"           when "11010", -- s x73
-            "0111010"           when "11011", -- : x3a
-            "0100000"           when "11100", --   x20
-            "0110" & lives      when "11101",
+            "011" & score_dig3  when "00110", -- digit 1000
+            "011" & score_dig2  when "00111", -- digit 100
+            "011" & score_dig1  when "01000", -- digit 10
+            "011" & score_dig0  when "01001", -- digit 1
+            "0100000"           when "01010", --   x20
+            "1000011"           when "01011", -- C x43
+            "1101111"           when "01100", -- o x6f
+            "1101101"           when "01101", -- m x6d
+            "1100010"           when "01110", -- b x62
+            "1101111"           when "01111", -- o x6f
+            "0111010"           when "10000", -- : x3a
+            "011" & combo_dig2  when "10001", -- digit 100
+            "011" & combo_dig1  when "10010", -- digit 10
+            "011" & combo_dig0  when "10011", -- digit 1
+            "0100000"           when "10100", --   x20
+            "1001100"           when "10101", -- L x4C
+            "1101001"           when "10110", -- i x69
+            "1110110"           when "10111", -- v x76
+            "1100101"           when "11000", -- e x65
+            "1110011"           when "11001", -- s x73
+            "0111010"           when "11010", -- : x3a
+            "0110" & lives      when "11011",
             "0100000"           when others;  --   x20
 
     ---------------------------------------------
@@ -164,7 +163,7 @@ begin
     row_addr_l <= std_logic_vector(pix_y(5 downto 2));
     bit_addr_l <= std_logic_vector(pix_x(4 downto 2));
 
-    with pix_y(8 downto 6) & pix_x(9 downto 6) select
+    with pix_y(8 downto 6) & pix_x(8 downto 5) select
         char_addr_l <=
             -- First line
             "0100000" when "0110110",  --   x20
@@ -208,7 +207,7 @@ begin
     --        to move paddle
     --        up and down
     ---------------------------------------------
-    rule_on <= '1' when pix_x(9 downto 7) = "010" and pix_y(9 downto 6) = "0010" else '0';
+    rule_on <= '1' when pix_x(9 downto 7) = 2 and pix_y(9 downto 6) = 1 else '0';
     row_addr_r <= std_logic_vector(pix_y(3 downto 0));
     bit_addr_r <= std_logic_vector(pix_x(2 downto 0));
     rule_rom_addr <= pix_y(5 downto 4) & pix_x(6 downto 3);
@@ -219,7 +218,7 @@ begin
     --  - display "Game Over" on center
     --  - scale to 32-by-64 fonts
     ---------------------------------------------
-    over_on <= '1' when pix_y(9 downto 6) = 3 and 5 <= pix_x(9 downto 5) and pix_x(9 downto 5) <= 13 else '0';
+    over_on <= '1' when pix_y(9 downto 6) = 2 and 5 <= pix_x(9 downto 5) and pix_x(9 downto 5) <= 13 else '0';
     row_addr_o <= std_logic_vector(pix_y(5 downto 2));
     bit_addr_o <= std_logic_vector(pix_x(4 downto 2));
 

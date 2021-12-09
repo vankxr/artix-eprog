@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Wed Dec  1 18:06:25 2021
+// Date        : Tue Dec  7 13:06:22 2021
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 // Command     : write_verilog -force -mode funcsim
 //               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_controller_0_0/design_1_controller_0_0_sim_netlist.v
@@ -138,40 +138,40 @@ endmodule
 
 (* ORIG_REF_NAME = "controller" *) 
 module design_1_controller_0_0_controller
-   (gra_still,
+   (\lives_reg_reg[2]_0 ,
     \lives_reg_reg[1]_0 ,
     \lives_reg_reg[0]_0 ,
-    \lives_reg_reg[2]_0 ,
+    gra_still,
     combo_clear,
     rgb_mux_sel,
     score_clear,
     score_inc,
     timer_start,
+    combo_hundred,
     died,
-    timer_up,
     start,
+    timer_up,
     clk,
     reset,
-    combo_hundred,
     missed,
     graph_on,
     text_on,
     killed);
-  output gra_still;
+  output \lives_reg_reg[2]_0 ;
   output \lives_reg_reg[1]_0 ;
   output \lives_reg_reg[0]_0 ;
-  output \lives_reg_reg[2]_0 ;
+  output gra_still;
   output combo_clear;
   output [1:0]rgb_mux_sel;
   output score_clear;
   output score_inc;
   output timer_start;
+  input combo_hundred;
   input died;
-  input timer_up;
   input start;
+  input timer_up;
   input clk;
   input reset;
-  input combo_hundred;
   input missed;
   input graph_on;
   input [3:0]text_on;
@@ -187,11 +187,12 @@ module design_1_controller_0_0_controller
   wire gra_still;
   wire graph_on;
   wire killed;
-  wire lives_next;
   wire \lives_reg[0]_i_1_n_0 ;
   wire \lives_reg[1]_i_1_n_0 ;
+  wire \lives_reg[1]_i_2_n_0 ;
   wire \lives_reg[2]_i_1_n_0 ;
   wire \lives_reg[2]_i_2_n_0 ;
+  wire \lives_reg[2]_i_3_n_0 ;
   wire \lives_reg_reg[0]_0 ;
   wire \lives_reg_reg[1]_0 ;
   wire \lives_reg_reg[2]_0 ;
@@ -217,7 +218,7 @@ module design_1_controller_0_0_controller
         .I4(\FSM_sequential_state_reg[0]_i_2_n_0 ),
         .I5(state_reg[0]),
         .O(\FSM_sequential_state_reg[0]_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair0" *) 
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT5 #(
     .INIT(32'hCCAF0CA0)) 
     \FSM_sequential_state_reg[0]_i_2 
@@ -227,7 +228,7 @@ module design_1_controller_0_0_controller
         .I3(state_reg[1]),
         .I4(start),
         .O(\FSM_sequential_state_reg[0]_i_2_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair0" *) 
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT5 #(
     .INIT(32'h33A0F3A0)) 
     \FSM_sequential_state_reg[1]_i_1 
@@ -251,7 +252,7 @@ module design_1_controller_0_0_controller
         .CLR(reset),
         .D(\FSM_sequential_state_reg[1]_i_1_n_0 ),
         .Q(state_reg[1]));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
   LUT4 #(
     .INIT(16'h5455)) 
     combo_clear_INST_0
@@ -260,7 +261,6 @@ module design_1_controller_0_0_controller
         .I2(died),
         .I3(state_reg[0]),
         .O(combo_clear));
-  (* SOFT_HLUTNM = "soft_lutpair4" *) 
   LUT3 #(
     .INIT(8'h40)) 
     combo_inc_INST_0
@@ -268,54 +268,51 @@ module design_1_controller_0_0_controller
         .I1(state_reg[0]),
         .I2(killed),
         .O(score_inc));
-  (* SOFT_HLUTNM = "soft_lutpair1" *) 
+  (* SOFT_HLUTNM = "soft_lutpair0" *) 
   LUT2 #(
     .INIT(4'hB)) 
     gra_still_INST_0
        (.I0(state_reg[1]),
         .I1(state_reg[0]),
         .O(gra_still));
-  LUT6 #(
-    .INIT(64'hCCCFDDDD33303333)) 
+  (* SOFT_HLUTNM = "soft_lutpair0" *) 
+  LUT5 #(
+    .INIT(32'hF0F0F01F)) 
     \lives_reg[0]_i_1 
-       (.I0(start),
-        .I1(state_reg[1]),
-        .I2(died),
-        .I3(combo_hundred),
-        .I4(state_reg[0]),
-        .I5(\lives_reg_reg[0]_0 ),
+       (.I0(state_reg[0]),
+        .I1(start),
+        .I2(\lives_reg_reg[0]_0 ),
+        .I3(state_reg[1]),
+        .I4(\lives_reg[2]_i_3_n_0 ),
         .O(\lives_reg[0]_i_1_n_0 ));
-  LUT6 #(
-    .INIT(64'hBB47FFFF47BB0000)) 
-    \lives_reg[1]_i_1 
-       (.I0(died),
-        .I1(state_reg[0]),
-        .I2(start),
-        .I3(\lives_reg_reg[0]_0 ),
-        .I4(lives_next),
-        .I5(\lives_reg_reg[1]_0 ),
-        .O(\lives_reg[1]_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT4 #(
-    .INIT(16'h5455)) 
-    \lives_reg[1]_i_2 
-       (.I0(state_reg[1]),
-        .I1(died),
-        .I2(combo_hundred),
-        .I3(state_reg[0]),
-        .O(lives_next));
+    .INIT(16'hFE02)) 
+    \lives_reg[1]_i_1 
+       (.I0(\lives_reg[1]_i_2_n_0 ),
+        .I1(state_reg[1]),
+        .I2(\lives_reg[2]_i_3_n_0 ),
+        .I3(\lives_reg_reg[1]_0 ),
+        .O(\lives_reg[1]_i_1_n_0 ));
   LUT6 #(
-    .INIT(64'hEEEFEEEE22202222)) 
+    .INIT(64'hCFCF303F303F8F8F)) 
+    \lives_reg[1]_i_2 
+       (.I0(\lives_reg_reg[2]_0 ),
+        .I1(died),
+        .I2(state_reg[0]),
+        .I3(start),
+        .I4(\lives_reg_reg[1]_0 ),
+        .I5(\lives_reg_reg[0]_0 ),
+        .O(\lives_reg[1]_i_2_n_0 ));
+  LUT4 #(
+    .INIT(16'hFE02)) 
     \lives_reg[2]_i_1 
        (.I0(\lives_reg[2]_i_2_n_0 ),
         .I1(state_reg[1]),
-        .I2(died),
-        .I3(combo_hundred),
-        .I4(state_reg[0]),
-        .I5(\lives_reg_reg[2]_0 ),
+        .I2(\lives_reg[2]_i_3_n_0 ),
+        .I3(\lives_reg_reg[2]_0 ),
         .O(\lives_reg[2]_i_1_n_0 ));
   LUT6 #(
-    .INIT(64'hB844FC00FC0044B8)) 
+    .INIT(64'hB844FC00FC004430)) 
     \lives_reg[2]_i_2 
        (.I0(died),
         .I1(state_reg[0]),
@@ -324,6 +321,16 @@ module design_1_controller_0_0_controller
         .I4(\lives_reg_reg[0]_0 ),
         .I5(\lives_reg_reg[1]_0 ),
         .O(\lives_reg[2]_i_2_n_0 ));
+  LUT6 #(
+    .INIT(64'h000000028000AAAA)) 
+    \lives_reg[2]_i_3 
+       (.I0(state_reg[0]),
+        .I1(\lives_reg_reg[2]_0 ),
+        .I2(\lives_reg_reg[1]_0 ),
+        .I3(\lives_reg_reg[0]_0 ),
+        .I4(combo_hundred),
+        .I5(died),
+        .O(\lives_reg[2]_i_3_n_0 ));
   FDCE \lives_reg_reg[0] 
        (.C(clk),
         .CE(1'b1),
@@ -342,7 +349,7 @@ module design_1_controller_0_0_controller
         .CLR(reset),
         .D(\lives_reg[2]_i_1_n_0 ),
         .Q(\lives_reg_reg[2]_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
   LUT3 #(
     .INIT(8'h45)) 
     \rgb_mux_sel[0]_INST_0 
@@ -350,7 +357,7 @@ module design_1_controller_0_0_controller
         .I1(graph_on),
         .I2(text_on[2]),
         .O(rgb_mux_sel[0]));
-  (* SOFT_HLUTNM = "soft_lutpair3" *) 
+  (* SOFT_HLUTNM = "soft_lutpair4" *) 
   LUT3 #(
     .INIT(8'h01)) 
     \rgb_mux_sel[1]_INST_0 
@@ -358,7 +365,7 @@ module design_1_controller_0_0_controller
         .I1(text_on[2]),
         .I2(\rgb_mux_sel[1]_INST_0_i_1_n_0 ),
         .O(rgb_mux_sel[1]));
-  (* SOFT_HLUTNM = "soft_lutpair1" *) 
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT5 #(
     .INIT(32'hAFAEABAA)) 
     \rgb_mux_sel[1]_INST_0_i_1 
@@ -368,13 +375,14 @@ module design_1_controller_0_0_controller
         .I3(text_on[1]),
         .I4(text_on[0]),
         .O(\rgb_mux_sel[1]_INST_0_i_1_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair4" *) 
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT2 #(
     .INIT(4'h1)) 
     score_clear_INST_0
        (.I0(state_reg[0]),
         .I1(state_reg[1]),
         .O(score_clear));
+  (* SOFT_HLUTNM = "soft_lutpair3" *) 
   LUT3 #(
     .INIT(8'h40)) 
     timer_start_INST_0

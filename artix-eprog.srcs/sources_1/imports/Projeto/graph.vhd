@@ -75,6 +75,7 @@ architecture arch of graph is
     signal bullet_x_reg, bullet_x_next: bullet_coord_type;
     signal bullet_y_reg, bullet_y_next: bullet_coord_type;
     signal bullet_enable_reg, bullet_enable_next: std_logic_vector(2 ** MAX_BULLETS - 1 downto 0);
+    signal bullet_nxt_index_reg, bullet_nxt_index_next: unsigned(MAX_BULLETS - 1 downto 0);
 
     signal bullet_in_zone: std_logic_vector(2 ** MAX_BULLETS - 1 downto 0);
     signal bullet_current_on_index: integer;
@@ -91,7 +92,7 @@ architecture arch of graph is
     constant MAX_MONSTERS: integer := 3; -- set to log2 of max monsters (i.e. 3 = 8 monsters)
     constant MONSTER_SIZE: integer := 5; -- set to log2 of monster size (i.e. 5 = 32x32 pixels)
 
-    constant MONSTER_V: unsigned(9 downto 0) := to_unsigned(2, 10);
+    constant MONSTER_V: unsigned(9 downto 0) := to_unsigned(5, 10);
 
     constant MONSTER_SPAWN_AREA_MIN_X: integer := 55;
     constant MONSTER_SPAWN_AREA_MIN_Y: integer := 20;
@@ -103,6 +104,7 @@ architecture arch of graph is
     signal monster_x_reg, monster_x_next: monster_coord_type;
     signal monster_y_reg, monster_y_next: monster_coord_type;
     signal monster_enable_reg, monster_enable_next: std_logic_vector(2 ** MAX_MONSTERS - 1 downto 0);
+    signal monster_nxt_index_reg, monster_nxt_index_next: unsigned(MAX_MONSTERS - 1 downto 0);
 
     signal monster_in_zone: std_logic_vector(2 ** MAX_MONSTERS - 1 downto 0);
     signal monster_current_on_index: integer;
@@ -122,16 +124,19 @@ begin
             craft_y_reg <= (others => '0');
 
             bullet_enable_reg <= (others => '0');
+            bullet_nxt_index_reg <= (others => '0');
             bullet_x_reg <= (others => (others => '0'));
             bullet_y_reg <= (others => (others => '0'));
 
             monster_enable_reg <= (others => '0');
             monster_x_reg <= (others => (others => '0'));
             monster_y_reg <= (others => (others => '0'));
+            monster_nxt_index_reg <= (others => '0');
         elsif clk'event and clk = '1' then
             craft_y_reg <= craft_y_next;
 
             bullet_enable_reg <= bullet_enable_next;
+            bullet_nxt_index_reg <= bullet_nxt_index_next;
 
             for i in 0 to 2 ** MAX_BULLETS - 1 loop
                 bullet_x_reg(i) <= bullet_x_next(i);
@@ -139,6 +144,7 @@ begin
             end loop;
 
             monster_enable_reg <= monster_enable_next;
+            monster_nxt_index_reg <= monster_nxt_index_next;
 
             for i in 0 to 2 ** MAX_MONSTERS - 1 loop
                 monster_x_reg(i) <= monster_x_next(i);
@@ -244,11 +250,12 @@ begin
     monster_rgb <= "101"; -- pink
 
     -- Bullet and Monster logic
-    process(craft_y_reg, bullet_x_reg, bullet_y_reg, bullet_enable_reg, monster_x_reg, monster_y_reg, monster_spawn_x, monster_spawn_y, monster_enable_reg, pix_x, pix_y, fire_timer_up, monster_spawn_timer_up, monster_move_timer_up, frame_tick, btn, gra_still)
+    process(craft_y_reg, bullet_x_reg, bullet_y_reg, bullet_enable_reg, bullet_nxt_index_reg, monster_x_reg, monster_y_reg, monster_spawn_x, monster_spawn_y, monster_enable_reg, monster_nxt_index_reg, pix_x, pix_y, fire_timer_up, monster_spawn_timer_up, monster_move_timer_up, frame_tick, btn, gra_still)
     begin
         bullet_x_next <= bullet_x_reg;
         bullet_y_next <= bullet_y_reg;
         bullet_enable_next <= bullet_enable_reg;
+        bullet_nxt_index_next <= bullet_nxt_index_reg;
 
         fire_timer_start <= '0';
         fire_timer_top <= std_logic_vector(to_unsigned(500, 32)); -- 500 ms
@@ -256,12 +263,13 @@ begin
         monster_x_next <= monster_x_reg;
         monster_y_next <= monster_y_reg;
         monster_enable_next <= monster_enable_reg;
+        monster_nxt_index_next <= monster_nxt_index_reg;
 
         monster_spawn_timer_start <= '0';
         monster_spawn_timer_top <= std_logic_vector(to_unsigned(500, 32) + (to_unsigned(0, 32 - 12) & unsigned(monster_spawn_time))); -- 500 ms + random spawn time
 
         monster_move_timer_start <= '0';
-        monster_move_timer_top <= std_logic_vector(to_unsigned(3000, 32)); -- 3 seconds = 3000 ms
+        monster_move_timer_top <= std_logic_vector(to_unsigned(250, 32)); -- 250 ms
 
         fired <= '0';
         missed <= '0';
@@ -299,10 +307,11 @@ begin
 
                         end loop;
                     end if;
-                elsif btn(2) = '1' and fire_timer_up = '1' then -- Fire bullet
+                elsif btn(2) = '1' and fire_timer_up = '1' and bullet_nxt_index_reg = to_unsigned(i, MAX_BULLETS) then -- Fire bullet
                     bullet_x_next(i) <= to_unsigned(CRAFT_X - 2 ** (BULLET_SIZE - 1), 10);
                     bullet_y_next(i) <= craft_y_reg + to_unsigned(2 ** (CRAFT_SIZE - 1) - 2 ** (BULLET_SIZE - 1), 10);
                     bullet_enable_next(i) <= '1';
+                    bullet_nxt_index_next <= bullet_nxt_index_reg + 1;
 
                     fire_timer_start <= '1';
                     fired <= '1';
@@ -320,12 +329,14 @@ begin
                 if monster_enable_reg(i) = '1' then -- Monster is spawned
                     if monster_move_timer_up = '1' then -- Move monster closer to the spacecraft
                         monster_x_next(i) <= monster_x_reg(i) + MONSTER_V;
+
+                        monster_move_timer_start <= '1';
                     end if;
 
                     if (monster_x_reg(i) + (2 ** MONSTER_SIZE)) > CRAFT_X then -- Check if the monster has crossed the spacecraft (i.e. game over)
                         died <= '1';
                     end if;
-                elsif monster_spawn_timer_up = '1' then
+                elsif monster_spawn_timer_up = '1' and monster_nxt_index_reg = to_unsigned(i, MAX_MONSTERS) then
                     -- Check if coordinates are between the boundaries
                     -- The drawback of this approach is that it can take more than one clock cycle to spawn a monster
                     -- since the spawn is skipped if the coordinates are not valid
@@ -341,6 +352,7 @@ begin
                         monster_x_next(i) <= unsigned(monster_spawn_x);
                         monster_y_next(i) <= unsigned(monster_spawn_y);
                         monster_enable_next(i) <= '1';
+                        monster_nxt_index_next <= monster_nxt_index_reg + 1;
 
                         monster_spawn_timer_start <= '1';
                     end if;

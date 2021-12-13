@@ -78,7 +78,9 @@ module design_1_graph_0_0 (
   monster_move_timer_top,
   monster_move_timer_start,
   monster_move_timer_up,
-  btn
+  fire,
+  craft_delta_y,
+  craft_dir
 );
 
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME clk, ASSOCIATED_RESET reset, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1, INSERT_VIP 0" *)
@@ -108,7 +110,9 @@ input wire monster_spawn_timer_up;
 output wire [31 : 0] monster_move_timer_top;
 output wire monster_move_timer_start;
 input wire monster_move_timer_up;
-input wire [2 : 0] btn;
+input wire fire;
+input wire [7 : 0] craft_delta_y;
+input wire craft_dir;
 
   graph inst (
     .clk(clk),
@@ -134,6 +138,8 @@ input wire [2 : 0] btn;
     .monster_move_timer_top(monster_move_timer_top),
     .monster_move_timer_start(monster_move_timer_start),
     .monster_move_timer_up(monster_move_timer_up),
-    .btn(btn)
+    .fire(fire),
+    .craft_delta_y(craft_delta_y),
+    .craft_dir(craft_dir)
   );
 endmodule

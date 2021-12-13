@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu Dec  9 17:45:30 2021" VIVADOVERSION="2021.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Dec 13 16:47:06 2021" VIVADOVERSION="2021.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="design_1" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -27,7 +27,7 @@
     </PORT>
     <PORT DIR="I" LEFT="2" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="util_vector_logic_0" PORT="Op2"/>
+        <CONNECTION INSTANCE="input_controller_0" PORT="btn"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" NAME="led" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -50,9 +50,34 @@
         <CONNECTION INSTANCE="vga_mux_0" PORT="outb"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" NAME="dbg" SIGIS="undef" SIGNAME="fire_cooldown_timer_done">
+    <PORT DIR="O" NAME="fire_ready" SIGIS="undef" SIGNAME="fire_cooldown_timer_done">
       <CONNECTIONS>
         <CONNECTION INSTANCE="fire_cooldown_timer" PORT="done"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="ps2_mode" SIGIS="undef" SIGNAME="External_Ports_ps2_mode">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="input_controller_0" PORT="ps2_mode"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="ps2_rx_en" SIGIS="undef" SIGNAME="External_Ports_ps2_rx_en">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="ps2_rx_0" PORT="rx_en"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="ps2_clock" SIGIS="undef" SIGNAME="External_Ports_ps2_clock">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="ps2_rx_0" PORT="ps2c"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="ps2_data" SIGIS="undef" SIGNAME="External_Ports_ps2_data">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="ps2_rx_0" PORT="ps2d"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="7" NAME="ps2_dout" RIGHT="0" SIGIS="undef" SIGNAME="ps2_rx_0_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="ps2_rx_0" PORT="dout"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -670,8 +695,10 @@
             <CONNECTION INSTANCE="combo_counter_2" PORT="clk"/>
             <CONNECTION INSTANCE="prng_0" PORT="clk"/>
             <CONNECTION INSTANCE="controller_0" PORT="clk"/>
-            <CONNECTION INSTANCE="graph_0" PORT="clk"/>
             <CONNECTION INSTANCE="text_0" PORT="clk"/>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="clk"/>
+            <CONNECTION INSTANCE="graph_0" PORT="clk"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -923,9 +950,9 @@
             <CONNECTION INSTANCE="menu_timer" PORT="done"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="util_reduced_logic_0_Res">
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="input_controller_0_start">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="util_reduced_logic_0" PORT="Res"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="start"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="score_inc" SIGIS="undef" SIGNAME="controller_0_score_inc">
@@ -1005,7 +1032,7 @@
         </PORT>
         <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="fire_cooldown_timer_done">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="dbg"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="fire_ready"/>
             <CONNECTION INSTANCE="graph_0" PORT="fire_timer_up"/>
           </CONNECTIONS>
         </PORT>
@@ -1134,9 +1161,84 @@
             <CONNECTION INSTANCE="monster_move_timer" PORT="done"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="2" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="util_vector_logic_0_Res">
+        <PORT DIR="I" NAME="fire" SIGIS="undef" SIGNAME="input_controller_0_fire">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="util_vector_logic_0" PORT="Res"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="fire"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="craft_delta_y" RIGHT="0" SIGIS="undef" SIGNAME="input_controller_0_craft_delta_y">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="input_controller_0" PORT="craft_delta_y"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="craft_dir" SIGIS="undef" SIGNAME="input_controller_0_craft_dir">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="input_controller_0" PORT="craft_dir"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/input_controller_0" HWVERSION="1.0" INSTANCE="input_controller_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="input_controller" VLNV="xilinx.com:module_ref:input_controller:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_input_controller_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="ps2_din" RIGHT="0" SIGIS="undef" SIGNAME="ps2_rx_0_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2_dvalid" SIGIS="undef" SIGNAME="ps2_rx_0_dvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="dvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2_dpok" SIGIS="undef" SIGNAME="ps2_rx_0_dpok">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="dpok"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2_mode" SIGIS="undef" SIGNAME="External_Ports_ps2_mode">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_mode"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="btn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="start" SIGIS="undef" SIGNAME="input_controller_0_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="controller_0" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="fire" SIGIS="undef" SIGNAME="input_controller_0_fire">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="fire"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="craft_delta_y" RIGHT="0" SIGIS="undef" SIGNAME="input_controller_0_craft_delta_y">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="craft_delta_y"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="craft_dir" SIGIS="undef" SIGNAME="input_controller_0_craft_dir">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="craft_dir"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1348,14 +1450,73 @@
             <CONNECTION INSTANCE="combo_counter_2" PORT="reset"/>
             <CONNECTION INSTANCE="prng_0" PORT="reset"/>
             <CONNECTION INSTANCE="controller_0" PORT="reset"/>
-            <CONNECTION INSTANCE="graph_0" PORT="reset"/>
             <CONNECTION INSTANCE="text_0" PORT="reset"/>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="reset"/>
+            <CONNECTION INSTANCE="graph_0" PORT="reset"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="reset"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
         <PORT DIR="O" LEFT="0" NAME="peripheral_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
       </PORTS>
       <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/ps2_rx_0" HWVERSION="1.0" INSTANCE="ps2_rx_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="ps2_rx" VLNV="xilinx.com:module_ref:ps2_rx:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_ps2_rx_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2c" SIGIS="undef" SIGNAME="External_Ports_ps2_clock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_clock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2d" SIGIS="undef" SIGNAME="External_Ports_ps2_data">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_data"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rx_en" SIGIS="undef" SIGNAME="External_Ports_ps2_rx_en">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_rx_en"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="ps2_rx_0_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_dout"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="ps2_din"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="dvalid" SIGIS="undef" SIGNAME="ps2_rx_0_dvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="input_controller_0" PORT="ps2_dvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="dpok" SIGIS="undef" SIGNAME="ps2_rx_0_dpok">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="input_controller_0" PORT="ps2_dpok"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="__NOC__" NAME="rx" TYPE="TARGET" VLNV="analog.com:interface:fifo_rd:1.0">
+          <PORTMAPS>
+            <PORTMAP LOGICAL="EN" PHYSICAL="rx_en"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
     </MODULE>
     <MODULE COREREVISION="1" FULLNAME="/score_counter_0" HWVERSION="1.0" INSTANCE="score_counter_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
       <DOCUMENTS/>
@@ -1593,58 +1754,6 @@
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
-    <MODULE COREREVISION="4" FULLNAME="/util_reduced_logic_0" HWVERSION="2.0" INSTANCE="util_reduced_logic_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="util_reduced_logic" VLNV="xilinx.com:ip:util_reduced_logic:2.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="C_OPERATION" VALUE="or"/>
-        <PARAMETER NAME="C_SIZE" VALUE="3"/>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_util_reduced_logic_0_0"/>
-        <PARAMETER NAME="LOGO_FILE" VALUE="data/sym_orgate.png"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="I" LEFT="2" NAME="Op1" RIGHT="0" SIGIS="undef" SIGNAME="util_vector_logic_0_Res">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="util_vector_logic_0" PORT="Res"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" NAME="Res" SIGIS="undef" SIGNAME="util_reduced_logic_0_Res">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="controller_0" PORT="start"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="1" FULLNAME="/util_vector_logic_0" HWVERSION="2.0" INSTANCE="util_vector_logic_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="util_vector_logic" VLNV="xilinx.com:ip:util_vector_logic:2.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="C_OPERATION" VALUE="or"/>
-        <PARAMETER NAME="C_SIZE" VALUE="3"/>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_util_vector_logic_0_0"/>
-        <PARAMETER NAME="LOGO_FILE" VALUE="data/sym_orgate.png"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="I" LEFT="2" NAME="Op1" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="2" NAME="Op2" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="btn"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="2" NAME="Res" RIGHT="0" SIGIS="undef" SIGNAME="util_vector_logic_0_Res">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="util_reduced_logic_0" PORT="Op1"/>
-            <CONNECTION INSTANCE="graph_0" PORT="btn"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
     <MODULE COREREVISION="1" FULLNAME="/vga_mux_0" HWVERSION="1.0" INSTANCE="vga_mux_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="vga_mux" VLNV="xilinx.com:module_ref:vga_mux:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
@@ -1744,31 +1853,14 @@
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="graph_0" PORT="pixel_x"/>
             <CONNECTION INSTANCE="text_0" PORT="pixel_x"/>
+            <CONNECTION INSTANCE="graph_0" PORT="pixel_x"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="graph_0" PORT="pixel_y"/>
             <CONNECTION INSTANCE="text_0" PORT="pixel_y"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE COREREVISION="7" FULLNAME="/xlconstant_0" HWVERSION="1.1" INSTANCE="xlconstant_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="CONST_WIDTH" VALUE="3"/>
-        <PARAMETER NAME="CONST_VAL" VALUE="0x0"/>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_xlconstant_0_0"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="O" LEFT="2" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="util_vector_logic_0" PORT="Op1"/>
+            <CONNECTION INSTANCE="graph_0" PORT="pixel_y"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

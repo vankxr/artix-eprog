@@ -28,7 +28,9 @@ entity graph is
         monster_move_timer_start: out std_logic;
         monster_move_timer_up: in std_logic;
         -- Controls
-        btn: in std_logic_vector(2 downto 0)
+        fire: in std_logic;
+        craft_delta_y: in std_logic_vector(7 downto 0);
+        craft_dir: in std_logic
     );
 end graph;
 
@@ -52,7 +54,6 @@ architecture arch of graph is
     -- Spacecraft
     constant CRAFT_X: integer := 600;
     constant CRAFT_SIZE: integer := 5; -- set to log2 of spacecraft size (i.e. 5 = 32x32 pixels)
-    constant CRAFT_V: unsigned(9 downto 0) := to_unsigned(4, 10);
 
     signal craft_y_reg, craft_y_next: unsigned(9 downto 0);
 
@@ -176,17 +177,17 @@ begin
     craft_rgb <= "010"; -- green
 
     -- Spacecraft up/down movement
-    process(craft_y_reg, frame_tick, btn, gra_still)
+    process(craft_y_reg, frame_tick, craft_dir, craft_delta_y, gra_still)
     begin
         craft_y_next <= craft_y_reg;
 
         if gra_still = '1' then
             craft_y_next <= to_unsigned((MAX_Y - (2 ** CRAFT_SIZE)) / 2, 10);
         elsif frame_tick = '1' then
-            if btn(1) = '1' and (craft_y_reg + (2 ** CRAFT_SIZE) - 1) < (MAX_Y - 1 - CRAFT_V) then
-                craft_y_next <= craft_y_reg + CRAFT_V;
-            elsif btn(0) = '1' and craft_y_reg >= CRAFT_V then
-                craft_y_next <= craft_y_reg - CRAFT_V;
+            if craft_dir = '1' and (craft_y_reg + (2 ** CRAFT_SIZE) - 1) < (MAX_Y - 1 - unsigned("00" & craft_delta_y)) then
+                craft_y_next <= craft_y_reg + unsigned("00" & craft_delta_y);
+            elsif craft_dir = '0' and craft_y_reg >= unsigned("00" & craft_delta_y) then
+                craft_y_next <= craft_y_reg - unsigned("00" & craft_delta_y);
             end if;
         end if;
     end process;
@@ -250,7 +251,7 @@ begin
     monster_rgb <= "101"; -- pink
 
     -- Bullet and Monster logic
-    process(craft_y_reg, bullet_x_reg, bullet_y_reg, bullet_enable_reg, bullet_nxt_index_reg, monster_x_reg, monster_y_reg, monster_spawn_x, monster_spawn_y, monster_enable_reg, monster_nxt_index_reg, pix_x, pix_y, fire_timer_up, monster_spawn_timer_up, monster_move_timer_up, frame_tick, btn, gra_still)
+    process(craft_y_reg, bullet_x_reg, bullet_y_reg, bullet_enable_reg, bullet_nxt_index_reg, monster_x_reg, monster_y_reg, monster_spawn_x, monster_spawn_y, monster_enable_reg, monster_nxt_index_reg, pix_x, pix_y, fire_timer_up, monster_spawn_timer_up, monster_move_timer_up, frame_tick, fire, gra_still)
     begin
         bullet_x_next <= bullet_x_reg;
         bullet_y_next <= bullet_y_reg;
@@ -307,7 +308,7 @@ begin
 
                         end loop;
                     end if;
-                elsif btn(2) = '1' and fire_timer_up = '1' and bullet_nxt_index_reg = to_unsigned(i, MAX_BULLETS) then -- Fire bullet
+                elsif fire = '1' and fire_timer_up = '1' and bullet_nxt_index_reg = to_unsigned(i, MAX_BULLETS) then -- Fire bullet
                     bullet_x_next(i) <= to_unsigned(CRAFT_X - 2 ** (BULLET_SIZE - 1), 10);
                     bullet_y_next(i) <= craft_y_reg + to_unsigned(2 ** (CRAFT_SIZE - 1) - 2 ** (BULLET_SIZE - 1), 10);
                     bullet_enable_next(i) <= '1';

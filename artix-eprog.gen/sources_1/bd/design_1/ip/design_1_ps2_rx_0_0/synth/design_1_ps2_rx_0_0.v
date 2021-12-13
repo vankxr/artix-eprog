@@ -47,41 +47,23 @@
 // DO NOT MODIFY THIS FILE.
 
 
-// IP VLNV: xilinx.com:module_ref:graph:1.0
+// IP VLNV: xilinx.com:module_ref:ps2_rx:1.0
 // IP Revision: 1
 
-(* X_CORE_INFO = "graph,Vivado 2021.1" *)
-(* CHECK_LICENSE_TYPE = "design_1_graph_0_0,graph,{}" *)
-(* CORE_GENERATION_INFO = "design_1_graph_0_0,graph,{x_ipProduct=Vivado 2021.1,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=graph,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED}" *)
+(* X_CORE_INFO = "ps2_rx,Vivado 2021.1" *)
+(* CHECK_LICENSE_TYPE = "design_1_ps2_rx_0_0,ps2_rx,{}" *)
+(* CORE_GENERATION_INFO = "design_1_ps2_rx_0_0,ps2_rx,{x_ipProduct=Vivado 2021.1,x_ipVendor=xilinx.com,x_ipLibrary=module_ref,x_ipName=ps2_rx,x_ipVersion=1.0,x_ipCoreRevision=1,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED}" *)
 (* IP_DEFINITION_SOURCE = "module_ref" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
-module design_1_graph_0_0 (
+module design_1_ps2_rx_0_0 (
   clk,
   reset,
-  pixel_x,
-  pixel_y,
-  gra_still,
-  fired,
-  missed,
-  killed,
-  died,
-  graph_on,
-  graph_rgb,
-  fire_timer_top,
-  fire_timer_start,
-  fire_timer_up,
-  monster_spawn_x,
-  monster_spawn_y,
-  monster_spawn_time,
-  monster_spawn_timer_top,
-  monster_spawn_timer_start,
-  monster_spawn_timer_up,
-  monster_move_timer_top,
-  monster_move_timer_start,
-  monster_move_timer_up,
-  fire,
-  craft_delta_y,
-  craft_dir
+  ps2c,
+  ps2d,
+  rx_en,
+  dout,
+  dvalid,
+  dpok
 );
 
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME clk, ASSOCIATED_RESET reset, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1, INSERT_VIP 0" *)
@@ -90,57 +72,22 @@ input wire clk;
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME reset, POLARITY ACTIVE_HIGH, INSERT_VIP 0" *)
 (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 reset RST" *)
 input wire reset;
-input wire [9 : 0] pixel_x;
-input wire [9 : 0] pixel_y;
-input wire gra_still;
-output wire fired;
-output wire missed;
-output wire killed;
-output wire died;
-output wire graph_on;
-output wire [2 : 0] graph_rgb;
-output wire [31 : 0] fire_timer_top;
-output wire fire_timer_start;
-input wire fire_timer_up;
-input wire [9 : 0] monster_spawn_x;
-input wire [9 : 0] monster_spawn_y;
-input wire [11 : 0] monster_spawn_time;
-output wire [31 : 0] monster_spawn_timer_top;
-output wire monster_spawn_timer_start;
-input wire monster_spawn_timer_up;
-output wire [31 : 0] monster_move_timer_top;
-output wire monster_move_timer_start;
-input wire monster_move_timer_up;
-input wire fire;
-input wire [7 : 0] craft_delta_y;
-input wire craft_dir;
+input wire ps2c;
+input wire ps2d;
+(* X_INTERFACE_INFO = "analog.com:interface:fifo_rd:1.0 rx EN" *)
+input wire rx_en;
+output wire [7 : 0] dout;
+output wire dvalid;
+output wire dpok;
 
-  graph inst (
+  ps2_rx inst (
     .clk(clk),
     .reset(reset),
-    .pixel_x(pixel_x),
-    .pixel_y(pixel_y),
-    .gra_still(gra_still),
-    .fired(fired),
-    .missed(missed),
-    .killed(killed),
-    .died(died),
-    .graph_on(graph_on),
-    .graph_rgb(graph_rgb),
-    .fire_timer_top(fire_timer_top),
-    .fire_timer_start(fire_timer_start),
-    .fire_timer_up(fire_timer_up),
-    .monster_spawn_x(monster_spawn_x),
-    .monster_spawn_y(monster_spawn_y),
-    .monster_spawn_time(monster_spawn_time),
-    .monster_spawn_timer_top(monster_spawn_timer_top),
-    .monster_spawn_timer_start(monster_spawn_timer_start),
-    .monster_spawn_timer_up(monster_spawn_timer_up),
-    .monster_move_timer_top(monster_move_timer_top),
-    .monster_move_timer_start(monster_move_timer_start),
-    .monster_move_timer_up(monster_move_timer_up),
-    .fire(fire),
-    .craft_delta_y(craft_delta_y),
-    .craft_dir(craft_dir)
+    .ps2c(ps2c),
+    .ps2d(ps2d),
+    .rx_en(rx_en),
+    .dout(dout),
+    .dvalid(dvalid),
+    .dpok(dpok)
   );
 endmodule

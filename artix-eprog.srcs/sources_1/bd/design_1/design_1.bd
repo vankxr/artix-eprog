@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xF82617FEFC40E52",
+      "boundary_crc": "0x831E108DF045895F",
       "device": "xc7a35tcpg236-1",
       "gen_directory": "../../../../artix-eprog.gen/sources_1/bd/design_1",
       "name": "design_1",
@@ -14,17 +14,14 @@
       "clk_wiz_0": "",
       "proc_sys_reset_0": "",
       "vga_sync_0": "",
-      "util_vector_logic_0": "",
       "menu_timer": "",
       "vga_mux_0": "",
-      "xlconstant_0": "",
       "score_counter_0": "",
       "score_counter_1": "",
       "score_counter_2": "",
       "score_counter_3": "",
       "clock_divider_1_kHz": "",
       "clock_divider_25_MHz": "",
-      "util_reduced_logic_0": "",
       "fire_cooldown_timer": "",
       "xlslice_0": "",
       "xlslice_1": "",
@@ -36,8 +33,10 @@
       "combo_counter_2": "",
       "prng_0": "",
       "controller_0": "",
+      "text_0": "",
+      "ps2_rx_0": "",
       "graph_0": "",
-      "text_0": ""
+      "input_controller_0": ""
     },
     "ports": {
       "sys_clock": {
@@ -116,8 +115,25 @@
         "left": "3",
         "right": "0"
       },
-      "dbg": {
+      "fire_ready": {
         "direction": "O"
+      },
+      "ps2_mode": {
+        "direction": "I"
+      },
+      "ps2_rx_en": {
+        "direction": "I"
+      },
+      "ps2_clock": {
+        "direction": "I"
+      },
+      "ps2_data": {
+        "direction": "I"
+      },
+      "ps2_dout": {
+        "direction": "O",
+        "left": "7",
+        "right": "0"
       }
     },
     "components": {
@@ -217,20 +233,6 @@
             "direction": "O",
             "left": "9",
             "right": "0"
-          }
-        }
-      },
-      "util_vector_logic_0": {
-        "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
-        "xci_name": "design_1_util_vector_logic_0_0",
-        "xci_path": "ip/design_1_util_vector_logic_0_0/design_1_util_vector_logic_0_0.xci",
-        "inst_hier_path": "util_vector_logic_0",
-        "parameters": {
-          "C_OPERATION": {
-            "value": "or"
-          },
-          "C_SIZE": {
-            "value": "3"
           }
         }
       },
@@ -371,20 +373,6 @@
             "direction": "O",
             "left": "3",
             "right": "0"
-          }
-        }
-      },
-      "xlconstant_0": {
-        "vlnv": "xilinx.com:ip:xlconstant:1.1",
-        "xci_name": "design_1_xlconstant_0_0",
-        "xci_path": "ip/design_1_xlconstant_0_0/design_1_xlconstant_0_0.xci",
-        "inst_hier_path": "xlconstant_0",
-        "parameters": {
-          "CONST_VAL": {
-            "value": "0"
-          },
-          "CONST_WIDTH": {
-            "value": "3"
           }
         }
       },
@@ -727,20 +715,6 @@
           },
           "tick": {
             "direction": "O"
-          }
-        }
-      },
-      "util_reduced_logic_0": {
-        "vlnv": "xilinx.com:ip:util_reduced_logic:2.0",
-        "xci_name": "design_1_util_reduced_logic_0_0",
-        "xci_path": "ip/design_1_util_reduced_logic_0_0/design_1_util_reduced_logic_0_0.xci",
-        "inst_hier_path": "util_reduced_logic_0",
-        "parameters": {
-          "C_OPERATION": {
-            "value": "or"
-          },
-          "C_SIZE": {
-            "value": "3"
           }
         }
       },
@@ -1315,6 +1289,186 @@
           }
         }
       },
+      "text_0": {
+        "vlnv": "xilinx.com:module_ref:text:1.0",
+        "xci_name": "design_1_text_0_0",
+        "xci_path": "ip/design_1_text_0_0/design_1_text_0_0.xci",
+        "inst_hier_path": "text_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "text",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "pixel_x": {
+            "direction": "I",
+            "left": "9",
+            "right": "0"
+          },
+          "pixel_y": {
+            "direction": "I",
+            "left": "9",
+            "right": "0"
+          },
+          "score_dig3": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "score_dig2": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "score_dig1": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "score_dig0": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "combo_dig2": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "combo_dig1": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "combo_dig0": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "lives": {
+            "direction": "I",
+            "left": "2",
+            "right": "0"
+          },
+          "text_on": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "text_rgb": {
+            "direction": "O",
+            "left": "2",
+            "right": "0"
+          }
+        }
+      },
+      "ps2_rx_0": {
+        "vlnv": "xilinx.com:module_ref:ps2_rx:1.0",
+        "xci_name": "design_1_ps2_rx_0_0",
+        "xci_path": "ip/design_1_ps2_rx_0_0/design_1_ps2_rx_0_0.xci",
+        "inst_hier_path": "ps2_rx_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "ps2_rx",
+          "boundary_crc": "0x0"
+        },
+        "interface_ports": {
+          "rx": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "analog.com:interface:fifo_rd:1.0",
+            "vlnv": "analog.com:interface:fifo_rd_rtl:1.0",
+            "port_maps": {
+              "EN": {
+                "physical_name": "rx_en",
+                "direction": "I"
+              }
+            }
+          }
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "ps2c": {
+            "direction": "I"
+          },
+          "ps2d": {
+            "direction": "I"
+          },
+          "dout": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          },
+          "dvalid": {
+            "direction": "O"
+          },
+          "dpok": {
+            "direction": "O"
+          }
+        }
+      },
       "graph_0": {
         "vlnv": "xilinx.com:module_ref:graph:1.0",
         "xci_name": "design_1_graph_0_0",
@@ -1439,31 +1593,27 @@
           "monster_move_timer_up": {
             "direction": "I"
           },
-          "btn": {
+          "fire": {
+            "direction": "I"
+          },
+          "craft_delta_y": {
             "direction": "I",
-            "left": "2",
-            "right": "0",
-            "parameters": {
-              "PortType": {
-                "value": "undef",
-                "value_src": "ip_prop"
-              },
-              "PortType.PROP_SRC": {
-                "value": "false",
-                "value_src": "ip_prop"
-              }
-            }
+            "left": "7",
+            "right": "0"
+          },
+          "craft_dir": {
+            "direction": "I"
           }
         }
       },
-      "text_0": {
-        "vlnv": "xilinx.com:module_ref:text:1.0",
-        "xci_name": "design_1_text_0_0",
-        "xci_path": "ip/design_1_text_0_0/design_1_text_0_0.xci",
-        "inst_hier_path": "text_0",
+      "input_controller_0": {
+        "vlnv": "xilinx.com:module_ref:input_controller:1.0",
+        "xci_name": "design_1_input_controller_0_0",
+        "xci_path": "ip/design_1_input_controller_0_0/design_1_input_controller_0_0.xci",
+        "inst_hier_path": "input_controller_0",
         "reference_info": {
           "ref_type": "hdl",
-          "ref_name": "text",
+          "ref_name": "input_controller",
           "boundary_crc": "0x0"
         },
         "ports": {
@@ -1499,65 +1649,48 @@
               }
             }
           },
-          "pixel_x": {
+          "ps2_din": {
             "direction": "I",
-            "left": "9",
+            "left": "7",
             "right": "0"
           },
-          "pixel_y": {
-            "direction": "I",
-            "left": "9",
-            "right": "0"
+          "ps2_dvalid": {
+            "direction": "I"
           },
-          "score_dig3": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
+          "ps2_dpok": {
+            "direction": "I"
           },
-          "score_dig2": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
+          "ps2_mode": {
+            "direction": "I"
           },
-          "score_dig1": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "score_dig0": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "combo_dig2": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "combo_dig1": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "combo_dig0": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "lives": {
+          "btn": {
             "direction": "I",
             "left": "2",
+            "right": "0",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "start": {
+            "direction": "O"
+          },
+          "fire": {
+            "direction": "O"
+          },
+          "craft_delta_y": {
+            "direction": "O",
+            "left": "7",
             "right": "0"
           },
-          "text_on": {
-            "direction": "O",
-            "left": "3",
-            "right": "0"
-          },
-          "text_rgb": {
-            "direction": "O",
-            "left": "2",
-            "right": "0"
+          "craft_dir": {
+            "direction": "O"
           }
         }
       }
@@ -1583,7 +1716,7 @@
       "btn_1": {
         "ports": [
           "btn",
-          "util_vector_logic_0/Op2"
+          "input_controller_0/btn"
         ]
       },
       "clk_wiz_0_clk_out1": {
@@ -1607,8 +1740,10 @@
           "combo_counter_2/clk",
           "prng_0/clk",
           "controller_0/clk",
+          "text_0/clk",
+          "ps2_rx_0/clk",
           "graph_0/clk",
-          "text_0/clk"
+          "input_controller_0/clk"
         ]
       },
       "clk_wiz_0_locked": {
@@ -1821,6 +1956,30 @@
           "monster_spawn_timer/top"
         ]
       },
+      "input_controller_0_craft_delta_y": {
+        "ports": [
+          "input_controller_0/craft_delta_y",
+          "graph_0/craft_delta_y"
+        ]
+      },
+      "input_controller_0_craft_dir": {
+        "ports": [
+          "input_controller_0/craft_dir",
+          "graph_0/craft_dir"
+        ]
+      },
+      "input_controller_0_fire": {
+        "ports": [
+          "input_controller_0/fire",
+          "graph_0/fire"
+        ]
+      },
+      "input_controller_0_start": {
+        "ports": [
+          "input_controller_0/start",
+          "controller_0/start"
+        ]
+      },
       "monster_move_timer_done": {
         "ports": [
           "monster_move_timer/done",
@@ -1861,8 +2020,47 @@
           "combo_counter_2/reset",
           "prng_0/reset",
           "controller_0/reset",
+          "text_0/reset",
+          "ps2_rx_0/reset",
           "graph_0/reset",
-          "text_0/reset"
+          "input_controller_0/reset"
+        ]
+      },
+      "ps2_mode_0_1": {
+        "ports": [
+          "ps2_mode",
+          "input_controller_0/ps2_mode"
+        ]
+      },
+      "ps2_rx_0_dout": {
+        "ports": [
+          "ps2_rx_0/dout",
+          "ps2_dout",
+          "input_controller_0/ps2_din"
+        ]
+      },
+      "ps2_rx_0_dpok": {
+        "ports": [
+          "ps2_rx_0/dpok",
+          "input_controller_0/ps2_dpok"
+        ]
+      },
+      "ps2_rx_0_dvalid": {
+        "ports": [
+          "ps2_rx_0/dvalid",
+          "input_controller_0/ps2_dvalid"
+        ]
+      },
+      "ps2c_0_1": {
+        "ports": [
+          "ps2_clock",
+          "ps2_rx_0/ps2c"
+        ]
+      },
+      "ps2d_0_1": {
+        "ports": [
+          "ps2_data",
+          "ps2_rx_0/ps2d"
         ]
       },
       "reset_1": {
@@ -1870,6 +2068,12 @@
           "reset",
           "clk_wiz_0/reset",
           "proc_sys_reset_0/ext_reset_in"
+        ]
+      },
+      "rx_en_0_1": {
+        "ports": [
+          "ps2_rx_en",
+          "ps2_rx_0/rx_en"
         ]
       },
       "sys_clock_1": {
@@ -1899,21 +2103,8 @@
       "timer_1_done": {
         "ports": [
           "fire_cooldown_timer/done",
-          "dbg",
+          "fire_ready",
           "graph_0/fire_timer_up"
-        ]
-      },
-      "util_reduced_logic_0_Res": {
-        "ports": [
-          "util_reduced_logic_0/Res",
-          "controller_0/start"
-        ]
-      },
-      "util_vector_logic_0_Res": {
-        "ports": [
-          "util_vector_logic_0/Res",
-          "util_reduced_logic_0/Op1",
-          "graph_0/btn"
         ]
       },
       "vga_mux_0_outb": {
@@ -1943,15 +2134,15 @@
       "vga_sync_0_pixel_x": {
         "ports": [
           "vga_sync_0/pixel_x",
-          "graph_0/pixel_x",
-          "text_0/pixel_x"
+          "text_0/pixel_x",
+          "graph_0/pixel_x"
         ]
       },
       "vga_sync_0_pixel_y": {
         "ports": [
           "vga_sync_0/pixel_y",
-          "graph_0/pixel_y",
-          "text_0/pixel_y"
+          "text_0/pixel_y",
+          "graph_0/pixel_y"
         ]
       },
       "vga_sync_0_video_on": {
@@ -1964,12 +2155,6 @@
         "ports": [
           "vga_sync_0/vsync",
           "vsync"
-        ]
-      },
-      "xlconstant_0_dout": {
-        "ports": [
-          "xlconstant_0/dout",
-          "util_vector_logic_0/Op1"
         ]
       },
       "xlslice_0_Dout": {

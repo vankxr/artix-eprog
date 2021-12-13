@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
--- Date        : Thu Dec  9 17:47:14 2021
+-- Date        : Mon Dec 13 16:40:09 2021
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 -- Command     : write_vhdl -force -mode synth_stub
 --               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_graph_0_0/design_1_graph_0_0_stub.vhdl
@@ -37,7 +37,9 @@ entity design_1_graph_0_0 is
     monster_move_timer_top : out STD_LOGIC_VECTOR ( 31 downto 0 );
     monster_move_timer_start : out STD_LOGIC;
     monster_move_timer_up : in STD_LOGIC;
-    btn : in STD_LOGIC_VECTOR ( 2 downto 0 )
+    fire : in STD_LOGIC;
+    craft_delta_y : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    craft_dir : in STD_LOGIC
   );
 
 end design_1_graph_0_0;
@@ -46,7 +48,7 @@ architecture stub of design_1_graph_0_0 is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
-attribute black_box_pad_pin of stub : architecture is "clk,reset,pixel_x[9:0],pixel_y[9:0],gra_still,fired,missed,killed,died,graph_on,graph_rgb[2:0],fire_timer_top[31:0],fire_timer_start,fire_timer_up,monster_spawn_x[9:0],monster_spawn_y[9:0],monster_spawn_time[11:0],monster_spawn_timer_top[31:0],monster_spawn_timer_start,monster_spawn_timer_up,monster_move_timer_top[31:0],monster_move_timer_start,monster_move_timer_up,btn[2:0]";
+attribute black_box_pad_pin of stub : architecture is "clk,reset,pixel_x[9:0],pixel_y[9:0],gra_still,fired,missed,killed,died,graph_on,graph_rgb[2:0],fire_timer_top[31:0],fire_timer_start,fire_timer_up,monster_spawn_x[9:0],monster_spawn_y[9:0],monster_spawn_time[11:0],monster_spawn_timer_top[31:0],monster_spawn_timer_start,monster_spawn_timer_up,monster_move_timer_top[31:0],monster_move_timer_start,monster_move_timer_up,fire,craft_delta_y[7:0],craft_dir";
 attribute X_CORE_INFO : string;
 attribute X_CORE_INFO of stub : architecture is "graph,Vivado 2021.1";
 begin

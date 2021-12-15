@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Dec 13 16:47:06 2021" VIVADOVERSION="2021.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Dec 15 13:32:28 2021" VIVADOVERSION="2021.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="design_1" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -60,9 +60,9 @@
         <CONNECTION INSTANCE="input_controller_0" PORT="ps2_mode"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" NAME="ps2_rx_en" SIGIS="undef" SIGNAME="External_Ports_ps2_rx_en">
+    <PORT DIR="I" NAME="ps2_enable" SIGIS="undef" SIGNAME="External_Ports_ps2_enable">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="ps2_rx_0" PORT="rx_en"/>
+        <CONNECTION INSTANCE="ps2_rx_0" PORT="enable"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="ps2_clock" SIGIS="undef" SIGNAME="External_Ports_ps2_clock">
@@ -680,7 +680,6 @@
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="slowest_sync_clk"/>
             <CONNECTION INSTANCE="vga_sync_0" PORT="clk"/>
             <CONNECTION INSTANCE="menu_timer" PORT="clk"/>
-            <CONNECTION INSTANCE="vga_mux_0" PORT="clk"/>
             <CONNECTION INSTANCE="score_counter_0" PORT="clk"/>
             <CONNECTION INSTANCE="score_counter_1" PORT="clk"/>
             <CONNECTION INSTANCE="score_counter_2" PORT="clk"/>
@@ -694,11 +693,12 @@
             <CONNECTION INSTANCE="combo_counter_0" PORT="clk"/>
             <CONNECTION INSTANCE="combo_counter_2" PORT="clk"/>
             <CONNECTION INSTANCE="prng_0" PORT="clk"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="clk"/>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="clk"/>
+            <CONNECTION INSTANCE="graph_0" PORT="clk"/>
             <CONNECTION INSTANCE="controller_0" PORT="clk"/>
             <CONNECTION INSTANCE="text_0" PORT="clk"/>
             <CONNECTION INSTANCE="ps2_rx_0" PORT="clk"/>
-            <CONNECTION INSTANCE="graph_0" PORT="clk"/>
-            <CONNECTION INSTANCE="input_controller_0" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -801,6 +801,7 @@
         <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="combo_counter_0_ovf">
           <CONNECTIONS>
             <CONNECTION INSTANCE="combo_counter_1" PORT="inc"/>
+            <CONNECTION INSTANCE="controller_0" PORT="combo_extra_life"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -841,7 +842,6 @@
         <PORT DIR="O" NAME="ovf" SIGIS="undef" SIGNAME="combo_counter_1_ovf">
           <CONNECTIONS>
             <CONNECTION INSTANCE="combo_counter_2" PORT="inc"/>
-            <CONNECTION INSTANCE="controller_0" PORT="combo_hundred"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -980,9 +980,9 @@
             <CONNECTION INSTANCE="combo_counter_2" PORT="clear"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="combo_hundred" SIGIS="undef" SIGNAME="combo_counter_1_ovf">
+        <PORT DIR="I" NAME="combo_extra_life" SIGIS="undef" SIGNAME="combo_counter_0_ovf">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="combo_counter_1" PORT="ovf"/>
+            <CONNECTION INSTANCE="combo_counter_0" PORT="ovf"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="2" NAME="lives" RIGHT="0" SIGIS="undef" SIGNAME="controller_0_lives">
@@ -1096,7 +1096,7 @@
             <CONNECTION INSTANCE="controller_0" PORT="graph_on"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="2" NAME="graph_rgb" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_graph_rgb">
+        <PORT DIR="O" LEFT="11" NAME="graph_rgb" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_graph_rgb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="vga_mux_0" PORT="graph_rgb"/>
           </CONNECTIONS>
@@ -1435,7 +1435,6 @@
           <CONNECTIONS>
             <CONNECTION INSTANCE="vga_sync_0" PORT="reset"/>
             <CONNECTION INSTANCE="menu_timer" PORT="reset"/>
-            <CONNECTION INSTANCE="vga_mux_0" PORT="reset"/>
             <CONNECTION INSTANCE="score_counter_0" PORT="reset"/>
             <CONNECTION INSTANCE="score_counter_1" PORT="reset"/>
             <CONNECTION INSTANCE="score_counter_2" PORT="reset"/>
@@ -1449,11 +1448,12 @@
             <CONNECTION INSTANCE="combo_counter_0" PORT="reset"/>
             <CONNECTION INSTANCE="combo_counter_2" PORT="reset"/>
             <CONNECTION INSTANCE="prng_0" PORT="reset"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="reset"/>
+            <CONNECTION INSTANCE="vga_mux_0" PORT="reset"/>
+            <CONNECTION INSTANCE="graph_0" PORT="reset"/>
             <CONNECTION INSTANCE="controller_0" PORT="reset"/>
             <CONNECTION INSTANCE="text_0" PORT="reset"/>
             <CONNECTION INSTANCE="ps2_rx_0" PORT="reset"/>
-            <CONNECTION INSTANCE="graph_0" PORT="reset"/>
-            <CONNECTION INSTANCE="input_controller_0" PORT="reset"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
@@ -1488,9 +1488,9 @@
             <CONNECTION INSTANCE="External_Ports" PORT="ps2_data"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="rx_en" SIGIS="undef" SIGNAME="External_Ports_ps2_rx_en">
+        <PORT DIR="I" NAME="enable" SIGIS="undef" SIGNAME="External_Ports_ps2_enable">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ps2_rx_en"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_enable"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="7" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="ps2_rx_0_dout">
@@ -1510,13 +1510,7 @@
           </CONNECTIONS>
         </PORT>
       </PORTS>
-      <BUSINTERFACES>
-        <BUSINTERFACE BUSNAME="__NOC__" NAME="rx" TYPE="TARGET" VLNV="analog.com:interface:fifo_rd:1.0">
-          <PORTMAPS>
-            <PORTMAP LOGICAL="EN" PHYSICAL="rx_en"/>
-          </PORTMAPS>
-        </BUSINTERFACE>
-      </BUSINTERFACES>
+      <BUSINTERFACES/>
     </MODULE>
     <MODULE COREREVISION="1" FULLNAME="/score_counter_0" HWVERSION="1.0" INSTANCE="score_counter_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="counter_mod10" VLNV="xilinx.com:module_ref:counter_mod10:1.0">
       <DOCUMENTS/>
@@ -1746,7 +1740,7 @@
             <CONNECTION INSTANCE="controller_0" PORT="text_on"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="2" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_rgb">
+        <PORT DIR="O" LEFT="11" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_rgb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="vga_mux_0" PORT="text_rgb"/>
           </CONNECTIONS>
@@ -1781,12 +1775,12 @@
             <CONNECTION INSTANCE="clock_divider_25_MHz" PORT="tick"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="2" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_rgb">
+        <PORT DIR="I" LEFT="11" NAME="text_rgb" RIGHT="0" SIGIS="undef" SIGNAME="text_0_text_rgb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="text_0" PORT="text_rgb"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="2" NAME="graph_rgb" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_graph_rgb">
+        <PORT DIR="I" LEFT="11" NAME="graph_rgb" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_graph_rgb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="graph_0" PORT="graph_rgb"/>
           </CONNECTIONS>
@@ -1853,14 +1847,14 @@
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="pixel_x"/>
             <CONNECTION INSTANCE="graph_0" PORT="pixel_x"/>
+            <CONNECTION INSTANCE="text_0" PORT="pixel_x"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="text_0" PORT="pixel_y"/>
             <CONNECTION INSTANCE="graph_0" PORT="pixel_y"/>
+            <CONNECTION INSTANCE="text_0" PORT="pixel_y"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

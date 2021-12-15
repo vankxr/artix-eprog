@@ -72,7 +72,7 @@ module design_1_controller_0_0 (
   score_clear,
   combo_inc,
   combo_clear,
-  combo_hundred,
+  combo_extra_life,
   lives,
   rgb_mux_sel
 );
@@ -98,7 +98,7 @@ output wire score_inc;
 output wire score_clear;
 output wire combo_inc;
 output wire combo_clear;
-input wire combo_hundred;
+input wire combo_extra_life;
 output wire [2 : 0] lives;
 output wire [1 : 0] rgb_mux_sel;
 
@@ -120,7 +120,7 @@ output wire [1 : 0] rgb_mux_sel;
     .score_clear(score_clear),
     .combo_inc(combo_inc),
     .combo_clear(combo_clear),
-    .combo_hundred(combo_hundred),
+    .combo_extra_life(combo_extra_life),
     .lives(lives),
     .rgb_mux_sel(rgb_mux_sel)
   );

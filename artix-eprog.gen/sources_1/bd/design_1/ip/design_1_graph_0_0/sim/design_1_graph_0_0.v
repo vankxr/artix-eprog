@@ -97,7 +97,7 @@ output wire missed;
 output wire killed;
 output wire died;
 output wire graph_on;
-output wire [2 : 0] graph_rgb;
+output wire [11 : 0] graph_rgb;
 output wire [31 : 0] fire_timer_top;
 output wire fire_timer_start;
 input wire fire_timer_up;

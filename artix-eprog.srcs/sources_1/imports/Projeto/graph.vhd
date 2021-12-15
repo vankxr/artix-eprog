@@ -13,7 +13,7 @@ entity graph is
         fired, missed, killed, died: out std_logic;
         -- VGA RGB signals
         graph_on: out std_logic;
-        graph_rgb: out std_logic_vector(2 downto 0);
+        graph_rgb: out std_logic_vector(11 downto 0);
         -- Fire timer
         fire_timer_top: out std_logic_vector(31 downto 0);
         fire_timer_start: out std_logic;
@@ -47,13 +47,15 @@ architecture arch of graph is
     -- Wall
     constant WALL_X: integer := 32;
     constant WALL_SIZE: integer := 4; -- size in pixels
+    constant WALL_COLOR: std_logic_vector(11 downto 0) := "111111111111";
 
     signal wall_on: std_logic;
-    signal wall_rgb: std_logic_vector(2 downto 0);
+    signal wall_rgb: std_logic_vector(11 downto 0);
 
     -- Spacecraft
     constant CRAFT_X: integer := 600;
     constant CRAFT_SIZE: integer := 5; -- set to log2 of spacecraft size (i.e. 5 = 32x32 pixels)
+    constant CRAFT_COLOR: std_logic_vector(11 downto 0) := "000010010011";
 
     signal craft_y_reg, craft_y_next: unsigned(9 downto 0);
 
@@ -63,11 +65,12 @@ architecture arch of graph is
     signal craft_rom_bit: std_logic;
 
     signal craft_on: std_logic;
-    signal craft_rgb: std_logic_vector(2 downto 0);
+    signal craft_rgb: std_logic_vector(11 downto 0);
 
     -- Bullets
     constant MAX_BULLETS: integer := 3; -- set to log2 of max bullets (i.e. 3 = 8 bullets)
     constant BULLET_SIZE: integer := 3; -- set to log2 of bullet size (i.e. 5 = 8x8 pixels)
+    constant BULLET_COLOR: std_logic_vector(11 downto 0) := "111100000000";
 
     constant BULLET_V: unsigned(9 downto 0) := to_unsigned(2, 10);
 
@@ -87,11 +90,12 @@ architecture arch of graph is
     signal bullet_rom_bit: std_logic;
 
     signal bullet_on: std_logic;
-    signal bullet_rgb: std_logic_vector(2 downto 0);
+    signal bullet_rgb: std_logic_vector(11 downto 0);
 
     -- Monsters
     constant MAX_MONSTERS: integer := 3; -- set to log2 of max monsters (i.e. 3 = 8 monsters)
     constant MONSTER_SIZE: integer := 5; -- set to log2 of monster size (i.e. 5 = 32x32 pixels)
+    constant MONSTER_COLOR: std_logic_vector(11 downto 0) := "111100001110";
 
     constant MONSTER_V: unsigned(9 downto 0) := to_unsigned(5, 10);
 
@@ -116,7 +120,7 @@ architecture arch of graph is
     signal monster_rom_bit: std_logic;
 
     signal monster_on: std_logic;
-    signal monster_rgb: std_logic_vector(2 downto 0);
+    signal monster_rgb: std_logic_vector(11 downto 0);
 begin
     -- registers
     process(clk, reset)
@@ -160,7 +164,7 @@ begin
 
     -- Wall
     wall_on <= '1' when (pix_x >= WALL_X) and (pix_x < (WALL_X + WALL_SIZE)) else '0';
-    wall_rgb <= "001"; -- blue
+    wall_rgb <= WALL_COLOR;
 
     -- Spacecraft
     craft_rom_unit: entity work.craft_rom
@@ -174,7 +178,7 @@ begin
     craft_on <= '1' when (pix_x >= CRAFT_X)     and (pix_x < (CRAFT_X + (2 ** CRAFT_SIZE)))
                     and  (pix_y >= craft_y_reg) and (pix_y < (craft_y_reg + (2 ** CRAFT_SIZE)))
                     and  craft_rom_bit = '1' else '0';
-    craft_rgb <= "010"; -- green
+    craft_rgb <= CRAFT_COLOR;
 
     -- Spacecraft up/down movement
     process(craft_y_reg, frame_tick, craft_dir, craft_delta_y, gra_still)
@@ -219,7 +223,7 @@ begin
     bullet_rom_bit <= bullet_rom_data(to_integer(not bullet_rom_col));
 
     bullet_on <= '0' when unsigned(bullet_in_zone) = to_unsigned(0, 10) or bullet_rom_bit = '0' else '1';
-    bullet_rgb <= "100"; -- red
+    bullet_rgb <= BULLET_COLOR;
 
     -- Monsters
     process(monster_x_reg, monster_y_reg, monster_enable_reg, pix_x, pix_y)
@@ -248,7 +252,7 @@ begin
     monster_rom_bit <= monster_rom_data(to_integer(not monster_rom_col));
 
     monster_on <= '0' when unsigned(monster_in_zone) = to_unsigned(0, 10) or monster_rom_bit = '0' else '1';
-    monster_rgb <= "101"; -- pink
+    monster_rgb <= MONSTER_COLOR;
 
     -- Bullet and Monster logic
     process(craft_y_reg, bullet_x_reg, bullet_y_reg, bullet_enable_reg, bullet_nxt_index_reg, monster_x_reg, monster_y_reg, monster_spawn_x, monster_spawn_y, monster_enable_reg, monster_nxt_index_reg, pix_x, pix_y, fire_timer_up, monster_spawn_timer_up, monster_move_timer_up, frame_tick, fire, gra_still)
@@ -270,7 +274,7 @@ begin
         monster_spawn_timer_top <= std_logic_vector(to_unsigned(500, 32) + (to_unsigned(0, 32 - 12) & unsigned(monster_spawn_time))); -- 500 ms + random spawn time
 
         monster_move_timer_start <= '0';
-        monster_move_timer_top <= std_logic_vector(to_unsigned(250, 32)); -- 250 ms
+        monster_move_timer_top <= std_logic_vector(to_unsigned(125, 32)); -- 125 ms
 
         fired <= '0';
         missed <= '0';
@@ -374,7 +378,7 @@ begin
         elsif monster_on = '1' then
             graph_rgb <= monster_rgb;
         else
-            graph_rgb <= "110"; -- yellow background
+            graph_rgb <= (others => '0');
         end if;
     end process;
 

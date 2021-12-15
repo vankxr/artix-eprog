@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Tue Dec  7 13:06:22 2021
+// Date        : Wed Dec 15 13:17:45 2021
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 // Command     : write_verilog -force -mode funcsim
 //               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_controller_0_0/design_1_controller_0_0_sim_netlist.v
@@ -33,7 +33,7 @@ module design_1_controller_0_0
     score_clear,
     combo_inc,
     combo_clear,
-    combo_hundred,
+    combo_extra_life,
     lives,
     rgb_mux_sel);
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 clk CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME clk, ASSOCIATED_RESET reset, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1, INSERT_VIP 0" *) input clk;
@@ -53,7 +53,7 @@ module design_1_controller_0_0
   output score_clear;
   output combo_inc;
   output combo_clear;
-  input combo_hundred;
+  input combo_extra_life;
   output [2:0]lives;
   output [1:0]rgb_mux_sel;
 
@@ -61,7 +61,7 @@ module design_1_controller_0_0
   wire \<const1> ;
   wire clk;
   wire combo_clear;
-  wire combo_hundred;
+  wire combo_extra_life;
   wire died;
   wire gra_still;
   wire graph_on;
@@ -117,7 +117,7 @@ module design_1_controller_0_0
   design_1_controller_0_0_controller inst
        (.clk(clk),
         .combo_clear(combo_clear),
-        .combo_hundred(combo_hundred),
+        .combo_extra_life(combo_extra_life),
         .died(died),
         .gra_still(gra_still),
         .graph_on(graph_on),
@@ -147,7 +147,7 @@ module design_1_controller_0_0_controller
     score_clear,
     score_inc,
     timer_start,
-    combo_hundred,
+    combo_extra_life,
     died,
     start,
     timer_up,
@@ -166,7 +166,7 @@ module design_1_controller_0_0_controller
   output score_clear;
   output score_inc;
   output timer_start;
-  input combo_hundred;
+  input combo_extra_life;
   input died;
   input start;
   input timer_up;
@@ -182,7 +182,7 @@ module design_1_controller_0_0_controller
   wire \FSM_sequential_state_reg[1]_i_1_n_0 ;
   wire clk;
   wire combo_clear;
-  wire combo_hundred;
+  wire combo_extra_life;
   wire died;
   wire gra_still;
   wire graph_on;
@@ -328,7 +328,7 @@ module design_1_controller_0_0_controller
         .I1(\lives_reg_reg[2]_0 ),
         .I2(\lives_reg_reg[1]_0 ),
         .I3(\lives_reg_reg[0]_0 ),
-        .I4(combo_hundred),
+        .I4(combo_extra_life),
         .I5(died),
         .O(\lives_reg[2]_i_3_n_0 ));
   FDCE \lives_reg_reg[0] 

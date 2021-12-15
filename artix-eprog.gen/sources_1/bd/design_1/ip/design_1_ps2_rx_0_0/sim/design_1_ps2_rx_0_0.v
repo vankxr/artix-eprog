@@ -59,7 +59,7 @@ module design_1_ps2_rx_0_0 (
   reset,
   ps2c,
   ps2d,
-  rx_en,
+  enable,
   dout,
   dvalid,
   dpok
@@ -73,8 +73,7 @@ input wire clk;
 input wire reset;
 input wire ps2c;
 input wire ps2d;
-(* X_INTERFACE_INFO = "analog.com:interface:fifo_rd:1.0 rx EN" *)
-input wire rx_en;
+input wire enable;
 output wire [7 : 0] dout;
 output wire dvalid;
 output wire dpok;
@@ -84,7 +83,7 @@ output wire dpok;
     .reset(reset),
     .ps2c(ps2c),
     .ps2d(ps2d),
-    .rx_en(rx_en),
+    .enable(enable),
     .dout(dout),
     .dvalid(dvalid),
     .dpok(dpok)

@@ -1,10 +1,10 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
--- Date        : Mon Nov 29 15:53:40 2021
+-- Date        : Wed Dec 15 12:37:26 2021
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
--- Command     : write_vhdl -force -mode synth_stub
---               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_vga_mux_0_0/design_1_vga_mux_0_0_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top design_1_vga_mux_0_0 -prefix
+--               design_1_vga_mux_0_0_ design_1_vga_mux_0_0_stub.vhdl
 -- Design      : design_1_vga_mux_0_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a35tcpg236-1
@@ -18,8 +18,8 @@ entity design_1_vga_mux_0_0 is
     reset : in STD_LOGIC;
     video_on : in STD_LOGIC;
     pixel_tick : in STD_LOGIC;
-    text_rgb : in STD_LOGIC_VECTOR ( 2 downto 0 );
-    graph_rgb : in STD_LOGIC_VECTOR ( 2 downto 0 );
+    text_rgb : in STD_LOGIC_VECTOR ( 11 downto 0 );
+    graph_rgb : in STD_LOGIC_VECTOR ( 11 downto 0 );
     mux_sel : in STD_LOGIC_VECTOR ( 1 downto 0 );
     outr : out STD_LOGIC_VECTOR ( 3 downto 0 );
     outg : out STD_LOGIC_VECTOR ( 3 downto 0 );
@@ -32,7 +32,7 @@ architecture stub of design_1_vga_mux_0_0 is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
-attribute black_box_pad_pin of stub : architecture is "clk,reset,video_on,pixel_tick,text_rgb[2:0],graph_rgb[2:0],mux_sel[1:0],outr[3:0],outg[3:0],outb[3:0]";
+attribute black_box_pad_pin of stub : architecture is "clk,reset,video_on,pixel_tick,text_rgb[11:0],graph_rgb[11:0],mux_sel[1:0],outr[3:0],outg[3:0],outb[3:0]";
 attribute X_CORE_INFO : string;
 attribute X_CORE_INFO of stub : architecture is "vga_mux,Vivado 2021.1";
 begin

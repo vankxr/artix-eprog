@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
--- Date        : Mon Dec 13 16:17:10 2021
+-- Date        : Wed Dec 15 13:33:39 2021
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 -- Command     : write_vhdl -force -mode funcsim
 --               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_ps2_rx_0_0/design_1_ps2_rx_0_0_sim_netlist.vhdl
@@ -60,7 +60,7 @@ entity design_1_ps2_rx_0_0_ps2_rx is
     dpok : out STD_LOGIC;
     dout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     \FSM_onehot_state_reg_reg[2]_0\ : out STD_LOGIC;
-    rx_en : in STD_LOGIC;
+    enable : in STD_LOGIC;
     clk : in STD_LOGIC;
     reset : in STD_LOGIC;
     ps2c : in STD_LOGIC;
@@ -126,7 +126,7 @@ begin
     )
         port map (
       I0 => \FSM_onehot_state_reg[0]_i_2_n_0\,
-      I1 => rx_en,
+      I1 => enable,
       I2 => \FSM_onehot_state_reg_reg_n_0_[0]\,
       I3 => f_ps2c_reg,
       I4 => \b_reg[8]_i_2_n_0\,
@@ -184,7 +184,7 @@ begin
     )
         port map (
       I0 => \FSM_onehot_state_reg_reg_n_0_[0]\,
-      I1 => rx_en,
+      I1 => enable,
       O => \FSM_onehot_state_reg[2]_i_3_n_0\
     );
 \FSM_onehot_state_reg[2]_i_4\: unisim.vcomponents.LUT4
@@ -237,7 +237,7 @@ begin
     )
         port map (
       I0 => f_ps2c_reg,
-      I1 => rx_en,
+      I1 => enable,
       I2 => \FSM_onehot_state_reg_reg_n_0_[0]\,
       I3 => \FSM_onehot_state_reg_reg_n_0_[1]\,
       I4 => \b_reg[8]_i_2_n_0\,
@@ -482,7 +482,7 @@ f_ps2c_reg_reg: unisim.vcomponents.FDCE
       I0 => \b_reg[8]_i_2_n_0\,
       I1 => f_ps2c_reg,
       I2 => \FSM_onehot_state_reg_reg_n_0_[0]\,
-      I3 => rx_en,
+      I3 => enable,
       I4 => \n_reg[3]_i_3_n_0\,
       I5 => \FSM_onehot_state_reg_reg_n_0_[1]\,
       O => n_next
@@ -560,7 +560,7 @@ entity design_1_ps2_rx_0_0 is
     reset : in STD_LOGIC;
     ps2c : in STD_LOGIC;
     ps2d : in STD_LOGIC;
-    rx_en : in STD_LOGIC;
+    enable : in STD_LOGIC;
     dout : out STD_LOGIC_VECTOR ( 7 downto 0 );
     dvalid : out STD_LOGIC;
     dpok : out STD_LOGIC
@@ -584,7 +584,6 @@ architecture STRUCTURE of design_1_ps2_rx_0_0 is
   attribute X_INTERFACE_PARAMETER of clk : signal is "XIL_INTERFACENAME clk, ASSOCIATED_RESET reset, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN /clk_wiz_0_clk_out1, INSERT_VIP 0";
   attribute X_INTERFACE_INFO of reset : signal is "xilinx.com:signal:reset:1.0 reset RST";
   attribute X_INTERFACE_PARAMETER of reset : signal is "XIL_INTERFACENAME reset, POLARITY ACTIVE_HIGH, INSERT_VIP 0";
-  attribute X_INTERFACE_INFO of rx_en : signal is "analog.com:interface:fifo_rd:1.0 rx EN";
 begin
 inst: entity work.design_1_ps2_rx_0_0_ps2_rx
      port map (
@@ -592,9 +591,9 @@ inst: entity work.design_1_ps2_rx_0_0_ps2_rx
       clk => clk,
       dout(7 downto 0) => dout(7 downto 0),
       dpok => dpok,
+      enable => enable,
       ps2c => ps2c,
       ps2d => ps2d,
-      reset => reset,
-      rx_en => rx_en
+      reset => reset
     );
 end STRUCTURE;

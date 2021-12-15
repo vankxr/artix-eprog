@@ -42,6 +42,8 @@ architecture arch of input_controller is
     constant CMDS_DOWN: std_logic_vector(2 downto 0) := "010";
     constant CMDS_FIRE: std_logic_vector(2 downto 0) := "100";
 
+    constant CRAFT_DEFAULT_V: std_logic_vector(7 downto 0) := "00000100"; -- Default spacecraft speed when using keyboard and Push Buttons
+
     type statetype is (wait_first, wait_mouse_x, wait_mouse_y, register_cmds);
     signal state_reg, state_next: statetype;
     signal flags_reg, flags_next: std_logic_vector(1 downto 0);
@@ -203,9 +205,9 @@ begin
                     fire_next <= cmds_reg(2);
 
                     if (cmds_reg(1) xor cmds_reg(0)) = '1' then
-                        craft_delta_y_next <= "00000100";
+                        craft_delta_y_next <= CRAFT_DEFAULT_V;
                     else
-                        craft_delta_y_next <= "00000000";
+                        craft_delta_y_next <= (others => '0');
                     end if;
 
                     craft_dir_next <= cmds_reg(1) and not cmds_reg(0);
@@ -222,9 +224,9 @@ begin
             fire <= btn(2);
 
             if (btn(1) xor btn(0)) = '1' then
-                craft_delta_y <= "00000100";
+                craft_delta_y <= CRAFT_DEFAULT_V;
             else
-                craft_delta_y <= "00000000";
+                craft_delta_y <= (others => '0');
             end if;
 
             craft_dir <= btn(1) and not btn(0);

@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Mon Dec 13 16:17:10 2021
+// Date        : Wed Dec 15 13:33:39 2021
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 // Command     : write_verilog -force -mode funcsim
 //               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_ps2_rx_0_0/design_1_ps2_rx_0_0_sim_netlist.v
@@ -20,7 +20,7 @@ module design_1_ps2_rx_0_0
     reset,
     ps2c,
     ps2d,
-    rx_en,
+    enable,
     dout,
     dvalid,
     dpok);
@@ -28,7 +28,7 @@ module design_1_ps2_rx_0_0
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 reset RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME reset, POLARITY ACTIVE_HIGH, INSERT_VIP 0" *) input reset;
   input ps2c;
   input ps2d;
-  (* X_INTERFACE_INFO = "analog.com:interface:fifo_rd:1.0 rx EN" *) input rx_en;
+  input enable;
   output [7:0]dout;
   output dvalid;
   output dpok;
@@ -37,20 +37,20 @@ module design_1_ps2_rx_0_0
   wire [7:0]dout;
   wire dpok;
   wire dvalid;
+  wire enable;
   wire ps2c;
   wire ps2d;
   wire reset;
-  wire rx_en;
 
   design_1_ps2_rx_0_0_ps2_rx inst
        (.\FSM_onehot_state_reg_reg[2]_0 (dvalid),
         .clk(clk),
         .dout(dout),
         .dpok(dpok),
+        .enable(enable),
         .ps2c(ps2c),
         .ps2d(ps2d),
-        .reset(reset),
-        .rx_en(rx_en));
+        .reset(reset));
 endmodule
 
 (* ORIG_REF_NAME = "ps2_rx" *) 
@@ -58,7 +58,7 @@ module design_1_ps2_rx_0_0_ps2_rx
    (dpok,
     dout,
     \FSM_onehot_state_reg_reg[2]_0 ,
-    rx_en,
+    enable,
     clk,
     reset,
     ps2c,
@@ -66,7 +66,7 @@ module design_1_ps2_rx_0_0_ps2_rx
   output dpok;
   output [7:0]dout;
   output \FSM_onehot_state_reg_reg[2]_0 ;
-  input rx_en;
+  input enable;
   input clk;
   input reset;
   input ps2c;
@@ -89,6 +89,7 @@ module design_1_ps2_rx_0_0_ps2_rx
   wire clk;
   wire [7:0]dout;
   wire dpok;
+  wire enable;
   wire f_ps2c_reg;
   wire f_ps2c_reg_i_1_n_0;
   wire f_ps2c_reg_i_2_n_0;
@@ -108,13 +109,12 @@ module design_1_ps2_rx_0_0_ps2_rx
   wire ps2c;
   wire ps2d;
   wire reset;
-  wire rx_en;
 
   LUT6 #(
     .INIT(64'hFFFFFFFFF0F010F0)) 
     \FSM_onehot_state_reg[0]_i_1 
        (.I0(\FSM_onehot_state_reg[0]_i_2_n_0 ),
-        .I1(rx_en),
+        .I1(enable),
         .I2(\FSM_onehot_state_reg_reg_n_0_[0] ),
         .I3(f_ps2c_reg),
         .I4(\b_reg[8]_i_2_n_0 ),
@@ -161,7 +161,7 @@ module design_1_ps2_rx_0_0_ps2_rx
     .INIT(4'h8)) 
     \FSM_onehot_state_reg[2]_i_3 
        (.I0(\FSM_onehot_state_reg_reg_n_0_[0] ),
-        .I1(rx_en),
+        .I1(enable),
         .O(\FSM_onehot_state_reg[2]_i_3_n_0 ));
   (* SOFT_HLUTNM = "soft_lutpair0" *) 
   LUT4 #(
@@ -203,7 +203,7 @@ module design_1_ps2_rx_0_0_ps2_rx
     .INIT(32'h0000AA80)) 
     \b_reg[8]_i_1 
        (.I0(f_ps2c_reg),
-        .I1(rx_en),
+        .I1(enable),
         .I2(\FSM_onehot_state_reg_reg_n_0_[0] ),
         .I3(\FSM_onehot_state_reg_reg_n_0_[1] ),
         .I4(\b_reg[8]_i_2_n_0 ),
@@ -390,7 +390,7 @@ module design_1_ps2_rx_0_0_ps2_rx
        (.I0(\b_reg[8]_i_2_n_0 ),
         .I1(f_ps2c_reg),
         .I2(\FSM_onehot_state_reg_reg_n_0_[0] ),
-        .I3(rx_en),
+        .I3(enable),
         .I4(\n_reg[3]_i_3_n_0 ),
         .I5(\FSM_onehot_state_reg_reg_n_0_[1] ),
         .O(n_next));

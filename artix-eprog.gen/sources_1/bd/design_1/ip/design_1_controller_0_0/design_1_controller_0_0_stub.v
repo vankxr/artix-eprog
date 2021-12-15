@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Tue Dec  7 13:06:22 2021
+// Date        : Wed Dec 15 13:17:45 2021
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 // Command     : write_verilog -force -mode synth_stub
 //               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_controller_0_0/design_1_controller_0_0_stub.v
@@ -16,8 +16,8 @@
 (* X_CORE_INFO = "controller,Vivado 2021.1" *)
 module design_1_controller_0_0(clk, reset, text_on, graph_on, gra_still, fired, 
   missed, killed, died, timer_top, timer_start, timer_up, start, score_inc, score_clear, combo_inc, 
-  combo_clear, combo_hundred, lives, rgb_mux_sel)
-/* synthesis syn_black_box black_box_pad_pin="clk,reset,text_on[3:0],graph_on,gra_still,fired,missed,killed,died,timer_top[31:0],timer_start,timer_up,start,score_inc,score_clear,combo_inc,combo_clear,combo_hundred,lives[2:0],rgb_mux_sel[1:0]" */;
+  combo_clear, combo_extra_life, lives, rgb_mux_sel)
+/* synthesis syn_black_box black_box_pad_pin="clk,reset,text_on[3:0],graph_on,gra_still,fired,missed,killed,died,timer_top[31:0],timer_start,timer_up,start,score_inc,score_clear,combo_inc,combo_clear,combo_extra_life,lives[2:0],rgb_mux_sel[1:0]" */;
   input clk;
   input reset;
   input [3:0]text_on;
@@ -35,7 +35,7 @@ module design_1_controller_0_0(clk, reset, text_on, graph_on, gra_still, fired,
   output score_clear;
   output combo_inc;
   output combo_clear;
-  input combo_hundred;
+  input combo_extra_life;
   output [2:0]lives;
   output [1:0]rgb_mux_sel;
 endmodule

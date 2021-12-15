@@ -9,7 +9,7 @@ entity ps2_rx is
         -- PS/2 bus
         ps2c, ps2d: in std_logic;
         -- Controls
-        rx_en: in std_logic;
+        enable: in std_logic;
         -- Output data
         dout: out std_logic_vector(7 downto 0);
         dvalid: out std_logic;
@@ -51,7 +51,7 @@ begin
     fall_edge <= f_ps2c_reg and not f_ps2c_next;
 
     -- next-state logic
-    process(state_reg, n_reg, b_reg, fall_edge, rx_en, ps2d)
+    process(state_reg, n_reg, b_reg, fall_edge, enable, ps2d)
     begin
         dvalid <= '0';
         state_next <= state_reg;
@@ -60,7 +60,7 @@ begin
 
         case state_reg is
             when idle =>
-                if fall_edge = '1' and rx_en = '1' then
+                if fall_edge = '1' and enable = '1' then
                     -- shift in start bit
                     b_next <= ps2d & b_reg(10 downto 1);
                     n_next <= "1001";

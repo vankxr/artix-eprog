@@ -9,8 +9,8 @@ entity vga_mux is
         -- VGA
         video_on, pixel_tick: in std_logic;
         -- Mux inputs
-        text_rgb: in std_logic_vector(2 downto 0);
-        graph_rgb: in std_logic_vector(2 downto 0);
+        text_rgb: in std_logic_vector(11 downto 0);
+        graph_rgb: in std_logic_vector(11 downto 0);
         -- Mux selector
         mux_sel: in std_logic_vector(1 downto 0);
         -- Mux output
@@ -21,13 +21,15 @@ entity vga_mux is
 end vga_mux;
 
 architecture arch of vga_mux is
-    signal rgb_reg, rgb_next: std_logic_vector(2 downto 0);
+    constant BACKGROUND_COLOR: std_logic_vector(11 downto 0) := "000000100101";
+
+    signal rgb_reg, rgb_next: std_logic_vector(11 downto 0);
 begin
     -- registers
     process(clk, reset)
     begin
         if reset = '1' then
-            rgb_reg <= (others=>'0');
+            rgb_reg <= (others => '0');
         elsif clk'event and clk = '1' then
             if pixel_tick = '1' then
                 rgb_reg <= rgb_next;
@@ -39,18 +41,18 @@ begin
     process(mux_sel, video_on, graph_rgb, text_rgb)
     begin
         if video_on = '0' then
-            rgb_next <= "000";
+            rgb_next <= (others => '0');
         else
             case mux_sel is
                 when "00" => rgb_next <= text_rgb;
                 when "01" => rgb_next <= graph_rgb;
                 --when "10" => rgb_next <= FREE;
-                when others => rgb_next <= "110";
+                when others => rgb_next <= BACKGROUND_COLOR;
             end case;
         end if;
     end process;
 
-    outr <= rgb_reg(2) & rgb_reg(2) & rgb_reg(2) & rgb_reg(2);
-    outg <= rgb_reg(1) & rgb_reg(1) & rgb_reg(1) & rgb_reg(1);
-    outb <= rgb_reg(0) & rgb_reg(0) & rgb_reg(0) & rgb_reg(0);
+    outr <= rgb_reg(11 downto 8);
+    outg <= rgb_reg(7 downto 4);
+    outb <= rgb_reg(3 downto 0);
 end arch;

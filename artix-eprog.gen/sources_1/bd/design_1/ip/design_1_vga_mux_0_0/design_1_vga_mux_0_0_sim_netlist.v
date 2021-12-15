@@ -1,10 +1,10 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Mon Nov 29 15:53:40 2021
+// Date        : Wed Dec 15 12:37:26 2021
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
-// Command     : write_verilog -force -mode funcsim
-//               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_vga_mux_0_0/design_1_vga_mux_0_0_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim -rename_top design_1_vga_mux_0_0 -prefix
+//               design_1_vga_mux_0_0_ design_1_vga_mux_0_0_sim_netlist.v
 // Design      : design_1_vga_mux_0_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -30,38 +30,26 @@ module design_1_vga_mux_0_0
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 reset RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME reset, POLARITY ACTIVE_HIGH, INSERT_VIP 0" *) input reset;
   input video_on;
   input pixel_tick;
-  input [2:0]text_rgb;
-  input [2:0]graph_rgb;
+  input [11:0]text_rgb;
+  input [11:0]graph_rgb;
   input [1:0]mux_sel;
   output [3:0]outr;
   output [3:0]outg;
   output [3:0]outb;
 
   wire clk;
-  wire [2:0]graph_rgb;
+  wire [11:0]graph_rgb;
   wire [1:0]mux_sel;
-  wire [0:0]\^outb ;
-  wire [0:0]\^outg ;
-  wire [0:0]\^outr ;
+  wire [3:0]outb;
+  wire [3:0]outg;
+  wire [3:0]outr;
   wire pixel_tick;
   wire reset;
-  wire [2:0]text_rgb;
+  wire [11:0]text_rgb;
   wire video_on;
 
-  assign outb[3] = \^outb [0];
-  assign outb[2] = \^outb [0];
-  assign outb[1] = \^outb [0];
-  assign outb[0] = \^outb [0];
-  assign outg[3] = \^outg [0];
-  assign outg[2] = \^outg [0];
-  assign outg[1] = \^outg [0];
-  assign outg[0] = \^outg [0];
-  assign outr[3] = \^outr [0];
-  assign outr[2] = \^outr [0];
-  assign outr[1] = \^outr [0];
-  assign outr[0] = \^outr [0];
   design_1_vga_mux_0_0_vga_mux inst
-       (.Q({\^outr ,\^outg ,\^outb }),
+       (.Q({outr,outg,outb}),
         .clk(clk),
         .graph_rgb(graph_rgb),
         .mux_sel(mux_sel),
@@ -71,52 +59,69 @@ module design_1_vga_mux_0_0
         .video_on(video_on));
 endmodule
 
-(* ORIG_REF_NAME = "vga_mux" *) 
 module design_1_vga_mux_0_0_vga_mux
    (Q,
     video_on,
-    mux_sel,
     graph_rgb,
+    mux_sel,
     text_rgb,
     pixel_tick,
     clk,
     reset);
-  output [2:0]Q;
+  output [11:0]Q;
   input video_on;
+  input [11:0]graph_rgb;
   input [1:0]mux_sel;
-  input [2:0]graph_rgb;
-  input [2:0]text_rgb;
+  input [11:0]text_rgb;
   input pixel_tick;
   input clk;
   input reset;
 
-  wire [2:0]Q;
+  wire [11:0]Q;
   wire clk;
-  wire [2:0]graph_rgb;
+  wire [11:0]graph_rgb;
   wire [1:0]mux_sel;
   wire pixel_tick;
   wire reset;
-  wire [2:0]rgb_next;
-  wire [2:0]text_rgb;
+  wire [11:0]rgb_next;
+  wire [11:0]text_rgb;
   wire video_on;
 
   LUT5 #(
-    .INIT(32'h20222000)) 
+    .INIT(32'hAAAA8A80)) 
     \rgb_reg[0]_i_1 
        (.I0(video_on),
-        .I1(mux_sel[1]),
-        .I2(graph_rgb[0]),
-        .I3(mux_sel[0]),
-        .I4(text_rgb[0]),
+        .I1(graph_rgb[0]),
+        .I2(mux_sel[0]),
+        .I3(text_rgb[0]),
+        .I4(mux_sel[1]),
         .O(rgb_next[0]));
   LUT5 #(
-    .INIT(32'hAAAA8A80)) 
+    .INIT(32'h20222000)) 
+    \rgb_reg[10]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[10]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[10]),
+        .O(rgb_next[10]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
+    \rgb_reg[11]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[11]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[11]),
+        .O(rgb_next[11]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
     \rgb_reg[1]_i_1 
        (.I0(video_on),
-        .I1(graph_rgb[1]),
-        .I2(mux_sel[0]),
-        .I3(text_rgb[1]),
-        .I4(mux_sel[1]),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[1]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[1]),
         .O(rgb_next[1]));
   LUT5 #(
     .INIT(32'hAAAA8A80)) 
@@ -127,12 +132,87 @@ module design_1_vga_mux_0_0_vga_mux
         .I3(text_rgb[2]),
         .I4(mux_sel[1]),
         .O(rgb_next[2]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
+    \rgb_reg[3]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[3]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[3]),
+        .O(rgb_next[3]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
+    \rgb_reg[4]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[4]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[4]),
+        .O(rgb_next[4]));
+  LUT5 #(
+    .INIT(32'hAAAA8A80)) 
+    \rgb_reg[5]_i_1 
+       (.I0(video_on),
+        .I1(graph_rgb[5]),
+        .I2(mux_sel[0]),
+        .I3(text_rgb[5]),
+        .I4(mux_sel[1]),
+        .O(rgb_next[5]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
+    \rgb_reg[6]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[6]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[6]),
+        .O(rgb_next[6]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
+    \rgb_reg[7]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[7]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[7]),
+        .O(rgb_next[7]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
+    \rgb_reg[8]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[8]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[8]),
+        .O(rgb_next[8]));
+  LUT5 #(
+    .INIT(32'h20222000)) 
+    \rgb_reg[9]_i_1 
+       (.I0(video_on),
+        .I1(mux_sel[1]),
+        .I2(graph_rgb[9]),
+        .I3(mux_sel[0]),
+        .I4(text_rgb[9]),
+        .O(rgb_next[9]));
   FDCE \rgb_reg_reg[0] 
        (.C(clk),
         .CE(pixel_tick),
         .CLR(reset),
         .D(rgb_next[0]),
         .Q(Q[0]));
+  FDCE \rgb_reg_reg[10] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[10]),
+        .Q(Q[10]));
+  FDCE \rgb_reg_reg[11] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[11]),
+        .Q(Q[11]));
   FDCE \rgb_reg_reg[1] 
        (.C(clk),
         .CE(pixel_tick),
@@ -145,6 +225,48 @@ module design_1_vga_mux_0_0_vga_mux
         .CLR(reset),
         .D(rgb_next[2]),
         .Q(Q[2]));
+  FDCE \rgb_reg_reg[3] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[3]),
+        .Q(Q[3]));
+  FDCE \rgb_reg_reg[4] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[4]),
+        .Q(Q[4]));
+  FDCE \rgb_reg_reg[5] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[5]),
+        .Q(Q[5]));
+  FDCE \rgb_reg_reg[6] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[6]),
+        .Q(Q[6]));
+  FDCE \rgb_reg_reg[7] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[7]),
+        .Q(Q[7]));
+  FDCE \rgb_reg_reg[8] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[8]),
+        .Q(Q[8]));
+  FDCE \rgb_reg_reg[9] 
+       (.C(clk),
+        .CE(pixel_tick),
+        .CLR(reset),
+        .D(rgb_next[9]),
+        .Q(Q[9]));
 endmodule
 `ifndef GLBL
 `define GLBL

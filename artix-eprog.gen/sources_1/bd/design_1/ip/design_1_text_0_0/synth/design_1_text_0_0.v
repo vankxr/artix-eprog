@@ -89,7 +89,7 @@ input wire [3 : 0] combo_dig1;
 input wire [3 : 0] combo_dig0;
 input wire [2 : 0] lives;
 output wire [3 : 0] text_on;
-output wire [2 : 0] text_rgb;
+output wire [11 : 0] text_rgb;
 
   text inst (
     .clk(clk),

@@ -7,8 +7,8 @@
    "Color Coded_ScaleFactor":"1.3164",
    "Color Coded_TopLeft":"1271,54",
    "Default View_Layers":"/reset_1:true|/proc_sys_reset_0_peripheral_aresetn:true|/sys_clock_1:true|/clk_wiz_0_clk_out1:true|",
-   "Default View_ScaleFactor":"3.3783",
-   "Default View_TopLeft":"3862,911",
+   "Default View_ScaleFactor":"1.27079",
+   "Default View_TopLeft":"992,400",
    "Display-PortTypeClock":"true",
    "Display-PortTypeOthers":"true",
    "Display-PortTypeReset":"true",
@@ -95,119 +95,119 @@ pagesize -pg 1 -db -bbox -sgen -110 0 3670 820
    "No Loops_TopLeft":"922,267",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port port-id_sys_clock -pg 1 -lvl 0 -x -10 -y 1260 -defaultsOSRD
-preplace port port-id_reset -pg 1 -lvl 0 -x -10 -y 1290 -defaultsOSRD
-preplace port port-id_hsync -pg 1 -lvl 12 -x 3930 -y 1370 -defaultsOSRD
-preplace port port-id_vsync -pg 1 -lvl 12 -x 3930 -y 1410 -defaultsOSRD
-preplace port port-id_led -pg 1 -lvl 12 -x 3930 -y 1260 -defaultsOSRD
-preplace port port-id_fire_ready -pg 1 -lvl 12 -x 3930 -y 920 -defaultsOSRD
-preplace port port-id_ps2_mode -pg 1 -lvl 0 -x -10 -y 1100 -defaultsOSRD
-preplace port port-id_ps2_rx_en -pg 1 -lvl 0 -x -10 -y 960 -defaultsOSRD
-preplace port port-id_ps2_clock -pg 1 -lvl 0 -x -10 -y 1020 -defaultsOSRD
-preplace port port-id_ps2_data -pg 1 -lvl 0 -x -10 -y 1050 -defaultsOSRD
-preplace portBus btn -pg 1 -lvl 0 -x -10 -y 1130 -defaultsOSRD
-preplace portBus outred -pg 1 -lvl 12 -x 3930 -y 520 -defaultsOSRD
-preplace portBus outgreen -pg 1 -lvl 12 -x 3930 -y 550 -defaultsOSRD
-preplace portBus outblue -pg 1 -lvl 12 -x 3930 -y 580 -defaultsOSRD
-preplace portBus ps2_dout -pg 1 -lvl 12 -x 3930 -y 970 -defaultsOSRD
-preplace inst clk_wiz_0 -pg 1 -lvl 10 -x 3420 -y 1250 -defaultsOSRD
-preplace inst proc_sys_reset_0 -pg 1 -lvl 1 -x 210 -y 1360 -defaultsOSRD
-preplace inst vga_sync_0 -pg 1 -lvl 3 -x 920 -y 1370 -swap {0 2 1 5 7 6 3 4} -defaultsOSRD
-preplace inst menu_timer -pg 1 -lvl 4 -x 1430 -y 240 -swap {0 2 1 3 4 5} -defaultsOSRD
-preplace inst vga_mux_0 -pg 1 -lvl 11 -x 3770 -y 550 -swap {0 2 5 6 1 4 3 7 8 9} -defaultsOSRD
-preplace inst score_counter_0 -pg 1 -lvl 6 -x 2330 -y 700 -swap {3 0 1 2 5 4} -defaultsOSRD
-preplace inst score_counter_1 -pg 1 -lvl 7 -x 2570 -y 690 -swap {0 1 2 3 5 4} -defaultsOSRD
-preplace inst score_counter_2 -pg 1 -lvl 8 -x 2810 -y 680 -swap {0 1 2 3 5 4} -defaultsOSRD
-preplace inst score_counter_3 -pg 1 -lvl 9 -x 3060 -y 680 -defaultsOSRD
-preplace inst clock_divider_1_kHz -pg 1 -lvl 2 -x 540 -y 690 -defaultsOSRD
-preplace inst clock_divider_25_MHz -pg 1 -lvl 2 -x 540 -y 1180 -defaultsOSRD
-preplace inst fire_cooldown_timer -pg 1 -lvl 11 -x 3770 -y 920 -defaultsOSRD
-preplace inst xlslice_0 -pg 1 -lvl 3 -x 920 -y 660 -defaultsOSRD
-preplace inst xlslice_1 -pg 1 -lvl 3 -x 920 -y 760 -defaultsOSRD
-preplace inst xlslice_2 -pg 1 -lvl 3 -x 920 -y 860 -defaultsOSRD
-preplace inst monster_spawn_timer -pg 1 -lvl 3 -x 920 -y 460 -defaultsOSRD
-preplace inst monster_move_timer -pg 1 -lvl 3 -x 920 -y 100 -defaultsOSRD
-preplace inst combo_counter_0 -pg 1 -lvl 3 -x 920 -y 290 -defaultsOSRD
-preplace inst combo_counter_1 -pg 1 -lvl 4 -x 1430 -y 440 -defaultsOSRD
-preplace inst combo_counter_2 -pg 1 -lvl 9 -x 3060 -y 440 -defaultsOSRD
-preplace inst prng_0 -pg 1 -lvl 2 -x 540 -y 830 -defaultsOSRD
-preplace inst controller_0 -pg 1 -lvl 5 -x 1980 -y 740 -defaultsOSRD
-preplace inst text_0 -pg 1 -lvl 10 -x 3420 -y 760 -defaultsOSRD
-preplace inst ps2_rx_0 -pg 1 -lvl 2 -x 540 -y 990 -defaultsOSRD
-preplace inst graph_0 -pg 1 -lvl 4 -x 1430 -y 750 -defaultsOSRD
-preplace inst input_controller_0 -pg 1 -lvl 3 -x 920 -y 1060 -defaultsOSRD
-preplace netloc Net 1 5 4 2210 610 2460 600 2710 590 2930J
-preplace netloc Net1 1 2 7 770 560 1080 530 NJ 530 2200 470 NJ 470 NJ 470 NJ
-preplace netloc clk_wiz_0_clk_out1 1 0 11 20 1170 390 610 690 590 1160 340 1810 580 2180 580 2470 550 2690 550 2960 550 3270 550 3580
-preplace netloc clk_wiz_0_locked 1 0 12 30 1240 410J 1260 NJ 1260 1180J 1170 NJ 1170 NJ 1170 NJ 1170 NJ 1170 NJ 1170 NJ 1170 3570 1260 NJ
-preplace netloc clock_divider_0_tick 1 2 9 660 200 1150 80 NJ 80 NJ 80 NJ 80 NJ 80 NJ 80 NJ 80 3600J
-preplace netloc clock_divider_25_MHz_tick 1 2 9 660 1190 1090J 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 3620
-preplace netloc combo_counter_0_dig 1 3 7 1080J 100 NJ 100 NJ 100 NJ 100 NJ 100 NJ 100 3220
-preplace netloc combo_counter_0_ovf 1 3 1 1150 300n
-preplace netloc combo_counter_1_dig 1 4 6 NJ 430 NJ 430 NJ 430 NJ 430 2930J 540 3170
-preplace netloc combo_counter_1_ovf 1 4 5 1780 450 NJ 450 NJ 450 NJ 450 NJ
-preplace netloc combo_counter_2_dig 1 9 1 3210 430n
-preplace netloc controller_0_combo_inc 1 2 4 720 1180 NJ 1180 NJ 1180 2140
-preplace netloc controller_0_gra_still 1 3 3 1180 110 NJ 110 2150
-preplace netloc controller_0_lives 1 5 5 NJ 800 NJ 800 NJ 800 NJ 800 3160
-preplace netloc controller_0_rgb_mux_sel 1 5 6 2190 340 NJ 340 NJ 340 NJ 340 NJ 340 3610J
-preplace netloc controller_0_score_inc 1 5 1 2220 690n
-preplace netloc controller_0_timer_start 1 3 3 1190 120 NJ 120 2160
-preplace netloc controller_0_timer_top 1 3 3 1200 130 NJ 130 2140
-preplace netloc counter_mod10_0_dig 1 6 4 2440 560 NJ 560 NJ 560 3190J
-preplace netloc counter_mod10_0_ovf 1 6 1 2430 690n
-preplace netloc counter_mod10_1_dig 1 7 3 2680 580 NJ 580 3180J
-preplace netloc counter_mod10_1_ovf 1 7 1 2670 680n
-preplace netloc counter_mod10_2_dig 1 8 2 2910 350 3230J
-preplace netloc counter_mod10_2_ovf 1 8 1 2920 670n
-preplace netloc counter_mod10_3_dig 1 9 1 3200 670n
-preplace netloc graph_0_died 1 4 1 1720 700n
-preplace netloc graph_0_fire_timer_start 1 4 7 1700 930 NJ 930 NJ 930 NJ 930 NJ 930 3210J 960 NJ
-preplace netloc graph_0_fire_timer_top 1 4 7 1710 940 NJ 940 NJ 940 NJ 940 NJ 940 NJ 940 NJ
-preplace netloc graph_0_fired 1 4 1 1790 640n
-preplace netloc graph_0_graph_on 1 4 1 1740 700n
-preplace netloc graph_0_graph_rgb 1 4 7 1730 570 NJ 570 NJ 570 NJ 570 NJ 570 NJ 570 NJ
-preplace netloc graph_0_killed 1 4 1 1750 680n
-preplace netloc graph_0_missed 1 4 1 1760 660n
-preplace netloc graph_0_monster_move_timer_start 1 2 3 740 580 1110J 560 1670
-preplace netloc graph_0_monster_move_timer_top 1 2 3 730 570 1100J 550 1680
-preplace netloc graph_0_monster_spawn_timer_start 1 2 3 760 920 1100J 940 1660
-preplace netloc graph_0_monster_spawn_timer_top 1 2 3 750 930 1080J 950 1690
-preplace netloc monster_move_timer_done 1 3 1 1070 100n
-preplace netloc monster_spawn_timer_done 1 3 1 1120 460n
-preplace netloc prng_0_seq 1 2 1 700 660n
-preplace netloc proc_sys_reset_0_peripheral_aresetn 1 1 10 400 620 670 600 1170 350 1800 560 2170 590 2450 590 2700 530 2940 590 3260 590 3630
-preplace netloc reset_1 1 0 10 10 1250 NJ 1250 750J 1240 NJ 1240 NJ 1240 NJ 1240 NJ 1240 NJ 1240 NJ 1240 NJ
-preplace netloc sys_clock_1 1 0 10 NJ 1260 390J 1270 NJ 1270 1200J 1260 NJ 1260 NJ 1260 NJ 1260 NJ 1260 NJ 1260 NJ
-preplace netloc text_0_text_on 1 4 7 1820 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 3570
-preplace netloc text_0_text_rgb 1 10 1 3590 510n
-preplace netloc timer_0_done 1 4 1 1770 240n
-preplace netloc timer_1_done 1 3 9 1200 1030 NJ 1030 NJ 1030 NJ 1030 NJ 1030 NJ 1030 NJ 1030 NJ 1030 3900
-preplace netloc vga_mux_0_outb 1 11 1 3900J 570n
-preplace netloc vga_mux_0_outg 1 11 1 NJ 550
-preplace netloc vga_mux_0_outr 1 11 1 3900J 520n
-preplace netloc vga_sync_0_hsync 1 3 9 NJ 1370 NJ 1370 NJ 1370 NJ 1370 NJ 1370 NJ 1370 NJ 1370 NJ 1370 NJ
-preplace netloc vga_sync_0_pixel_x 1 3 7 1150 540 NJ 540 NJ 540 NJ 540 NJ 540 2950J 530 3240J
-preplace netloc vga_sync_0_pixel_y 1 3 7 1130 140 NJ 140 NJ 140 NJ 140 NJ 140 NJ 140 3250J
-preplace netloc vga_sync_0_video_on 1 3 8 NJ 1390 NJ 1390 NJ 1390 NJ 1390 NJ 1390 NJ 1390 NJ 1390 3640
-preplace netloc vga_sync_0_vsync 1 3 9 NJ 1410 NJ 1410 NJ 1410 NJ 1410 NJ 1410 NJ 1410 NJ 1410 NJ 1410 NJ
-preplace netloc xlslice_0_Dout 1 3 1 1100J 660n
-preplace netloc xlslice_1_Dout 1 3 1 NJ 760
-preplace netloc xlslice_2_Dout 1 3 1 1100J 780n
-preplace netloc btn_1 1 0 3 30J 1110 NJ 1110 660J
-preplace netloc ps2_mode_0_1 1 0 3 NJ 1100 NJ 1100 NJ
-preplace netloc input_controller_0_start 1 3 2 1180J 1020 1730
-preplace netloc input_controller_0_fire 1 3 1 1140 840n
-preplace netloc input_controller_0_craft_delta_y 1 3 1 1170 860n
-preplace netloc input_controller_0_craft_dir 1 3 1 1190 880n
-preplace netloc rx_en_0_1 1 0 2 NJ 960 NJ
-preplace netloc ps2c_0_1 1 0 2 NJ 1020 NJ
-preplace netloc ps2d_0_1 1 0 2 30J 1040 NJ
-preplace netloc ps2_rx_0_dvalid 1 2 1 700 990n
-preplace netloc ps2_rx_0_dpok 1 2 1 680 1010n
-preplace netloc ps2_rx_0_dout 1 2 10 710J 940 1070J 1010 1810J 1020 NJ 1020 NJ 1020 NJ 1020 NJ 1020 NJ 1020 NJ 1020 3910J
-levelinfo -pg 1 -10 210 540 920 1430 1980 2330 2570 2810 3060 3420 3770 3930
-pagesize -pg 1 -db -bbox -sgen -130 0 4080 1470
+preplace port port-id_sys_clock -pg 1 -lvl 0 -x -20 -y 1590 -defaultsOSRD
+preplace port port-id_reset -pg 1 -lvl 0 -x -20 -y 1410 -defaultsOSRD
+preplace port port-id_hsync -pg 1 -lvl 12 -x 3910 -y 1320 -defaultsOSRD
+preplace port port-id_vsync -pg 1 -lvl 12 -x 3910 -y 1630 -defaultsOSRD
+preplace port port-id_led -pg 1 -lvl 12 -x 3910 -y 1570 -defaultsOSRD
+preplace port port-id_fire_ready -pg 1 -lvl 12 -x 3910 -y 830 -defaultsOSRD
+preplace port port-id_ps2_mode -pg 1 -lvl 0 -x -20 -y 940 -defaultsOSRD
+preplace port port-id_ps2_enable -pg 1 -lvl 0 -x -20 -y 1380 -defaultsOSRD
+preplace port port-id_ps2_clock -pg 1 -lvl 0 -x -20 -y 1320 -defaultsOSRD
+preplace port port-id_ps2_data -pg 1 -lvl 0 -x -20 -y 1350 -defaultsOSRD
+preplace portBus btn -pg 1 -lvl 0 -x -20 -y 970 -defaultsOSRD
+preplace portBus outred -pg 1 -lvl 12 -x 3910 -y 1020 -defaultsOSRD
+preplace portBus outgreen -pg 1 -lvl 12 -x 3910 -y 1050 -defaultsOSRD
+preplace portBus outblue -pg 1 -lvl 12 -x 3910 -y 1080 -defaultsOSRD
+preplace portBus ps2_dout -pg 1 -lvl 12 -x 3910 -y 1480 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 10 -x 3380 -y 1560 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 1 -x 210 -y 1490 -defaultsOSRD
+preplace inst vga_sync_0 -pg 1 -lvl 3 -x 850 -y 1320 -swap {0 2 1 5 7 6 3 4} -defaultsOSRD
+preplace inst menu_timer -pg 1 -lvl 4 -x 1410 -y 100 -swap {0 2 1 3 4 5} -defaultsOSRD
+preplace inst score_counter_0 -pg 1 -lvl 6 -x 2320 -y 750 -swap {3 0 1 2 5 4} -defaultsOSRD
+preplace inst score_counter_1 -pg 1 -lvl 7 -x 2560 -y 750 -swap {0 1 2 3 5 4} -defaultsOSRD
+preplace inst score_counter_2 -pg 1 -lvl 8 -x 2800 -y 740 -swap {0 1 2 3 5 4} -defaultsOSRD
+preplace inst score_counter_3 -pg 1 -lvl 9 -x 3040 -y 750 -defaultsOSRD
+preplace inst clock_divider_1_kHz -pg 1 -lvl 2 -x 520 -y 1040 -defaultsOSRD
+preplace inst clock_divider_25_MHz -pg 1 -lvl 2 -x 520 -y 1480 -defaultsOSRD
+preplace inst fire_cooldown_timer -pg 1 -lvl 11 -x 3750 -y 830 -defaultsOSRD
+preplace inst xlslice_0 -pg 1 -lvl 3 -x 850 -y 1460 -defaultsOSRD
+preplace inst xlslice_1 -pg 1 -lvl 3 -x 850 -y 1080 -defaultsOSRD
+preplace inst xlslice_2 -pg 1 -lvl 3 -x 850 -y 1180 -defaultsOSRD
+preplace inst monster_spawn_timer -pg 1 -lvl 3 -x 850 -y 630 -defaultsOSRD
+preplace inst monster_move_timer -pg 1 -lvl 3 -x 850 -y 450 -defaultsOSRD
+preplace inst combo_counter_0 -pg 1 -lvl 4 -x 1410 -y 300 -defaultsOSRD
+preplace inst combo_counter_1 -pg 1 -lvl 8 -x 2800 -y 530 -defaultsOSRD
+preplace inst combo_counter_2 -pg 1 -lvl 9 -x 3040 -y 550 -defaultsOSRD
+preplace inst prng_0 -pg 1 -lvl 2 -x 520 -y 1180 -defaultsOSRD
+preplace inst input_controller_0 -pg 1 -lvl 3 -x 850 -y 900 -defaultsOSRD
+preplace inst vga_mux_0 -pg 1 -lvl 11 -x 3750 -y 1050 -swap {0 2 5 6 1 4 3 7 8 9} -defaultsOSRD
+preplace inst graph_0 -pg 1 -lvl 4 -x 1410 -y 580 -defaultsOSRD
+preplace inst controller_0 -pg 1 -lvl 5 -x 1960 -y 590 -defaultsOSRD
+preplace inst text_0 -pg 1 -lvl 10 -x 3380 -y 670 -defaultsOSRD
+preplace inst ps2_rx_0 -pg 1 -lvl 2 -x 520 -y 1330 -defaultsOSRD
+preplace netloc Net 1 5 4 2180 630 2450 630 2670 640 2910J
+preplace netloc Net1 1 3 6 1180 390 NJ 390 2150 440 NJ 440 2690 440 2910J
+preplace netloc btn_1 1 0 3 30J 960 NJ 960 NJ
+preplace netloc clk_wiz_0_clk_out1 1 0 11 20 1590 390 1110 650 350 1150 770 1780 770 2220 640 2460 640 2660 620 2930 440 3230 490 3540
+preplace netloc clk_wiz_0_locked 1 0 12 30 1630 NJ 1630 NJ 1630 NJ 1630 NJ 1630 NJ 1630 NJ 1630 NJ 1630 NJ 1630 NJ 1630 3570 1570 NJ
+preplace netloc clock_divider_0_tick 1 2 9 630 730 1080 830 NJ 830 2200J 840 NJ 840 NJ 840 NJ 840 NJ 840 3580J
+preplace netloc clock_divider_25_MHz_tick 1 2 9 690 1020 NJ 1020 NJ 1020 NJ 1020 NJ 1020 NJ 1020 NJ 1020 NJ 1020 3530
+preplace netloc combo_counter_0_dig 1 4 6 1780 340 NJ 340 NJ 340 NJ 340 NJ 340 3200J
+preplace netloc combo_counter_0_ovf 1 4 4 1720 750 2190J 540 NJ 540 NJ
+preplace netloc combo_counter_1_dig 1 8 2 2900 450 3170J
+preplace netloc combo_counter_1_ovf 1 8 1 2900 540n
+preplace netloc combo_counter_2_dig 1 9 1 3150 540n
+preplace netloc controller_0_combo_inc 1 3 3 1160 840 NJ 840 2120
+preplace netloc controller_0_gra_still 1 3 3 1170 850 NJ 850 2140
+preplace netloc controller_0_lives 1 5 5 2160J 350 NJ 350 NJ 350 NJ 350 3180
+preplace netloc controller_0_rgb_mux_sel 1 5 6 2170 360 NJ 360 NJ 360 NJ 360 NJ 360 3590J
+preplace netloc controller_0_score_inc 1 5 1 2200 570n
+preplace netloc controller_0_timer_start 1 3 3 1180 210 NJ 210 2120
+preplace netloc controller_0_timer_top 1 3 3 1160 200 NJ 200 2130
+preplace netloc counter_mod10_0_dig 1 6 4 2420J 370 NJ 370 2920J 640 3140
+preplace netloc counter_mod10_0_ovf 1 6 1 2430 740n
+preplace netloc counter_mod10_1_dig 1 7 3 2680J 390 NJ 390 3220
+preplace netloc counter_mod10_1_ovf 1 7 1 2660 740n
+preplace netloc counter_mod10_2_dig 1 8 2 2920 660 NJ
+preplace netloc counter_mod10_2_ovf 1 8 1 2900 730n
+preplace netloc counter_mod10_3_dig 1 9 1 3160 640n
+preplace netloc graph_0_died 1 4 1 1680 530n
+preplace netloc graph_0_fire_timer_start 1 4 7 1670 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 3610J
+preplace netloc graph_0_fire_timer_top 1 4 7 1690 420 NJ 420 NJ 420 NJ 420 NJ 420 NJ 420 3600J
+preplace netloc graph_0_fired 1 4 1 1770 470n
+preplace netloc graph_0_graph_on 1 4 1 N 550
+preplace netloc graph_0_graph_rgb 1 4 7 1700 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 3570J
+preplace netloc graph_0_killed 1 4 1 1710 510n
+preplace netloc graph_0_missed 1 4 1 1730 490n
+preplace netloc graph_0_monster_move_timer_start 1 2 3 680 750 1110J 780 1640
+preplace netloc graph_0_monster_move_timer_top 1 2 3 670 780 1020J 790 1650
+preplace netloc graph_0_monster_spawn_timer_start 1 2 3 700 770 1030J 800 1660
+preplace netloc graph_0_monster_spawn_timer_top 1 2 3 690 760 1040J 810 1670
+preplace netloc input_controller_0_craft_delta_y 1 3 1 1070 690n
+preplace netloc input_controller_0_craft_dir 1 3 1 1100 710n
+preplace netloc input_controller_0_fire 1 3 1 1010 670n
+preplace netloc input_controller_0_start 1 3 2 N 870 1790J
+preplace netloc monster_move_timer_done 1 3 1 1140 450n
+preplace netloc monster_spawn_timer_done 1 3 1 N 630
+preplace netloc prng_0_seq 1 2 1 700 1080n
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 1 10 410 970 660 740 1120 820 1760 760 2150 660 2440 660 2700 630 2940 460 3190 500 3560
+preplace netloc ps2_mode_0_1 1 0 3 NJ 940 NJ 940 NJ
+preplace netloc ps2_rx_0_dout 1 2 10 670 1520 1090J 1480 NJ 1480 NJ 1480 NJ 1480 NJ 1480 NJ 1480 NJ 1480 NJ 1480 NJ
+preplace netloc ps2_rx_0_dpok 1 2 1 680 920n
+preplace netloc ps2_rx_0_dvalid 1 2 1 640 900n
+preplace netloc ps2c_0_1 1 0 2 NJ 1320 400J
+preplace netloc ps2d_0_1 1 0 2 NJ 1350 NJ
+preplace netloc reset_1 1 0 10 10 1600 400J 1550 NJ 1550 NJ 1550 NJ 1550 NJ 1550 NJ 1550 NJ 1550 NJ 1550 NJ
+preplace netloc rx_en_0_1 1 0 2 30J 1370 NJ
+preplace netloc sys_clock_1 1 0 10 0J 1610 410J 1570 NJ 1570 NJ 1570 NJ 1570 NJ 1570 NJ 1570 NJ 1570 NJ 1570 NJ
+preplace netloc text_0_text_on 1 4 7 1790 400 NJ 400 NJ 400 NJ 400 NJ 400 NJ 400 3530
+preplace netloc text_0_text_rgb 1 10 1 3550 680n
+preplace netloc timer_0_done 1 4 1 1750 100n
+preplace netloc timer_1_done 1 3 9 1180 930 NJ 930 NJ 930 NJ 930 NJ 930 NJ 930 NJ 930 NJ 930 3890
+preplace netloc vga_mux_0_outb 1 11 1 3890J 1070n
+preplace netloc vga_mux_0_outg 1 11 1 NJ 1050
+preplace netloc vga_mux_0_outr 1 11 1 3890J 1020n
+preplace netloc vga_sync_0_hsync 1 3 9 NJ 1320 NJ 1320 NJ 1320 NJ 1320 NJ 1320 NJ 1320 NJ 1320 NJ 1320 NJ
+preplace netloc vga_sync_0_pixel_x 1 3 7 1000 860 1800J 780 2210J 650 NJ 650 NJ 650 NJ 650 3190
+preplace netloc vga_sync_0_pixel_y 1 3 7 1060 880 1740J 410 NJ 410 NJ 410 NJ 410 NJ 410 3210
+preplace netloc vga_sync_0_video_on 1 3 8 1180J 1310 NJ 1310 NJ 1310 NJ 1310 NJ 1310 NJ 1310 NJ 1310 3580
+preplace netloc vga_sync_0_vsync 1 3 9 NJ 1360 NJ 1360 NJ 1360 NJ 1360 NJ 1360 NJ 1360 NJ 1360 NJ 1360 3890J
+preplace netloc xlslice_0_Dout 1 3 1 1130 570n
+preplace netloc xlslice_1_Dout 1 3 1 1050 590n
+preplace netloc xlslice_2_Dout 1 3 1 1090 610n
+levelinfo -pg 1 -20 210 520 850 1410 1960 2320 2560 2800 3040 3380 3750 3910
+pagesize -pg 1 -db -bbox -sgen -150 0 4060 1650
 "
 }
 {

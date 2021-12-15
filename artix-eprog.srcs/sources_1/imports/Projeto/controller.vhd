@@ -22,7 +22,7 @@ entity controller is
         score_inc, score_clear: out std_logic;
         -- Combo counter
         combo_inc, combo_clear: out std_logic;
-        combo_hundred: in std_logic;
+        combo_extra_life: in std_logic;
         -- Lives out to text
         lives: out std_logic_vector(2 downto 0);
         -- VGA RGB mux selector
@@ -49,7 +49,7 @@ begin
     end process;
 
     -- fsmd next-state logic
-    process(start, fired, missed, killed, died, timer_up, state_reg, lives_reg, combo_hundred)
+    process(start, fired, missed, killed, died, timer_up, state_reg, lives_reg, combo_extra_life)
     begin
         state_next <= state_reg;
         lives_next <= lives_reg;
@@ -87,7 +87,7 @@ begin
                     combo_clear <= '1';
                 end if;
 
-                if combo_hundred = '1' and lives_reg < 7 then
+                if combo_extra_life = '1' and lives_reg < 7 then
                     lives_next <= lives_reg + 1;
                 end if;
 

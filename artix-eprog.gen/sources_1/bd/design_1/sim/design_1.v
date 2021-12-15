@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-//Date        : Mon Dec 13 16:47:06 2021
+//Date        : Wed Dec 15 13:32:27 2021
 //Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 //Command     : generate_target design_1.bd
 //Design      : design_1
@@ -21,8 +21,8 @@ module design_1
     ps2_clock,
     ps2_data,
     ps2_dout,
+    ps2_enable,
     ps2_mode,
-    ps2_rx_en,
     reset,
     sys_clock,
     vsync);
@@ -36,8 +36,8 @@ module design_1
   input ps2_clock;
   input ps2_data;
   output [7:0]ps2_dout;
+  input ps2_enable;
   input ps2_mode;
-  input ps2_rx_en;
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.RESET RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_HIGH" *) input reset;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.SYS_CLOCK CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.SYS_CLOCK, CLK_DOMAIN design_1_sys_clock, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input sys_clock;
   output vsync;
@@ -73,7 +73,7 @@ module design_1
   wire [31:0]graph_0_fire_timer_top;
   wire graph_0_fired;
   wire graph_0_graph_on;
-  wire [2:0]graph_0_graph_rgb;
+  wire [11:0]graph_0_graph_rgb;
   wire graph_0_killed;
   wire graph_0_missed;
   wire graph_0_monster_move_timer_start;
@@ -98,7 +98,7 @@ module design_1
   wire rx_en_0_1;
   wire sys_clock_1;
   wire [3:0]text_0_text_on;
-  wire [2:0]text_0_text_rgb;
+  wire [11:0]text_0_text_rgb;
   wire timer_0_done;
   wire timer_1_done;
   wire [3:0]vga_mux_0_outb;
@@ -125,7 +125,7 @@ module design_1
   assign ps2c_0_1 = ps2_clock;
   assign ps2d_0_1 = ps2_data;
   assign reset_1 = reset;
-  assign rx_en_0_1 = ps2_rx_en;
+  assign rx_en_0_1 = ps2_enable;
   assign sys_clock_1 = sys_clock;
   assign vsync = vga_sync_0_vsync;
   design_1_clk_wiz_0_0 clk_wiz_0
@@ -164,7 +164,7 @@ module design_1
   design_1_controller_0_0 controller_0
        (.clk(clk_wiz_0_clk_out1),
         .combo_clear(Net1),
-        .combo_hundred(combo_counter_1_ovf),
+        .combo_extra_life(combo_counter_0_ovf),
         .combo_inc(controller_0_combo_inc),
         .died(graph_0_died),
         .fired(graph_0_fired),
@@ -265,10 +265,10 @@ module design_1
         .dout(ps2_rx_0_dout),
         .dpok(ps2_rx_0_dpok),
         .dvalid(ps2_rx_0_dvalid),
+        .enable(rx_en_0_1),
         .ps2c(ps2c_0_1),
         .ps2d(ps2d_0_1),
-        .reset(proc_sys_reset_0_peripheral_aresetn),
-        .rx_en(rx_en_0_1));
+        .reset(proc_sys_reset_0_peripheral_aresetn));
   design_1_counter_mod10_0_0 score_counter_0
        (.clear(Net),
         .clk(clk_wiz_0_clk_out1),

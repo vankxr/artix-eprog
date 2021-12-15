@@ -1,0 +1,5 @@
+./text_converter \
+"RULES: Use buttons, keyboard or " \
+"mouse to move craft and shoot to" \
+"kill the monsters and earn      " \
+"points                          "

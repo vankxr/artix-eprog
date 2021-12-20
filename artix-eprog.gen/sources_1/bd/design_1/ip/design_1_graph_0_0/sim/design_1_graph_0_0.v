@@ -78,6 +78,14 @@ module design_1_graph_0_0 (
   monster_move_timer_top,
   monster_move_timer_start,
   monster_move_timer_up,
+  monster_move_speed_timer_top,
+  monster_move_speed_timer_start,
+  monster_move_speed_timer_up,
+  boost_spawn_y,
+  boost_spawn_time,
+  boost_spawn_timer_top,
+  boost_spawn_timer_start,
+  boost_spawn_timer_up,
   fire,
   craft_delta_y,
   craft_dir
@@ -110,6 +118,14 @@ input wire monster_spawn_timer_up;
 output wire [31 : 0] monster_move_timer_top;
 output wire monster_move_timer_start;
 input wire monster_move_timer_up;
+output wire [31 : 0] monster_move_speed_timer_top;
+output wire monster_move_speed_timer_start;
+input wire monster_move_speed_timer_up;
+input wire [9 : 0] boost_spawn_y;
+input wire [11 : 0] boost_spawn_time;
+output wire [31 : 0] boost_spawn_timer_top;
+output wire boost_spawn_timer_start;
+input wire boost_spawn_timer_up;
 input wire fire;
 input wire [7 : 0] craft_delta_y;
 input wire craft_dir;
@@ -138,6 +154,14 @@ input wire craft_dir;
     .monster_move_timer_top(monster_move_timer_top),
     .monster_move_timer_start(monster_move_timer_start),
     .monster_move_timer_up(monster_move_timer_up),
+    .monster_move_speed_timer_top(monster_move_speed_timer_top),
+    .monster_move_speed_timer_start(monster_move_speed_timer_start),
+    .monster_move_speed_timer_up(monster_move_speed_timer_up),
+    .boost_spawn_y(boost_spawn_y),
+    .boost_spawn_time(boost_spawn_time),
+    .boost_spawn_timer_top(boost_spawn_timer_top),
+    .boost_spawn_timer_start(boost_spawn_timer_start),
+    .boost_spawn_timer_up(boost_spawn_timer_up),
     .fire(fire),
     .craft_delta_y(craft_delta_y),
     .craft_dir(craft_dir)

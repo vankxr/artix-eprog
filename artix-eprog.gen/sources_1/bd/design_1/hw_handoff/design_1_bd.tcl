@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# clock_divider, clock_divider, counter_mod10, counter_mod10, counter_mod10, controller, timer, graph, input_controller, timer, timer, timer, prng, ps2_rx, counter_mod10, counter_mod10, counter_mod10, counter_mod10, text, vga_mux, vga_sync
+# timer, clock_divider, clock_divider, counter_mod10, counter_mod10, counter_mod10, controller, timer, graph, input_controller, timer, timer, timer, timer, prng, ps2_rx, ps2_tri, ps2_tx, counter_mod10, counter_mod10, counter_mod10, counter_mod10, text, vga_mux, vga_sync
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -172,10 +172,10 @@ proc create_root_design { parentCell } {
   set outblue [ create_bd_port -dir O -from 3 -to 0 outblue ]
   set outgreen [ create_bd_port -dir O -from 3 -to 0 outgreen ]
   set outred [ create_bd_port -dir O -from 3 -to 0 outred ]
-  set ps2_clock [ create_bd_port -dir I ps2_clock ]
-  set ps2_data [ create_bd_port -dir I ps2_data ]
+  set ps2_clock [ create_bd_port -dir IO ps2_clock ]
+  set ps2_data [ create_bd_port -dir IO ps2_data ]
   set ps2_dout [ create_bd_port -dir O -from 7 -to 0 ps2_dout ]
-  set ps2_enable [ create_bd_port -dir I ps2_enable ]
+  set ps2_enable_out [ create_bd_port -dir O ps2_enable_out ]
   set ps2_mode [ create_bd_port -dir I ps2_mode ]
   set reset [ create_bd_port -dir I -type rst reset ]
   set_property -dict [ list \
@@ -187,6 +187,17 @@ proc create_root_design { parentCell } {
  ] $sys_clock
   set vsync [ create_bd_port -dir O vsync ]
 
+  # Create instance: boost_spawn_timer, and set properties
+  set block_name timer
+  set block_cell_name boost_spawn_timer
+  if { [catch {set boost_spawn_timer [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $boost_spawn_timer eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: clk_wiz_0, and set properties
   set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_0 ]
   set_property -dict [ list \
@@ -314,6 +325,17 @@ proc create_root_design { parentCell } {
      return 1
    }
   
+  # Create instance: monster_move_speed_timer, and set properties
+  set block_name timer
+  set block_cell_name monster_move_speed_timer
+  if { [catch {set monster_move_speed_timer [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $monster_move_speed_timer eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: monster_move_timer, and set properties
   set block_name timer
   set block_cell_name monster_move_timer
@@ -357,6 +379,28 @@ proc create_root_design { parentCell } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    } elseif { $ps2_rx_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: ps2_tri_0, and set properties
+  set block_name ps2_tri
+  set block_cell_name ps2_tri_0
+  if { [catch {set ps2_tri_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $ps2_tri_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: ps2_tx_0, and set properties
+  set block_name ps2_tx
+  set block_cell_name ps2_tx_0
+  if { [catch {set ps2_tx_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $ps2_tx_0 eq "" } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    }
@@ -465,13 +509,36 @@ proc create_root_design { parentCell } {
    CONFIG.DOUT_WIDTH {12} \
  ] $xlslice_2
 
+  # Create instance: xlslice_3, and set properties
+  set xlslice_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_3 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {43} \
+   CONFIG.DIN_TO {34} \
+   CONFIG.DIN_WIDTH {64} \
+   CONFIG.DOUT_WIDTH {10} \
+ ] $xlslice_3
+
+  # Create instance: xlslice_4, and set properties
+  set xlslice_4 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_4 ]
+  set_property -dict [ list \
+   CONFIG.DIN_FROM {23} \
+   CONFIG.DIN_TO {12} \
+   CONFIG.DIN_WIDTH {64} \
+   CONFIG.DOUT_WIDTH {12} \
+ ] $xlslice_4
+
   # Create port connections
   connect_bd_net -net Net [get_bd_pins controller_0/score_clear] [get_bd_pins score_counter_0/clear] [get_bd_pins score_counter_1/clear] [get_bd_pins score_counter_2/clear] [get_bd_pins score_counter_3/clear]
   connect_bd_net -net Net1 [get_bd_pins combo_counter_0/clear] [get_bd_pins combo_counter_1/clear] [get_bd_pins combo_counter_2/clear] [get_bd_pins controller_0/combo_clear]
+  connect_bd_net -net Net2 [get_bd_ports ps2_clock] [get_bd_pins ps2_tri_0/ps2c]
+  connect_bd_net -net Net3 [get_bd_ports ps2_data] [get_bd_pins ps2_tri_0/ps2d]
+  connect_bd_net -net Net4 [get_bd_pins ps2_rx_0/ps2c] [get_bd_pins ps2_tri_0/ps2c_i] [get_bd_pins ps2_tx_0/ps2c_i]
+  connect_bd_net -net Net5 [get_bd_pins ps2_rx_0/ps2d] [get_bd_pins ps2_tri_0/ps2d_i] [get_bd_pins ps2_tx_0/ps2d_i]
+  connect_bd_net -net boost_spawn_timer_done [get_bd_pins boost_spawn_timer/done] [get_bd_pins graph_0/boost_spawn_timer_up]
   connect_bd_net -net btn_1 [get_bd_ports btn] [get_bd_pins input_controller_0/btn]
-  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins clock_divider_1_kHz/clk] [get_bd_pins clock_divider_25_MHz/clk] [get_bd_pins combo_counter_0/clk] [get_bd_pins combo_counter_1/clk] [get_bd_pins combo_counter_2/clk] [get_bd_pins controller_0/clk] [get_bd_pins fire_cooldown_timer/clk] [get_bd_pins graph_0/clk] [get_bd_pins input_controller_0/clk] [get_bd_pins menu_timer/clk] [get_bd_pins monster_move_timer/clk] [get_bd_pins monster_spawn_timer/clk] [get_bd_pins prng_0/clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins ps2_rx_0/clk] [get_bd_pins score_counter_0/clk] [get_bd_pins score_counter_1/clk] [get_bd_pins score_counter_2/clk] [get_bd_pins score_counter_3/clk] [get_bd_pins text_0/clk] [get_bd_pins vga_mux_0/clk] [get_bd_pins vga_sync_0/clk]
+  connect_bd_net -net clk_wiz_0_clk_out1 [get_bd_pins boost_spawn_timer/clk] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins clock_divider_1_kHz/clk] [get_bd_pins clock_divider_25_MHz/clk] [get_bd_pins combo_counter_0/clk] [get_bd_pins combo_counter_1/clk] [get_bd_pins combo_counter_2/clk] [get_bd_pins controller_0/clk] [get_bd_pins fire_cooldown_timer/clk] [get_bd_pins graph_0/clk] [get_bd_pins input_controller_0/clk] [get_bd_pins menu_timer/clk] [get_bd_pins monster_move_speed_timer/clk] [get_bd_pins monster_move_timer/clk] [get_bd_pins monster_spawn_timer/clk] [get_bd_pins prng_0/clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins ps2_rx_0/clk] [get_bd_pins ps2_tx_0/clk] [get_bd_pins score_counter_0/clk] [get_bd_pins score_counter_1/clk] [get_bd_pins score_counter_2/clk] [get_bd_pins score_counter_3/clk] [get_bd_pins text_0/clk] [get_bd_pins vga_mux_0/clk] [get_bd_pins vga_sync_0/clk]
   connect_bd_net -net clk_wiz_0_locked [get_bd_ports led] [get_bd_pins clk_wiz_0/locked] [get_bd_pins proc_sys_reset_0/dcm_locked]
-  connect_bd_net -net clock_divider_0_tick [get_bd_pins clock_divider_1_kHz/tick] [get_bd_pins fire_cooldown_timer/tick] [get_bd_pins menu_timer/tick] [get_bd_pins monster_move_timer/tick] [get_bd_pins monster_spawn_timer/tick]
+  connect_bd_net -net clock_divider_0_tick [get_bd_pins boost_spawn_timer/tick] [get_bd_pins clock_divider_1_kHz/tick] [get_bd_pins fire_cooldown_timer/tick] [get_bd_pins menu_timer/tick] [get_bd_pins monster_move_speed_timer/tick] [get_bd_pins monster_move_timer/tick] [get_bd_pins monster_spawn_timer/tick]
   connect_bd_net -net clock_divider_25_MHz_tick [get_bd_pins clock_divider_25_MHz/tick] [get_bd_pins vga_mux_0/pixel_tick] [get_bd_pins vga_sync_0/pixel_tick]
   connect_bd_net -net combo_counter_0_dig [get_bd_pins combo_counter_0/dig] [get_bd_pins text_0/combo_dig0]
   connect_bd_net -net combo_counter_0_ovf [get_bd_pins combo_counter_0/ovf] [get_bd_pins combo_counter_1/inc] [get_bd_pins controller_0/combo_extra_life]
@@ -492,6 +559,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net counter_mod10_2_dig [get_bd_pins score_counter_2/dig] [get_bd_pins text_0/score_dig2]
   connect_bd_net -net counter_mod10_2_ovf [get_bd_pins score_counter_2/ovf] [get_bd_pins score_counter_3/inc]
   connect_bd_net -net counter_mod10_3_dig [get_bd_pins score_counter_3/dig] [get_bd_pins text_0/score_dig3]
+  connect_bd_net -net graph_0_boost_spawn_timer_start [get_bd_pins boost_spawn_timer/start] [get_bd_pins graph_0/boost_spawn_timer_start]
+  connect_bd_net -net graph_0_boost_spawn_timer_top [get_bd_pins boost_spawn_timer/top] [get_bd_pins graph_0/boost_spawn_timer_top]
   connect_bd_net -net graph_0_died [get_bd_pins controller_0/died] [get_bd_pins graph_0/died]
   connect_bd_net -net graph_0_fire_timer_start [get_bd_pins fire_cooldown_timer/start] [get_bd_pins graph_0/fire_timer_start]
   connect_bd_net -net graph_0_fire_timer_top [get_bd_pins fire_cooldown_timer/top] [get_bd_pins graph_0/fire_timer_top]
@@ -500,6 +569,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net graph_0_graph_rgb [get_bd_pins graph_0/graph_rgb] [get_bd_pins vga_mux_0/graph_rgb]
   connect_bd_net -net graph_0_killed [get_bd_pins controller_0/killed] [get_bd_pins graph_0/killed]
   connect_bd_net -net graph_0_missed [get_bd_pins controller_0/missed] [get_bd_pins graph_0/missed]
+  connect_bd_net -net graph_0_monster_move_speed_timer_start [get_bd_pins graph_0/monster_move_speed_timer_start] [get_bd_pins monster_move_speed_timer/start]
+  connect_bd_net -net graph_0_monster_move_speed_timer_top [get_bd_pins graph_0/monster_move_speed_timer_top] [get_bd_pins monster_move_speed_timer/top]
   connect_bd_net -net graph_0_monster_move_timer_start [get_bd_pins graph_0/monster_move_timer_start] [get_bd_pins monster_move_timer/start]
   connect_bd_net -net graph_0_monster_move_timer_top [get_bd_pins graph_0/monster_move_timer_top] [get_bd_pins monster_move_timer/top]
   connect_bd_net -net graph_0_monster_spawn_timer_start [get_bd_pins graph_0/monster_spawn_timer_start] [get_bd_pins monster_spawn_timer/start]
@@ -507,19 +578,25 @@ proc create_root_design { parentCell } {
   connect_bd_net -net input_controller_0_craft_delta_y [get_bd_pins graph_0/craft_delta_y] [get_bd_pins input_controller_0/craft_delta_y]
   connect_bd_net -net input_controller_0_craft_dir [get_bd_pins graph_0/craft_dir] [get_bd_pins input_controller_0/craft_dir]
   connect_bd_net -net input_controller_0_fire [get_bd_pins graph_0/fire] [get_bd_pins input_controller_0/fire]
+  connect_bd_net -net input_controller_0_ps2_dout [get_bd_pins input_controller_0/ps2_dout] [get_bd_pins ps2_tx_0/din]
+  connect_bd_net -net input_controller_0_ps2_rx_enable [get_bd_ports ps2_enable_out] [get_bd_pins input_controller_0/ps2_rx_enable] [get_bd_pins ps2_rx_0/enable]
+  connect_bd_net -net input_controller_0_ps2_tx_start [get_bd_pins input_controller_0/ps2_tx_start] [get_bd_pins ps2_tx_0/start_write]
   connect_bd_net -net input_controller_0_start [get_bd_pins controller_0/start] [get_bd_pins input_controller_0/start]
+  connect_bd_net -net monster_move_speed_timer_done [get_bd_pins graph_0/monster_move_speed_timer_up] [get_bd_pins monster_move_speed_timer/done]
   connect_bd_net -net monster_move_timer_done [get_bd_pins graph_0/monster_move_timer_up] [get_bd_pins monster_move_timer/done]
   connect_bd_net -net monster_spawn_timer_done [get_bd_pins graph_0/monster_spawn_timer_up] [get_bd_pins monster_spawn_timer/done]
-  connect_bd_net -net prng_0_seq [get_bd_pins prng_0/seq] [get_bd_pins xlslice_0/Din] [get_bd_pins xlslice_1/Din] [get_bd_pins xlslice_2/Din]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins clock_divider_1_kHz/reset] [get_bd_pins clock_divider_25_MHz/reset] [get_bd_pins combo_counter_0/reset] [get_bd_pins combo_counter_1/reset] [get_bd_pins combo_counter_2/reset] [get_bd_pins controller_0/reset] [get_bd_pins fire_cooldown_timer/reset] [get_bd_pins graph_0/reset] [get_bd_pins input_controller_0/reset] [get_bd_pins menu_timer/reset] [get_bd_pins monster_move_timer/reset] [get_bd_pins monster_spawn_timer/reset] [get_bd_pins prng_0/reset] [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins ps2_rx_0/reset] [get_bd_pins score_counter_0/reset] [get_bd_pins score_counter_1/reset] [get_bd_pins score_counter_2/reset] [get_bd_pins score_counter_3/reset] [get_bd_pins text_0/reset] [get_bd_pins vga_mux_0/reset] [get_bd_pins vga_sync_0/reset]
+  connect_bd_net -net prng_0_seq [get_bd_pins prng_0/seq] [get_bd_pins xlslice_0/Din] [get_bd_pins xlslice_1/Din] [get_bd_pins xlslice_2/Din] [get_bd_pins xlslice_3/Din] [get_bd_pins xlslice_4/Din]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins boost_spawn_timer/reset] [get_bd_pins clock_divider_1_kHz/reset] [get_bd_pins clock_divider_25_MHz/reset] [get_bd_pins combo_counter_0/reset] [get_bd_pins combo_counter_1/reset] [get_bd_pins combo_counter_2/reset] [get_bd_pins controller_0/reset] [get_bd_pins fire_cooldown_timer/reset] [get_bd_pins graph_0/reset] [get_bd_pins input_controller_0/reset] [get_bd_pins menu_timer/reset] [get_bd_pins monster_move_speed_timer/reset] [get_bd_pins monster_move_timer/reset] [get_bd_pins monster_spawn_timer/reset] [get_bd_pins prng_0/reset] [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins ps2_rx_0/reset] [get_bd_pins ps2_tx_0/reset] [get_bd_pins score_counter_0/reset] [get_bd_pins score_counter_1/reset] [get_bd_pins score_counter_2/reset] [get_bd_pins score_counter_3/reset] [get_bd_pins text_0/reset] [get_bd_pins vga_mux_0/reset] [get_bd_pins vga_sync_0/reset]
   connect_bd_net -net ps2_mode_0_1 [get_bd_ports ps2_mode] [get_bd_pins input_controller_0/ps2_mode]
   connect_bd_net -net ps2_rx_0_dout [get_bd_ports ps2_dout] [get_bd_pins input_controller_0/ps2_din] [get_bd_pins ps2_rx_0/dout]
   connect_bd_net -net ps2_rx_0_dpok [get_bd_pins input_controller_0/ps2_dpok] [get_bd_pins ps2_rx_0/dpok]
   connect_bd_net -net ps2_rx_0_dvalid [get_bd_pins input_controller_0/ps2_dvalid] [get_bd_pins ps2_rx_0/dvalid]
-  connect_bd_net -net ps2c_0_1 [get_bd_ports ps2_clock] [get_bd_pins ps2_rx_0/ps2c]
-  connect_bd_net -net ps2d_0_1 [get_bd_ports ps2_data] [get_bd_pins ps2_rx_0/ps2d]
+  connect_bd_net -net ps2_tx_0_idle [get_bd_pins input_controller_0/ps2_tx_idle] [get_bd_pins ps2_tx_0/idle]
+  connect_bd_net -net ps2_tx_0_ps2c_o [get_bd_pins ps2_tri_0/ps2c_o] [get_bd_pins ps2_tx_0/ps2c_o]
+  connect_bd_net -net ps2_tx_0_ps2c_t [get_bd_pins ps2_tri_0/ps2c_t] [get_bd_pins ps2_tx_0/ps2c_t]
+  connect_bd_net -net ps2_tx_0_ps2d_o [get_bd_pins ps2_tri_0/ps2d_o] [get_bd_pins ps2_tx_0/ps2d_o]
+  connect_bd_net -net ps2_tx_0_ps2d_t [get_bd_pins ps2_tri_0/ps2d_t] [get_bd_pins ps2_tx_0/ps2d_t]
   connect_bd_net -net reset_1 [get_bd_ports reset] [get_bd_pins clk_wiz_0/reset] [get_bd_pins proc_sys_reset_0/ext_reset_in]
-  connect_bd_net -net rx_en_0_1 [get_bd_ports ps2_enable] [get_bd_pins ps2_rx_0/enable]
   connect_bd_net -net sys_clock_1 [get_bd_ports sys_clock] [get_bd_pins clk_wiz_0/clk_in1]
   connect_bd_net -net text_0_text_on [get_bd_pins controller_0/text_on] [get_bd_pins text_0/text_on]
   connect_bd_net -net text_0_text_rgb [get_bd_pins text_0/text_rgb] [get_bd_pins vga_mux_0/text_rgb]
@@ -536,6 +613,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net xlslice_0_Dout [get_bd_pins graph_0/monster_spawn_x] [get_bd_pins xlslice_0/Dout]
   connect_bd_net -net xlslice_1_Dout [get_bd_pins graph_0/monster_spawn_y] [get_bd_pins xlslice_1/Dout]
   connect_bd_net -net xlslice_2_Dout [get_bd_pins graph_0/monster_spawn_time] [get_bd_pins xlslice_2/Dout]
+  connect_bd_net -net xlslice_3_Dout [get_bd_pins graph_0/boost_spawn_y] [get_bd_pins xlslice_3/Dout]
+  connect_bd_net -net xlslice_4_Dout [get_bd_pins graph_0/boost_spawn_time] [get_bd_pins xlslice_4/Dout]
 
   # Create address segments
 

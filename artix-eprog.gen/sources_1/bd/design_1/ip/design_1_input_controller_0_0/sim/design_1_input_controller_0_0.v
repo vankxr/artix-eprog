@@ -57,10 +57,14 @@
 module design_1_input_controller_0_0 (
   clk,
   reset,
+  ps2_mode,
   ps2_din,
   ps2_dvalid,
   ps2_dpok,
-  ps2_mode,
+  ps2_rx_enable,
+  ps2_dout,
+  ps2_tx_idle,
+  ps2_tx_start,
   btn,
   start,
   fire,
@@ -74,10 +78,14 @@ input wire clk;
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME reset, POLARITY ACTIVE_HIGH, INSERT_VIP 0" *)
 (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 reset RST" *)
 input wire reset;
+input wire ps2_mode;
 input wire [7 : 0] ps2_din;
 input wire ps2_dvalid;
 input wire ps2_dpok;
-input wire ps2_mode;
+output wire ps2_rx_enable;
+output wire [7 : 0] ps2_dout;
+input wire ps2_tx_idle;
+output wire ps2_tx_start;
 input wire [2 : 0] btn;
 output wire start;
 output wire fire;
@@ -87,10 +95,14 @@ output wire craft_dir;
   input_controller inst (
     .clk(clk),
     .reset(reset),
+    .ps2_mode(ps2_mode),
     .ps2_din(ps2_din),
     .ps2_dvalid(ps2_dvalid),
     .ps2_dpok(ps2_dpok),
-    .ps2_mode(ps2_mode),
+    .ps2_rx_enable(ps2_rx_enable),
+    .ps2_dout(ps2_dout),
+    .ps2_tx_idle(ps2_tx_idle),
+    .ps2_tx_start(ps2_tx_start),
     .btn(btn),
     .start(start),
     .fire(fire),

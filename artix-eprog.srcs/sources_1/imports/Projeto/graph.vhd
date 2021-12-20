@@ -27,6 +27,15 @@ entity graph is
         monster_move_timer_top: out std_logic_vector(31 downto 0);
         monster_move_timer_start: out std_logic;
         monster_move_timer_up: in std_logic;
+        monster_move_speed_timer_top: out std_logic_vector(31 downto 0);
+        monster_move_speed_timer_start: out std_logic;
+        monster_move_speed_timer_up: in std_logic;
+        -- Boost
+        boost_spawn_y: in std_logic_vector(9 downto 0);
+        boost_spawn_time: in std_logic_vector(11 downto 0);
+        boost_spawn_timer_top: out std_logic_vector(31 downto 0);
+        boost_spawn_timer_start: out std_logic;
+        boost_spawn_timer_up: in std_logic;
         -- Controls
         fire: in std_logic;
         craft_delta_y: in std_logic_vector(7 downto 0);
@@ -121,6 +130,36 @@ architecture arch of graph is
 
     signal monster_on: std_logic;
     signal monster_rgb: std_logic_vector(11 downto 0);
+
+    -- Boost
+    constant BOOST_X: integer := 100;
+    constant BOOST_SIZE: integer := 5; -- set to log2 of boost size (i.e. 5 = 32x32 pixels)
+    constant BOOST_COLOR: std_logic_vector(11 downto 0) := "110010000000";
+
+    constant BOOST_SPAWN_AREA_MIN_Y: integer := 20;
+    constant BOOST_SPAWN_AREA_MAX_Y: integer := MAX_Y - 20;
+
+    signal boost_y_reg, boost_y_next: unsigned(9 downto 0);
+    signal boost_enable_reg, boost_enable_next: std_logic;
+
+    signal boost_rom_line: std_logic_vector(BOOST_SIZE - 1 downto 0);
+    signal boost_rom_col: unsigned(BOOST_SIZE - 1 downto 0);
+    signal boost_rom_data: std_logic_vector(2 ** BOOST_SIZE - 1 downto 0);
+    signal boost_rom_bit: std_logic;
+
+    signal boost_on: std_logic;
+    signal boost_rgb: std_logic_vector(11 downto 0);
+
+    -- Timers
+    constant FIRE_COOLDOWN:             integer := 500;   -- ms
+    constant MONSTER_SPAWN_BASE:        integer := 500;   -- ms (+ random time)
+    constant MONSTER_MOVE_BASE:         integer := 250;   -- ms (decreasing by MONSTER_MOVE_DELTA every MONSTER_MOVE_SPEED_BASE, increased by BOOST_DELTA when a boost is hit by a bullet)
+    constant MONSTER_MOVE_DELTA:        integer := 25;    -- ms
+    constant MONSTER_MOVE_SPEED_BASE:   integer := 30000; -- ms
+    constant BOOST_SPAWN_BASE:          integer := 10000; -- ms (+ random time)
+    constant BOOST_DELTA:               integer := 5;     -- ms
+
+    signal monster_move_timer_top_reg, monster_move_timer_top_next: unsigned(31 downto 0);
 begin
     -- registers
     process(clk, reset)
@@ -137,6 +176,11 @@ begin
             monster_x_reg <= (others => (others => '0'));
             monster_y_reg <= (others => (others => '0'));
             monster_nxt_index_reg <= (others => '0');
+
+            boost_enable_reg <= '0';
+            boost_y_reg <= (others => '0');
+
+            monster_move_timer_top_reg <= (others => '0');
         elsif clk'event and clk = '1' then
             craft_y_reg <= craft_y_next;
 
@@ -155,6 +199,11 @@ begin
                 monster_x_reg(i) <= monster_x_next(i);
                 monster_y_reg(i) <= monster_y_next(i);
             end loop;
+
+            boost_enable_reg <= boost_enable_next;
+            boost_y_reg <= boost_y_next;
+
+            monster_move_timer_top_reg <= monster_move_timer_top_next;
         end if;
     end process;
 
@@ -254,8 +303,23 @@ begin
     monster_on <= '0' when unsigned(monster_in_zone) = to_unsigned(0, 10) or monster_rom_bit = '0' else '1';
     monster_rgb <= MONSTER_COLOR;
 
-    -- Bullet and Monster logic
-    process(craft_y_reg, bullet_x_reg, bullet_y_reg, bullet_enable_reg, bullet_nxt_index_reg, monster_x_reg, monster_y_reg, monster_spawn_x, monster_spawn_y, monster_enable_reg, monster_nxt_index_reg, pix_x, pix_y, fire_timer_up, monster_spawn_timer_up, monster_move_timer_up, frame_tick, fire, gra_still)
+    -- Boost
+    boost_rom_unit: entity work.boost_rom
+        generic map(BOOST_SIZE => BOOST_SIZE)
+        port map(clk => clk, reset => reset, addr => boost_rom_line, data => boost_rom_data);
+
+    boost_rom_line <= std_logic_vector(pix_y(BOOST_SIZE - 1 downto 0) - boost_y_reg(BOOST_SIZE - 1 downto 0));
+    boost_rom_col <= pix_x(BOOST_SIZE - 1 downto 0) - BOOST_X;
+    boost_rom_bit <= boost_rom_data(to_integer(not boost_rom_col));
+
+    boost_on <= '1' when (pix_x >= BOOST_X)     and (pix_x < (BOOST_X + (2 ** BOOST_SIZE)))
+                    and  (pix_y >= boost_y_reg) and (pix_y < (boost_y_reg + (2 ** BOOST_SIZE)))
+                    and  boost_rom_bit = '1'
+                    and  boost_enable_reg = '1' else '0';
+    boost_rgb <= BOOST_COLOR;
+
+    -- Bullet, Monster and Boost logic
+    process(craft_y_reg, bullet_x_reg, bullet_y_reg, bullet_enable_reg, bullet_nxt_index_reg, monster_x_reg, monster_y_reg, monster_spawn_x, monster_spawn_y, monster_enable_reg, monster_nxt_index_reg, boost_enable_reg, boost_y_reg, pix_x, pix_y, fire_timer_up, monster_spawn_timer_up, boost_spawn_timer_up, monster_move_timer_up, monster_move_speed_timer_up, monster_spawn_time, boost_spawn_time, monster_move_timer_top_reg, frame_tick, fire, gra_still)
     begin
         bullet_x_next <= bullet_x_reg;
         bullet_y_next <= bullet_y_reg;
@@ -263,7 +327,7 @@ begin
         bullet_nxt_index_next <= bullet_nxt_index_reg;
 
         fire_timer_start <= '0';
-        fire_timer_top <= std_logic_vector(to_unsigned(500, 32)); -- 500 ms
+        fire_timer_top <= std_logic_vector(to_unsigned(FIRE_COOLDOWN, 32));
 
         monster_x_next <= monster_x_reg;
         monster_y_next <= monster_y_reg;
@@ -271,10 +335,20 @@ begin
         monster_nxt_index_next <= monster_nxt_index_reg;
 
         monster_spawn_timer_start <= '0';
-        monster_spawn_timer_top <= std_logic_vector(to_unsigned(500, 32) + (to_unsigned(0, 32 - 12) & unsigned(monster_spawn_time))); -- 500 ms + random spawn time
+        monster_spawn_timer_top <= std_logic_vector(to_unsigned(MONSTER_SPAWN_BASE, 32) + (to_unsigned(0, 32 - 12) & unsigned(monster_spawn_time)));
 
         monster_move_timer_start <= '0';
-        monster_move_timer_top <= std_logic_vector(to_unsigned(125, 32)); -- 125 ms
+        monster_move_timer_top <= std_logic_vector(monster_move_timer_top_reg);
+
+        monster_move_speed_timer_start <= '0';
+        monster_move_speed_timer_top <= std_logic_vector(to_unsigned(MONSTER_MOVE_SPEED_BASE, 32));
+
+        monster_move_timer_top_next <= monster_move_timer_top_reg;
+
+        boost_enable_next <= boost_enable_reg;
+
+        boost_spawn_timer_start <= '0';
+        boost_spawn_timer_top <= std_logic_vector(to_unsigned(BOOST_SPAWN_BASE, 32) + (to_unsigned(0, 32 - 12) & unsigned(boost_spawn_time)));
 
         fired <= '0';
         missed <= '0';
@@ -294,6 +368,15 @@ begin
                     if bullet_x_reg(i) < (WALL_X + WALL_SIZE) then
                         bullet_enable_next(i) <= '0';
                         missed <= '1';
+                    elsif boost_enable_reg = '1' and
+                          (bullet_x_reg(i) + (2 ** (BULLET_SIZE - 1))) >= BOOST_X and
+                          (bullet_x_reg(i) + (2 ** (BULLET_SIZE - 1))) < (BOOST_X + (2 ** BOOST_SIZE)) and
+                          (bullet_y_reg(i) + (2 ** (BULLET_SIZE - 1))) >= boost_y_reg and
+                          (bullet_y_reg(i) + (2 ** (BULLET_SIZE - 1))) < (boost_y_reg + (2 ** BOOST_SIZE)) then
+
+                        bullet_enable_next(i) <= '0';
+                        boost_enable_next <= '0';
+                        monster_move_timer_top_next <= monster_move_timer_top_reg + BOOST_DELTA;
                     else
                         for j in 0 to 2 ** MAX_MONSTERS - 1 loop
                             -- Bullet-monster collision check
@@ -364,10 +447,41 @@ begin
                 end if;
             end if;
         end loop;
+
+        -- Boost
+        if gra_still = '1' then -- Main menu
+            boost_enable_next <= '0';
+        elsif frame_tick = '1' then
+            if boost_spawn_timer_up = '1' then
+                if boost_enable_reg = '1' then
+                    boost_enable_next <= '0';
+
+                    boost_spawn_timer_start <= '1';
+                elsif unsigned(boost_spawn_y) >= BOOST_SPAWN_AREA_MIN_Y and
+                    unsigned(boost_spawn_y) < BOOST_SPAWN_AREA_MAX_Y - (2 ** BOOST_SIZE) then
+
+                    boost_y_next <= unsigned(boost_spawn_y);
+                    boost_enable_next <= '1';
+
+                    boost_spawn_timer_start <= '1';
+                end if;
+            end if;
+        end if;
+
+        -- Timers
+        if gra_still = '1' then -- Main menu
+            monster_move_timer_top_next <= to_unsigned(MONSTER_MOVE_BASE, 32);
+        elsif frame_tick = '1' then
+            if monster_move_speed_timer_up = '1' and monster_move_timer_top_reg - MONSTER_MOVE_DELTA > 0 then
+                monster_move_timer_top_next <= monster_move_timer_top_reg - MONSTER_MOVE_DELTA;
+
+                monster_move_speed_timer_start <= '1';
+            end if;
+        end if;
     end process;
 
     -- RGB mux
-    process(wall_on, craft_on, bullet_on, monster_on, wall_rgb, craft_rgb, bullet_rgb, monster_rgb)
+    process(wall_on, craft_on, bullet_on, monster_on, boost_on, wall_rgb, craft_rgb, bullet_rgb, monster_rgb, boost_rgb)
     begin
         if wall_on = '1' then
             graph_rgb <= wall_rgb;
@@ -377,10 +491,12 @@ begin
             graph_rgb <= bullet_rgb;
         elsif monster_on = '1' then
             graph_rgb <= monster_rgb;
+        elsif boost_on = '1' then
+            graph_rgb <= boost_rgb;
         else
             graph_rgb <= (others => '0');
         end if;
     end process;
 
-    graph_on <= wall_on or craft_on or bullet_on or monster_on;
+    graph_on <= wall_on or craft_on or bullet_on or monster_on or boost_on;
 end arch;

@@ -1,10 +1,10 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Wed Dec 15 13:33:39 2021
+// Date        : Wed Dec 15 13:33:38 2021
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
-// Command     : write_verilog -force -mode funcsim
-//               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_ps2_rx_0_0/design_1_ps2_rx_0_0_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim -rename_top design_1_ps2_rx_0_0 -prefix
+//               design_1_ps2_rx_0_0_ design_1_ps2_rx_0_0_sim_netlist.v
 // Design      : design_1_ps2_rx_0_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -53,7 +53,6 @@ module design_1_ps2_rx_0_0
         .reset(reset));
 endmodule
 
-(* ORIG_REF_NAME = "ps2_rx" *) 
 module design_1_ps2_rx_0_0_ps2_rx
    (dpok,
     dout,
@@ -442,7 +441,6 @@ module design_1_ps2_rx_0_0_ps2_rx
         .dpok(dpok));
 endmodule
 
-(* ORIG_REF_NAME = "unary_xor" *) 
 module design_1_ps2_rx_0_0_unary_xor
    (dpok,
     Q);

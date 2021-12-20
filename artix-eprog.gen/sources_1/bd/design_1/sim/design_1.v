@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-//Date        : Wed Dec 15 13:32:27 2021
+//Date        : Mon Dec 20 14:13:58 2021
 //Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 //Command     : generate_target design_1.bd
 //Design      : design_1
@@ -9,7 +9,7 @@
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-(* CORE_GENERATION_INFO = "design_1,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=design_1,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=26,numReposBlks=26,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=21,numPkgbdBlks=0,bdsource=USER,da_clkrst_cnt=11,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "design_1.hwdef" *) 
+(* CORE_GENERATION_INFO = "design_1,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=design_1,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=32,numReposBlks=32,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=25,numPkgbdBlks=0,bdsource=USER,da_clkrst_cnt=11,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "design_1.hwdef" *) 
 module design_1
    (btn,
     fire_ready,
@@ -21,7 +21,7 @@ module design_1
     ps2_clock,
     ps2_data,
     ps2_dout,
-    ps2_enable,
+    ps2_enable_out,
     ps2_mode,
     reset,
     sys_clock,
@@ -33,10 +33,10 @@ module design_1
   output [3:0]outblue;
   output [3:0]outgreen;
   output [3:0]outred;
-  input ps2_clock;
-  input ps2_data;
+  inout ps2_clock;
+  inout ps2_data;
   output [7:0]ps2_dout;
-  input ps2_enable;
+  output ps2_enable_out;
   input ps2_mode;
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.RESET RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_HIGH" *) input reset;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.SYS_CLOCK CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.SYS_CLOCK, CLK_DOMAIN design_1_sys_clock, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input sys_clock;
@@ -44,6 +44,11 @@ module design_1
 
   wire Net;
   wire Net1;
+  wire Net2;
+  wire Net3;
+  wire Net4;
+  wire Net5;
+  wire boost_spawn_timer_done;
   wire [2:0]btn_1;
   wire clk_wiz_0_clk_out1;
   wire clk_wiz_0_locked;
@@ -68,6 +73,8 @@ module design_1
   wire [3:0]counter_mod10_2_dig;
   wire counter_mod10_2_ovf;
   wire [3:0]counter_mod10_3_dig;
+  wire graph_0_boost_spawn_timer_start;
+  wire [31:0]graph_0_boost_spawn_timer_top;
   wire graph_0_died;
   wire graph_0_fire_timer_start;
   wire [31:0]graph_0_fire_timer_top;
@@ -76,6 +83,8 @@ module design_1
   wire [11:0]graph_0_graph_rgb;
   wire graph_0_killed;
   wire graph_0_missed;
+  wire graph_0_monster_move_speed_timer_start;
+  wire [31:0]graph_0_monster_move_speed_timer_top;
   wire graph_0_monster_move_timer_start;
   wire [31:0]graph_0_monster_move_timer_top;
   wire graph_0_monster_spawn_timer_start;
@@ -83,7 +92,11 @@ module design_1
   wire [7:0]input_controller_0_craft_delta_y;
   wire input_controller_0_craft_dir;
   wire input_controller_0_fire;
+  wire [7:0]input_controller_0_ps2_dout;
+  wire input_controller_0_ps2_rx_enable;
+  wire input_controller_0_ps2_tx_start;
   wire input_controller_0_start;
+  wire monster_move_speed_timer_done;
   wire monster_move_timer_done;
   wire monster_spawn_timer_done;
   wire [63:0]prng_0_seq;
@@ -92,10 +105,12 @@ module design_1
   wire [7:0]ps2_rx_0_dout;
   wire ps2_rx_0_dpok;
   wire ps2_rx_0_dvalid;
-  wire ps2c_0_1;
-  wire ps2d_0_1;
+  wire ps2_tx_0_idle;
+  wire ps2_tx_0_ps2c_o;
+  wire ps2_tx_0_ps2c_t;
+  wire ps2_tx_0_ps2d_o;
+  wire ps2_tx_0_ps2d_t;
   wire reset_1;
-  wire rx_en_0_1;
   wire sys_clock_1;
   wire [3:0]text_0_text_on;
   wire [11:0]text_0_text_rgb;
@@ -112,6 +127,8 @@ module design_1
   wire [9:0]xlslice_0_Dout;
   wire [9:0]xlslice_1_Dout;
   wire [11:0]xlslice_2_Dout;
+  wire [9:0]xlslice_3_Dout;
+  wire [11:0]xlslice_4_Dout;
 
   assign btn_1 = btn[2:0];
   assign fire_ready = timer_1_done;
@@ -121,13 +138,18 @@ module design_1
   assign outgreen[3:0] = vga_mux_0_outg;
   assign outred[3:0] = vga_mux_0_outr;
   assign ps2_dout[7:0] = ps2_rx_0_dout;
+  assign ps2_enable_out = input_controller_0_ps2_rx_enable;
   assign ps2_mode_0_1 = ps2_mode;
-  assign ps2c_0_1 = ps2_clock;
-  assign ps2d_0_1 = ps2_data;
   assign reset_1 = reset;
-  assign rx_en_0_1 = ps2_enable;
   assign sys_clock_1 = sys_clock;
   assign vsync = vga_sync_0_vsync;
+  design_1_monster_spawn_timer_1 boost_spawn_timer
+       (.clk(clk_wiz_0_clk_out1),
+        .done(boost_spawn_timer_done),
+        .reset(proc_sys_reset_0_peripheral_aresetn),
+        .start(graph_0_boost_spawn_timer_start),
+        .tick(clock_divider_0_tick),
+        .top(graph_0_boost_spawn_timer_top));
   design_1_clk_wiz_0_0 clk_wiz_0
        (.clk_in1(sys_clock_1),
         .clk_out1(clk_wiz_0_clk_out1),
@@ -190,7 +212,12 @@ module design_1
         .tick(clock_divider_0_tick),
         .top(graph_0_fire_timer_top));
   design_1_graph_0_0 graph_0
-       (.clk(clk_wiz_0_clk_out1),
+       (.boost_spawn_time(xlslice_4_Dout),
+        .boost_spawn_timer_start(graph_0_boost_spawn_timer_start),
+        .boost_spawn_timer_top(graph_0_boost_spawn_timer_top),
+        .boost_spawn_timer_up(boost_spawn_timer_done),
+        .boost_spawn_y(xlslice_3_Dout),
+        .clk(clk_wiz_0_clk_out1),
         .craft_delta_y(input_controller_0_craft_delta_y),
         .craft_dir(input_controller_0_craft_dir),
         .died(graph_0_died),
@@ -204,6 +231,9 @@ module design_1
         .graph_rgb(graph_0_graph_rgb),
         .killed(graph_0_killed),
         .missed(graph_0_missed),
+        .monster_move_speed_timer_start(graph_0_monster_move_speed_timer_start),
+        .monster_move_speed_timer_top(graph_0_monster_move_speed_timer_top),
+        .monster_move_speed_timer_up(monster_move_speed_timer_done),
         .monster_move_timer_start(graph_0_monster_move_timer_start),
         .monster_move_timer_top(graph_0_monster_move_timer_top),
         .monster_move_timer_up(monster_move_timer_done),
@@ -223,9 +253,13 @@ module design_1
         .craft_dir(input_controller_0_craft_dir),
         .fire(input_controller_0_fire),
         .ps2_din(ps2_rx_0_dout),
+        .ps2_dout(input_controller_0_ps2_dout),
         .ps2_dpok(ps2_rx_0_dpok),
         .ps2_dvalid(ps2_rx_0_dvalid),
         .ps2_mode(ps2_mode_0_1),
+        .ps2_rx_enable(input_controller_0_ps2_rx_enable),
+        .ps2_tx_idle(ps2_tx_0_idle),
+        .ps2_tx_start(input_controller_0_ps2_tx_start),
         .reset(proc_sys_reset_0_peripheral_aresetn),
         .start(input_controller_0_start));
   design_1_timer_0_1 menu_timer
@@ -235,6 +269,13 @@ module design_1
         .start(controller_0_timer_start),
         .tick(clock_divider_0_tick),
         .top(controller_0_timer_top));
+  design_1_monster_spawn_timer1_0 monster_move_speed_timer
+       (.clk(clk_wiz_0_clk_out1),
+        .done(monster_move_speed_timer_done),
+        .reset(proc_sys_reset_0_peripheral_aresetn),
+        .start(graph_0_monster_move_speed_timer_start),
+        .tick(clock_divider_0_tick),
+        .top(graph_0_monster_move_speed_timer_top));
   design_1_monster_spawn_timer_0 monster_move_timer
        (.clk(clk_wiz_0_clk_out1),
         .done(monster_move_timer_done),
@@ -265,10 +306,31 @@ module design_1
         .dout(ps2_rx_0_dout),
         .dpok(ps2_rx_0_dpok),
         .dvalid(ps2_rx_0_dvalid),
-        .enable(rx_en_0_1),
-        .ps2c(ps2c_0_1),
-        .ps2d(ps2d_0_1),
+        .enable(input_controller_0_ps2_rx_enable),
+        .ps2c(Net4),
+        .ps2d(Net5),
         .reset(proc_sys_reset_0_peripheral_aresetn));
+  design_1_ps2_tri_0_0 ps2_tri_0
+       (.ps2c(ps2_clock),
+        .ps2c_i(Net4),
+        .ps2c_o(ps2_tx_0_ps2c_o),
+        .ps2c_t(ps2_tx_0_ps2c_t),
+        .ps2d(ps2_data),
+        .ps2d_i(Net5),
+        .ps2d_o(ps2_tx_0_ps2d_o),
+        .ps2d_t(ps2_tx_0_ps2d_t));
+  design_1_ps2_tx_0_0 ps2_tx_0
+       (.clk(clk_wiz_0_clk_out1),
+        .din(input_controller_0_ps2_dout),
+        .idle(ps2_tx_0_idle),
+        .ps2c_i(Net4),
+        .ps2c_o(ps2_tx_0_ps2c_o),
+        .ps2c_t(ps2_tx_0_ps2c_t),
+        .ps2d_i(Net5),
+        .ps2d_o(ps2_tx_0_ps2d_o),
+        .ps2d_t(ps2_tx_0_ps2d_t),
+        .reset(proc_sys_reset_0_peripheral_aresetn),
+        .start_write(input_controller_0_ps2_tx_start));
   design_1_counter_mod10_0_0 score_counter_0
        (.clear(Net),
         .clk(clk_wiz_0_clk_out1),
@@ -340,4 +402,10 @@ module design_1
   design_1_xlslice_1_0 xlslice_2
        (.Din(prng_0_seq),
         .Dout(xlslice_2_Dout));
+  design_1_xlslice_1_1 xlslice_3
+       (.Din(prng_0_seq),
+        .Dout(xlslice_3_Dout));
+  design_1_xlslice_2_0 xlslice_4
+       (.Din(prng_0_seq),
+        .Dout(xlslice_4_Dout));
 endmodule

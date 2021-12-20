@@ -6,11 +6,17 @@ entity input_controller is
     port(
         -- Clock and Reset
         clk, reset: in std_logic;
-        -- PS/2 input
+        -- PS/2 Mode select (Keyboard/Mouse)
+        ps2_mode: in std_logic;
+        -- PS/2 RX
         ps2_din: in std_logic_vector(7 downto 0);
         ps2_dvalid: in std_logic;
         ps2_dpok: in std_logic;
-        ps2_mode: in std_logic;
+        ps2_rx_enable: out std_logic;
+        -- PS/2 TX
+        ps2_dout: out std_logic_vector(7 downto 0);
+        ps2_tx_idle: in std_logic;
+        ps2_tx_start: out std_logic;
         -- Button inputs
         btn: in std_logic_vector(2 downto 0);
         -- Output data
@@ -22,6 +28,10 @@ entity input_controller is
 end input_controller;
 
 architecture arch of input_controller is
+    constant CMD_RESET:  std_logic_vector(7 downto 0) := "11111111"; -- 0xFF
+    constant CMD_STREAM: std_logic_vector(7 downto 0) := "11101010"; -- 0xEA
+    constant CMD_DATA:   std_logic_vector(7 downto 0) := "11110100"; -- 0xF4
+
     constant UP_KEY:     std_logic_vector(7 downto 0) := "01110101"; -- 0x75
     constant DOWN_KEY:   std_logic_vector(7 downto 0) := "01110010"; -- 0x72
     constant W_KEY:      std_logic_vector(7 downto 0) := "00011101"; -- 0x1D
@@ -44,7 +54,7 @@ architecture arch of input_controller is
 
     constant CRAFT_DEFAULT_V: std_logic_vector(7 downto 0) := "00000100"; -- Default spacecraft speed when using keyboard and Push Buttons
 
-    type statetype is (wait_first, wait_mouse_x, wait_mouse_y, register_cmds);
+    type statetype is (reset_kb_mouse, reset_wait_send, init_mouse1, init_mouse1_wait_send, init_mouse1_wait_ack, init_mouse2, init_mouse2_wait_send, init_mouse2_wait_ack, wait_first, wait_mouse_x, wait_mouse_y, register_cmds);
     signal state_reg, state_next: statetype;
     signal flags_reg, flags_next: std_logic_vector(1 downto 0);
     signal cmds_reg, cmds_next: std_logic_vector(2 downto 0);
@@ -59,7 +69,7 @@ begin
     process (clk, reset)
     begin
         if reset = '1' then
-            state_reg <= wait_first;
+            state_reg <= reset_kb_mouse;
             flags_reg <= (others => '0');
             cmds_reg <= (others => '0');
             mouse_delta_y_reg <= (others => '0');
@@ -81,9 +91,13 @@ begin
         end if;
     end process;
 
-    process(state_reg, flags_reg, cmds_reg, mouse_delta_y_reg, start_reg, fire_reg, craft_delta_y_reg, craft_dir_reg, ps2_din, ps2_dvalid, ps2_dpok, ps2_mode, btn)
+    process(state_reg, flags_reg, cmds_reg, mouse_delta_y_reg, start_reg, fire_reg, craft_delta_y_reg, craft_dir_reg, ps2_mode, ps2_din, ps2_dvalid, ps2_dpok, ps2_tx_idle, btn)
     begin
         state_next <= state_reg;
+
+        ps2_dout <= (others => '0');
+        ps2_rx_enable <= '1';
+        ps2_tx_start <= '0';
 
         flags_next <= flags_reg;
         cmds_next <= cmds_reg;
@@ -101,6 +115,63 @@ begin
         craft_dir <= '0';
 
         case state_reg is
+            when reset_kb_mouse =>
+                ps2_dout <= CMD_RESET;
+                ps2_rx_enable <= '0';
+                ps2_tx_start <= '1';
+
+                if ps2_tx_idle = '0' then
+                    state_next <= reset_wait_send;
+                end if;
+            when reset_wait_send =>
+                ps2_rx_enable <= '0';
+                ps2_tx_start <= '0';
+
+                if ps2_tx_idle = '1' then
+                    if ps2_mode = '1' then
+                        state_next <= init_mouse1;
+                    else
+                        state_next <= wait_first;
+                    end if;
+                end if;
+            when init_mouse1 =>
+                ps2_dout <= CMD_STREAM;
+                ps2_rx_enable <= '0';
+                ps2_tx_start <= '1';
+
+                if ps2_tx_idle = '0' then
+                    state_next <= init_mouse1_wait_send;
+                end if;
+            when init_mouse1_wait_send =>
+                ps2_rx_enable <= '0';
+                ps2_tx_start <= '0';
+
+                if ps2_tx_idle = '1' then
+                    state_next <= init_mouse1_wait_ack;
+                end if;
+            when init_mouse1_wait_ack =>
+                if ps2_dvalid = '1' then
+                    state_next <= init_mouse2;
+                end if;
+            when init_mouse2 =>
+                ps2_dout <= CMD_DATA;
+                ps2_rx_enable <= '0';
+                ps2_tx_start <= '1';
+
+                if ps2_tx_idle = '0' then
+                    state_next <= init_mouse2_wait_send;
+                end if;
+            when init_mouse2_wait_send =>
+                ps2_rx_enable <= '0';
+                ps2_tx_start <= '0';
+
+                if ps2_tx_idle = '1' then
+                    state_next <= init_mouse2_wait_ack;
+                end if;
+            when init_mouse2_wait_ack =>
+                if ps2_dvalid = '1' then
+                    state_next <= wait_first;
+                end if;
             when wait_first =>
                 if ps2_dvalid = '1' then
                     if ps2_dpok = '0' then

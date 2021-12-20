@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Dec 15 13:32:28 2021" VIVADOVERSION="2021.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Dec 20 14:13:59 2021" VIVADOVERSION="2021.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="design_1" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -60,24 +60,24 @@
         <CONNECTION INSTANCE="input_controller_0" PORT="ps2_mode"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" NAME="ps2_enable" SIGIS="undef" SIGNAME="External_Ports_ps2_enable">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="ps2_rx_0" PORT="enable"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" NAME="ps2_clock" SIGIS="undef" SIGNAME="External_Ports_ps2_clock">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="ps2_rx_0" PORT="ps2c"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" NAME="ps2_data" SIGIS="undef" SIGNAME="External_Ports_ps2_data">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="ps2_rx_0" PORT="ps2d"/>
-      </CONNECTIONS>
-    </PORT>
     <PORT DIR="O" LEFT="7" NAME="ps2_dout" RIGHT="0" SIGIS="undef" SIGNAME="ps2_rx_0_dout">
       <CONNECTIONS>
         <CONNECTION INSTANCE="ps2_rx_0" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="ps2_enable_out" SIGIS="undef" SIGNAME="input_controller_0_ps2_rx_enable">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="input_controller_0" PORT="ps2_rx_enable"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="IO" NAME="ps2_clock" SIGIS="undef" SIGNAME="External_Ports_ps2_clock">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2c"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="IO" NAME="ps2_data" SIGIS="undef" SIGNAME="External_Ports_ps2_data">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2d"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -85,6 +85,46 @@
   <EXTERNALINTERFACES/>
 
   <MODULES>
+    <MODULE COREREVISION="1" FULLNAME="/boost_spawn_timer" HWVERSION="1.0" INSTANCE="boost_spawn_timer" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_monster_spawn_timer_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_kHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_boost_spawn_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="boost_spawn_timer_top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="graph_0_boost_spawn_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="boost_spawn_timer_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="boost_spawn_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="boost_spawn_timer_up"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
     <MODULE COREREVISION="8" FULLNAME="/clk_wiz_0" HWVERSION="6.0" INSTANCE="clk_wiz_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="clk_wiz" VLNV="xilinx.com:ip:clk_wiz:6.0">
       <DOCUMENTS>
         <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=clk_wiz;v=v6_0;d=pg065-clk-wiz.pdf"/>
@@ -693,12 +733,15 @@
             <CONNECTION INSTANCE="combo_counter_0" PORT="clk"/>
             <CONNECTION INSTANCE="combo_counter_2" PORT="clk"/>
             <CONNECTION INSTANCE="prng_0" PORT="clk"/>
-            <CONNECTION INSTANCE="input_controller_0" PORT="clk"/>
             <CONNECTION INSTANCE="vga_mux_0" PORT="clk"/>
-            <CONNECTION INSTANCE="graph_0" PORT="clk"/>
             <CONNECTION INSTANCE="controller_0" PORT="clk"/>
             <CONNECTION INSTANCE="text_0" PORT="clk"/>
             <CONNECTION INSTANCE="ps2_rx_0" PORT="clk"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="clk"/>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="clk"/>
+            <CONNECTION INSTANCE="monster_move_speed_timer" PORT="clk"/>
+            <CONNECTION INSTANCE="boost_spawn_timer" PORT="clk"/>
+            <CONNECTION INSTANCE="graph_0" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -734,6 +777,8 @@
             <CONNECTION INSTANCE="fire_cooldown_timer" PORT="tick"/>
             <CONNECTION INSTANCE="monster_spawn_timer" PORT="tick"/>
             <CONNECTION INSTANCE="monster_move_timer" PORT="tick"/>
+            <CONNECTION INSTANCE="monster_move_speed_timer" PORT="tick"/>
+            <CONNECTION INSTANCE="boost_spawn_timer" PORT="tick"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1161,6 +1206,46 @@
             <CONNECTION INSTANCE="monster_move_timer" PORT="done"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" LEFT="31" NAME="monster_move_speed_timer_top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_monster_move_speed_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_move_speed_timer" PORT="top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="monster_move_speed_timer_start" SIGIS="undef" SIGNAME="graph_0_monster_move_speed_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_move_speed_timer" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="monster_move_speed_timer_up" SIGIS="undef" SIGNAME="monster_move_speed_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="monster_move_speed_timer" PORT="done"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="9" NAME="boost_spawn_y" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_3_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_3" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="boost_spawn_time" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_4_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="xlslice_4" PORT="Dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="boost_spawn_timer_top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_boost_spawn_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="boost_spawn_timer" PORT="top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="boost_spawn_timer_start" SIGIS="undef" SIGNAME="graph_0_boost_spawn_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="boost_spawn_timer" PORT="start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="boost_spawn_timer_up" SIGIS="undef" SIGNAME="boost_spawn_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="boost_spawn_timer" PORT="done"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="I" NAME="fire" SIGIS="undef" SIGNAME="input_controller_0_fire">
           <CONNECTIONS>
             <CONNECTION INSTANCE="input_controller_0" PORT="fire"/>
@@ -1196,6 +1281,11 @@
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="I" NAME="ps2_mode" SIGIS="undef" SIGNAME="External_Ports_ps2_mode">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_mode"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="I" LEFT="7" NAME="ps2_din" RIGHT="0" SIGIS="undef" SIGNAME="ps2_rx_0_dout">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ps2_rx_0" PORT="dout"/>
@@ -1211,9 +1301,25 @@
             <CONNECTION INSTANCE="ps2_rx_0" PORT="dpok"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="ps2_mode" SIGIS="undef" SIGNAME="External_Ports_ps2_mode">
+        <PORT DIR="O" NAME="ps2_rx_enable" SIGIS="undef" SIGNAME="input_controller_0_ps2_rx_enable">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ps2_mode"/>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="enable"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_enable_out"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="ps2_dout" RIGHT="0" SIGIS="undef" SIGNAME="input_controller_0_ps2_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="din"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2_tx_idle" SIGIS="undef" SIGNAME="ps2_tx_0_idle">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="idle"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ps2_tx_start" SIGIS="undef" SIGNAME="input_controller_0_ps2_tx_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="start_write"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="2" NAME="btn" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_btn">
@@ -1279,6 +1385,46 @@
         <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="menu_timer_done">
           <CONNECTIONS>
             <CONNECTION INSTANCE="controller_0" PORT="timer_up"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/monster_move_speed_timer" HWVERSION="1.0" INSTANCE="monster_move_speed_timer" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="timer" VLNV="xilinx.com:module_ref:timer:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_monster_spawn_timer1_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="tick" SIGIS="undef" SIGNAME="clock_divider_1_kHz_tick">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clock_divider_1_kHz" PORT="tick"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="top" RIGHT="0" SIGIS="undef" SIGNAME="graph_0_monster_move_speed_timer_top">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_move_speed_timer_top"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start" SIGIS="undef" SIGNAME="graph_0_monster_move_speed_timer_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_move_speed_timer_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="monster_move_speed_timer_done">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="monster_move_speed_timer_up"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1387,6 +1533,8 @@
             <CONNECTION INSTANCE="xlslice_0" PORT="Din"/>
             <CONNECTION INSTANCE="xlslice_1" PORT="Din"/>
             <CONNECTION INSTANCE="xlslice_2" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_4" PORT="Din"/>
+            <CONNECTION INSTANCE="xlslice_3" PORT="Din"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1448,12 +1596,15 @@
             <CONNECTION INSTANCE="combo_counter_0" PORT="reset"/>
             <CONNECTION INSTANCE="combo_counter_2" PORT="reset"/>
             <CONNECTION INSTANCE="prng_0" PORT="reset"/>
-            <CONNECTION INSTANCE="input_controller_0" PORT="reset"/>
             <CONNECTION INSTANCE="vga_mux_0" PORT="reset"/>
-            <CONNECTION INSTANCE="graph_0" PORT="reset"/>
             <CONNECTION INSTANCE="controller_0" PORT="reset"/>
             <CONNECTION INSTANCE="text_0" PORT="reset"/>
             <CONNECTION INSTANCE="ps2_rx_0" PORT="reset"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="reset"/>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="reset"/>
+            <CONNECTION INSTANCE="monster_move_speed_timer" PORT="reset"/>
+            <CONNECTION INSTANCE="boost_spawn_timer" PORT="reset"/>
+            <CONNECTION INSTANCE="graph_0" PORT="reset"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
@@ -1478,19 +1629,19 @@
             <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="ps2c" SIGIS="undef" SIGNAME="External_Ports_ps2_clock">
+        <PORT DIR="I" NAME="ps2c" SIGIS="undef" SIGNAME="ps2_tri_0_ps2c_i">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ps2_clock"/>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2c_i"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="ps2d" SIGIS="undef" SIGNAME="External_Ports_ps2_data">
+        <PORT DIR="I" NAME="ps2d" SIGIS="undef" SIGNAME="ps2_tri_0_ps2d_i">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ps2_data"/>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2d_i"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="enable" SIGIS="undef" SIGNAME="External_Ports_ps2_enable">
+        <PORT DIR="I" NAME="enable" SIGIS="undef" SIGNAME="input_controller_0_ps2_rx_enable">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ps2_enable"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="ps2_rx_enable"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="7" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="ps2_rx_0_dout">
@@ -1507,6 +1658,123 @@
         <PORT DIR="O" NAME="dpok" SIGIS="undef" SIGNAME="ps2_rx_0_dpok">
           <CONNECTIONS>
             <CONNECTION INSTANCE="input_controller_0" PORT="ps2_dpok"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/ps2_tri_0" HWVERSION="1.0" INSTANCE="ps2_tri_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="ps2_tri" VLNV="xilinx.com:module_ref:ps2_tri:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_ps2_tri_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="IO" NAME="ps2c" SIGIS="undef" SIGNAME="External_Ports_ps2_clock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_clock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="IO" NAME="ps2d" SIGIS="undef" SIGNAME="External_Ports_ps2_data">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ps2_data"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ps2c_i" SIGIS="undef" SIGNAME="ps2_tri_0_ps2c_i">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="ps2c"/>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="ps2c_i"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ps2d_i" SIGIS="undef" SIGNAME="ps2_tri_0_ps2d_i">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_rx_0" PORT="ps2d"/>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="ps2d_i"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2c_o" SIGIS="undef" SIGNAME="ps2_tx_0_ps2c_o">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="ps2c_o"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2d_o" SIGIS="undef" SIGNAME="ps2_tx_0_ps2d_o">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="ps2d_o"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2c_t" SIGIS="undef" SIGNAME="ps2_tx_0_ps2c_t">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="ps2c_t"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2d_t" SIGIS="undef" SIGNAME="ps2_tx_0_ps2d_t">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tx_0" PORT="ps2d_t"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/ps2_tx_0" HWVERSION="1.0" INSTANCE="ps2_tx_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="ps2_tx" VLNV="xilinx.com:module_ref:ps2_tx:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_ps2_tx_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="clk_wiz_0_clk_out1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_out1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="reset" POLARITY="ACTIVE_HIGH" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2c_i" SIGIS="undef" SIGNAME="ps2_tri_0_ps2c_i">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2c_i"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ps2d_i" SIGIS="undef" SIGNAME="ps2_tri_0_ps2d_i">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2d_i"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ps2c_o" SIGIS="undef" SIGNAME="ps2_tx_0_ps2c_o">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2c_o"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ps2d_o" SIGIS="undef" SIGNAME="ps2_tx_0_ps2d_o">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2d_o"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ps2c_t" SIGIS="undef" SIGNAME="ps2_tx_0_ps2c_t">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2c_t"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ps2d_t" SIGIS="undef" SIGNAME="ps2_tx_0_ps2d_t">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="ps2_tri_0" PORT="ps2d_t"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="start_write" SIGIS="undef" SIGNAME="input_controller_0_ps2_tx_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="input_controller_0" PORT="ps2_tx_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="idle" SIGIS="undef" SIGNAME="ps2_tx_0_idle">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="input_controller_0" PORT="ps2_tx_idle"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="din" RIGHT="0" SIGIS="undef" SIGNAME="input_controller_0_ps2_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="input_controller_0" PORT="ps2_dout"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1847,14 +2115,14 @@
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_x" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_x">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="graph_0" PORT="pixel_x"/>
             <CONNECTION INSTANCE="text_0" PORT="pixel_x"/>
+            <CONNECTION INSTANCE="graph_0" PORT="pixel_x"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="9" NAME="pixel_y" RIGHT="0" SIGIS="undef" SIGNAME="vga_sync_0_pixel_y">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="graph_0" PORT="pixel_y"/>
             <CONNECTION INSTANCE="text_0" PORT="pixel_y"/>
+            <CONNECTION INSTANCE="graph_0" PORT="pixel_y"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1927,6 +2195,54 @@
         <PORT DIR="O" LEFT="11" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_2_Dout">
           <CONNECTIONS>
             <CONNECTION INSTANCE="graph_0" PORT="monster_spawn_time"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_3" HWVERSION="1.0" INSTANCE="xlslice_3" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="64"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="43"/>
+        <PARAMETER NAME="DIN_TO" VALUE="34"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_xlslice_1_1"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="10"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="63" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="prng_0_seq">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="prng_0" PORT="seq"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="9" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_3_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="boost_spawn_y"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="2" FULLNAME="/xlslice_4" HWVERSION="1.0" INSTANCE="xlslice_4" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlslice" VLNV="xilinx.com:ip:xlslice:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="DIN_WIDTH" VALUE="64"/>
+        <PARAMETER NAME="DIN_FROM" VALUE="23"/>
+        <PARAMETER NAME="DIN_TO" VALUE="12"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_xlslice_2_0"/>
+        <PARAMETER NAME="DOUT_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="63" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="prng_0_seq">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="prng_0" PORT="seq"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="xlslice_4_Dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="graph_0" PORT="boost_spawn_time"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

@@ -3,8 +3,8 @@
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
 -- Date        : Wed Dec 15 13:33:39 2021
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
--- Command     : write_vhdl -force -mode funcsim
---               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_ps2_rx_0_0/design_1_ps2_rx_0_0_sim_netlist.vhdl
+-- Command     : write_vhdl -force -mode funcsim -rename_top design_1_ps2_rx_0_0 -prefix
+--               design_1_ps2_rx_0_0_ design_1_ps2_rx_0_0_sim_netlist.vhdl
 -- Design      : design_1_ps2_rx_0_0
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -19,8 +19,6 @@ entity design_1_ps2_rx_0_0_unary_xor is
     dpok : out STD_LOGIC;
     Q : in STD_LOGIC_VECTOR ( 8 downto 0 )
   );
-  attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of design_1_ps2_rx_0_0_unary_xor : entity is "unary_xor";
 end design_1_ps2_rx_0_0_unary_xor;
 
 architecture STRUCTURE of design_1_ps2_rx_0_0_unary_xor is
@@ -66,8 +64,6 @@ entity design_1_ps2_rx_0_0_ps2_rx is
     ps2c : in STD_LOGIC;
     ps2d : in STD_LOGIC
   );
-  attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of design_1_ps2_rx_0_0_ps2_rx : entity is "ps2_rx";
 end design_1_ps2_rx_0_0_ps2_rx;
 
 architecture STRUCTURE of design_1_ps2_rx_0_0_ps2_rx is

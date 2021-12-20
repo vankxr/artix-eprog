@@ -136,8 +136,8 @@ architecture arch of graph is
     constant BOOST_SIZE: integer := 5; -- set to log2 of boost size (i.e. 5 = 32x32 pixels)
     constant BOOST_COLOR: std_logic_vector(11 downto 0) := "110010000000";
 
-    constant BOOST_SPAWN_AREA_MIN_Y: integer := 20;
-    constant BOOST_SPAWN_AREA_MAX_Y: integer := MAX_Y - 20;
+    constant BOOST_SPAWN_AREA_MIN_Y: integer := 50;
+    constant BOOST_SPAWN_AREA_MAX_Y: integer := MAX_Y - 50;
 
     signal boost_y_reg, boost_y_next: unsigned(9 downto 0);
     signal boost_enable_reg, boost_enable_next: std_logic;

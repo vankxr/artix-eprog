@@ -81,7 +81,7 @@ begin
 
                 if start_write = '1' then
                     b_next <= par & din;
-                    c_next <= (others => '1');
+                    c_next <= to_unsigned(5999, 13);
                     state_next <= rts;
                 end if;
             when rts => -- request to send
@@ -89,14 +89,18 @@ begin
                 ps2c_t <= '1';
                 c_next <= c_reg - 1;
 
-                if c_reg = 0 then
+                if c_reg < to_unsigned(1000, 13) then
                     state_next <= start;
                 end if;
             when start => -- assert start bit
                 ps2d_o <= '0';
                 ps2d_t <= '1';
 
-                if fall_edge = '1' then
+                if c_reg > 0 then
+                    ps2c_o <= '0';
+                    ps2c_t <= '1';
+                    c_next <= c_reg - 1;
+                elsif fall_edge = '1' then
                     n_next <= "1000";
                     state_next <= data;
                 end if;
@@ -114,7 +118,7 @@ begin
                     end if;
                 end if;
             when stop =>  -- assume floating high for ps2d
-                if fall_edge='1' then
+                if fall_edge = '1' then
                     state_next <= sidle;
                 end if;
         end case;

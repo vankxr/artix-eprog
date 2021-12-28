@@ -13,8 +13,8 @@ end ps2_tri;
 
 architecture arch of ps2_tri is
 begin
-    ps2c_i <= ps2c when ps2c_t = '0' else '1';
-    ps2d_i <= ps2d when ps2d_t = '0' else '1';
+    ps2c_i <= ps2c when ps2c_t = '0' else ps2c_o;
+    ps2d_i <= ps2d when ps2d_t = '0' else ps2d_o;
 
     ps2c <= ps2c_o when ps2c_t = '1' else 'Z';
     ps2d <= ps2d_o when ps2d_t = '1' else 'Z';

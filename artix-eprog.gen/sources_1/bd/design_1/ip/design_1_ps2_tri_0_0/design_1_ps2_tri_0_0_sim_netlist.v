@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Mon Dec 20 12:15:58 2021
+// Date        : Mon Dec 27 16:58:52 2021
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 // Command     : write_verilog -force -mode funcsim
 //               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_ps2_tri_0_0/design_1_ps2_tri_0_0_sim_netlist.v
@@ -48,11 +48,12 @@ module design_1_ps2_tri_0_0
        (.I0(ps2c_o),
         .I1(ps2c_t),
         .O(ps2c));
-  LUT2 #(
-    .INIT(4'hE)) 
+  LUT3 #(
+    .INIT(8'hE4)) 
     ps2c_i_INST_0
        (.I0(ps2c_t),
         .I1(ps2c),
+        .I2(ps2c_o),
         .O(ps2c_i));
   LUT2 #(
     .INIT(4'h8)) 
@@ -60,11 +61,12 @@ module design_1_ps2_tri_0_0
        (.I0(ps2d_o),
         .I1(ps2d_t),
         .O(ps2d));
-  LUT2 #(
-    .INIT(4'hE)) 
+  LUT3 #(
+    .INIT(8'hE4)) 
     ps2d_i_INST_0
        (.I0(ps2d_t),
         .I1(ps2d),
+        .I2(ps2d_o),
         .O(ps2d_i));
 endmodule
 `ifndef GLBL

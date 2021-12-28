@@ -43,9 +43,6 @@ entity graph is
     );
 end graph;
 
--- Why vga clock 2x then /2 again? (rom bram)
--- not rom_col because ROM MSB first ?
-
 architecture arch of graph is
     signal pix_x, pix_y: unsigned(9 downto 0);
     signal frame_tick: std_logic;

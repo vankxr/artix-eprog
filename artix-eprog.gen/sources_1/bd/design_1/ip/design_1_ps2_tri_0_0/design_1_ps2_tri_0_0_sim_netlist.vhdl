@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
--- Date        : Mon Dec 20 12:15:58 2021
+-- Date        : Mon Dec 27 16:58:52 2021
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 -- Command     : write_vhdl -force -mode funcsim
 --               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_ps2_tri_0_0/design_1_ps2_tri_0_0_sim_netlist.vhdl
@@ -48,13 +48,14 @@ ps2c_INST_0: unisim.vcomponents.LUT2
       I1 => ps2c_t,
       O => ps2c
     );
-ps2c_i_INST_0: unisim.vcomponents.LUT2
+ps2c_i_INST_0: unisim.vcomponents.LUT3
     generic map(
-      INIT => X"E"
+      INIT => X"E4"
     )
         port map (
       I0 => ps2c_t,
       I1 => ps2c,
+      I2 => ps2c_o,
       O => ps2c_i
     );
 ps2d_INST_0: unisim.vcomponents.LUT2
@@ -66,13 +67,14 @@ ps2d_INST_0: unisim.vcomponents.LUT2
       I1 => ps2d_t,
       O => ps2d
     );
-ps2d_i_INST_0: unisim.vcomponents.LUT2
+ps2d_i_INST_0: unisim.vcomponents.LUT3
     generic map(
-      INIT => X"E"
+      INIT => X"E4"
     )
         port map (
       I0 => ps2d_t,
       I1 => ps2d,
+      I2 => ps2d_o,
       O => ps2d_i
     );
 end STRUCTURE;

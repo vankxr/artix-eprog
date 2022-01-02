@@ -35,14 +35,14 @@
       "controller_0": "",
       "text_0": "",
       "ps2_rx_0": "",
-      "input_controller_0": "",
       "boost_spawn_timer": "",
       "monster_move_speed_timer": "",
       "xlslice_3": "",
       "xlslice_4": "",
       "graph_0": "",
       "ps2_tri_0": "",
-      "ps2_tx_0": ""
+      "ps2_tx_0": "",
+      "input_controller_0": ""
     },
     "ports": {
       "sys_clock": {
@@ -1468,108 +1468,6 @@
           }
         }
       },
-      "input_controller_0": {
-        "vlnv": "xilinx.com:module_ref:input_controller:1.0",
-        "xci_name": "design_1_input_controller_0_0",
-        "xci_path": "ip/design_1_input_controller_0_0/design_1_input_controller_0_0.xci",
-        "inst_hier_path": "input_controller_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "input_controller",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "FREQ_HZ": {
-                "value": "50000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "reset": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "const_prop"
-              }
-            }
-          },
-          "ps2_mode": {
-            "direction": "I"
-          },
-          "ps2_din": {
-            "direction": "I",
-            "left": "7",
-            "right": "0"
-          },
-          "ps2_dvalid": {
-            "direction": "I"
-          },
-          "ps2_dpok": {
-            "direction": "I"
-          },
-          "ps2_rx_enable": {
-            "direction": "O"
-          },
-          "ps2_dout": {
-            "direction": "O",
-            "left": "7",
-            "right": "0"
-          },
-          "ps2_tx_idle": {
-            "direction": "I"
-          },
-          "ps2_tx_start": {
-            "direction": "O"
-          },
-          "btn": {
-            "direction": "I",
-            "left": "2",
-            "right": "0",
-            "parameters": {
-              "PortType": {
-                "value": "undef",
-                "value_src": "ip_prop"
-              },
-              "PortType.PROP_SRC": {
-                "value": "false",
-                "value_src": "ip_prop"
-              }
-            }
-          },
-          "start": {
-            "direction": "O"
-          },
-          "fire": {
-            "direction": "O"
-          },
-          "craft_delta_y": {
-            "direction": "O",
-            "left": "7",
-            "right": "0"
-          },
-          "craft_dir": {
-            "direction": "O"
-          }
-        }
-      },
       "boost_spawn_timer": {
         "vlnv": "xilinx.com:module_ref:timer:1.0",
         "xci_name": "design_1_monster_spawn_timer_1",
@@ -2007,6 +1905,108 @@
             "right": "0"
           }
         }
+      },
+      "input_controller_0": {
+        "vlnv": "xilinx.com:module_ref:input_controller:1.0",
+        "xci_name": "design_1_input_controller_0_0",
+        "xci_path": "ip/design_1_input_controller_0_0/design_1_input_controller_0_0.xci",
+        "inst_hier_path": "input_controller_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "input_controller",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "const_prop"
+              }
+            }
+          },
+          "ps2_mode": {
+            "direction": "I"
+          },
+          "ps2_din": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "ps2_dvalid": {
+            "direction": "I"
+          },
+          "ps2_dpok": {
+            "direction": "I"
+          },
+          "ps2_rx_enable": {
+            "direction": "O"
+          },
+          "ps2_dout": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          },
+          "ps2_tx_idle": {
+            "direction": "I"
+          },
+          "ps2_tx_start": {
+            "direction": "O"
+          },
+          "btn": {
+            "direction": "I",
+            "left": "2",
+            "right": "0",
+            "parameters": {
+              "PortType": {
+                "value": "undef",
+                "value_src": "ip_prop"
+              },
+              "PortType.PROP_SRC": {
+                "value": "false",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "start": {
+            "direction": "O"
+          },
+          "fire": {
+            "direction": "O"
+          },
+          "craft_delta_y": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          },
+          "craft_dir": {
+            "direction": "O"
+          }
+        }
       }
     },
     "nets": {
@@ -2088,11 +2088,11 @@
           "controller_0/clk",
           "text_0/clk",
           "ps2_rx_0/clk",
-          "input_controller_0/clk",
           "monster_move_speed_timer/clk",
           "boost_spawn_timer/clk",
           "graph_0/clk",
-          "ps2_tx_0/clk"
+          "ps2_tx_0/clk",
+          "input_controller_0/clk"
         ]
       },
       "clk_wiz_0_locked": {
@@ -2424,11 +2424,11 @@
           "controller_0/reset",
           "text_0/reset",
           "ps2_rx_0/reset",
-          "input_controller_0/reset",
           "monster_move_speed_timer/reset",
           "boost_spawn_timer/reset",
           "graph_0/reset",
-          "ps2_tx_0/reset"
+          "ps2_tx_0/reset",
+          "input_controller_0/reset"
         ]
       },
       "ps2_mode_0_1": {

@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
-// Date        : Mon Dec 20 12:07:37 2021
+// Date        : Sun Jan  2 18:54:00 2022
 // Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 // Command     : write_verilog -force -mode funcsim
 //               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_input_controller_0_0/design_1_input_controller_0_0_sim_netlist.v
@@ -137,8 +137,6 @@ module design_1_input_controller_0_0_input_controller
   wire \cmds_reg[0]_i_2_n_0 ;
   wire \cmds_reg[0]_i_3_n_0 ;
   wire \cmds_reg[0]_i_4_n_0 ;
-  wire \cmds_reg[0]_i_5_n_0 ;
-  wire \cmds_reg[0]_i_6_n_0 ;
   wire \cmds_reg[1]_i_1_n_0 ;
   wire \cmds_reg[1]_i_2_n_0 ;
   wire \cmds_reg[1]_i_3_n_0 ;
@@ -146,6 +144,7 @@ module design_1_input_controller_0_0_input_controller
   wire \cmds_reg[1]_i_5_n_0 ;
   wire \cmds_reg[1]_i_6_n_0 ;
   wire \cmds_reg[1]_i_7_n_0 ;
+  wire \cmds_reg[1]_i_8_n_0 ;
   wire \cmds_reg[2]_i_1_n_0 ;
   wire \cmds_reg[2]_i_2_n_0 ;
   wire \cmds_reg[2]_i_3_n_0 ;
@@ -185,7 +184,7 @@ module design_1_input_controller_0_0_input_controller
   wire [3:0]state_next__0;
   wire [3:0]state_reg;
 
-  (* SOFT_HLUTNM = "soft_lutpair10" *) 
+  (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT1 #(
     .INIT(2'h1)) 
     \FSM_sequential_state_reg[0]_i_1 
@@ -201,7 +200,7 @@ module design_1_input_controller_0_0_input_controller
         .I3(state_reg[0]),
         .I4(state_reg[2]),
         .O(state_next__0[1]));
-  (* SOFT_HLUTNM = "soft_lutpair7" *) 
+  (* SOFT_HLUTNM = "soft_lutpair6" *) 
   LUT4 #(
     .INIT(16'h0078)) 
     \FSM_sequential_state_reg[2]_i_1 
@@ -317,120 +316,108 @@ module design_1_input_controller_0_0_input_controller
         .I5(\cmds_reg_reg_n_0_[0] ),
         .O(\cmds_reg[0]_i_1_n_0 ));
   LUT6 #(
-    .INIT(64'hFFFFFFFFFFFFFFF1)) 
+    .INIT(64'hFFFFFFFFFFFFA888)) 
     \cmds_reg[0]_i_2 
-       (.I0(ps2_din[3]),
-        .I1(\cmds_reg[1]_i_3_n_0 ),
-        .I2(\cmds_reg[0]_i_3_n_0 ),
-        .I3(\cmds_reg[0]_i_4_n_0 ),
-        .I4(\cmds_reg[0]_i_5_n_0 ),
-        .I5(\cmds_reg[0]_i_6_n_0 ),
+       (.I0(\cmds_reg[1]_i_7_n_0 ),
+        .I1(\cmds_reg_reg_n_0_[0] ),
+        .I2(ps2_din[0]),
+        .I3(flags_reg[1]),
+        .I4(\cmds_reg[0]_i_3_n_0 ),
+        .I5(\cmds_reg[0]_i_4_n_0 ),
         .O(\cmds_reg[0]_i_2_n_0 ));
   LUT6 #(
-    .INIT(64'h0202220200000000)) 
+    .INIT(64'h0040404000400040)) 
     \cmds_reg[0]_i_3 
-       (.I0(ps2_dpok),
-        .I1(ps2_mode),
-        .I2(flags_reg[0]),
-        .I3(ps2_din[5]),
+       (.I0(ps2_mode),
+        .I1(ps2_dpok),
+        .I2(\cmds_reg_reg_n_0_[0] ),
+        .I3(ps2_din[2]),
         .I4(flags_reg[1]),
-        .I5(\cmds_reg_reg_n_0_[0] ),
+        .I5(ps2_din[5]),
         .O(\cmds_reg[0]_i_3_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair6" *) 
-  LUT5 #(
-    .INIT(32'h00080000)) 
-    \cmds_reg[0]_i_4 
-       (.I0(flags_reg[1]),
-        .I1(ps2_din[0]),
-        .I2(flags_reg[0]),
-        .I3(ps2_mode),
-        .I4(ps2_dpok),
-        .O(\cmds_reg[0]_i_4_n_0 ));
   LUT6 #(
-    .INIT(64'h0000000200000000)) 
-    \cmds_reg[0]_i_5 
-       (.I0(ps2_din[2]),
-        .I1(ps2_din[5]),
+    .INIT(64'h00000000AAAE0000)) 
+    \cmds_reg[0]_i_4 
+       (.I0(ps2_mode),
+        .I1(ps2_din[2]),
         .I2(flags_reg[1]),
         .I3(flags_reg[0]),
-        .I4(ps2_mode),
-        .I5(ps2_dpok),
-        .O(\cmds_reg[0]_i_5_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair8" *) 
-  LUT4 #(
-    .INIT(16'h0040)) 
-    \cmds_reg[0]_i_6 
-       (.I0(ps2_din[2]),
-        .I1(\cmds_reg_reg_n_0_[0] ),
-        .I2(ps2_dpok),
-        .I3(ps2_mode),
-        .O(\cmds_reg[0]_i_6_n_0 ));
+        .I4(ps2_dpok),
+        .I5(ps2_din[5]),
+        .O(\cmds_reg[0]_i_4_n_0 ));
   LUT6 #(
-    .INIT(64'hBBFFABFF8800A800)) 
+    .INIT(64'hFEFEFEFFFEFEFE00)) 
     \cmds_reg[1]_i_1 
        (.I0(\cmds_reg[1]_i_2_n_0 ),
-        .I1(\cmds_reg[2]_i_3_n_0 ),
-        .I2(\cmds_reg[2]_i_4_n_0 ),
-        .I3(\flags_reg[1]_i_2_n_0 ),
-        .I4(ps2_din[7]),
-        .I5(p_1_in),
-        .O(\cmds_reg[1]_i_1_n_0 ));
-  LUT6 #(
-    .INIT(64'hFFFFFFFFFFFFFFF4)) 
-    \cmds_reg[1]_i_2 
-       (.I0(\cmds_reg[1]_i_3_n_0 ),
-        .I1(ps2_din[3]),
+        .I1(\cmds_reg[1]_i_3_n_0 ),
         .I2(\cmds_reg[1]_i_4_n_0 ),
         .I3(\cmds_reg[1]_i_5_n_0 ),
         .I4(\cmds_reg[1]_i_6_n_0 ),
-        .I5(\cmds_reg[1]_i_7_n_0 ),
-        .O(\cmds_reg[1]_i_2_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair14" *) 
-  LUT2 #(
-    .INIT(4'h7)) 
-    \cmds_reg[1]_i_3 
-       (.I0(ps2_dpok),
-        .I1(ps2_mode),
-        .O(\cmds_reg[1]_i_3_n_0 ));
-  LUT6 #(
-    .INIT(64'h0202220200000000)) 
-    \cmds_reg[1]_i_4 
-       (.I0(ps2_dpok),
-        .I1(ps2_mode),
-        .I2(flags_reg[0]),
-        .I3(ps2_din[5]),
-        .I4(flags_reg[1]),
         .I5(p_1_in),
-        .O(\cmds_reg[1]_i_4_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair6" *) 
-  LUT5 #(
-    .INIT(32'h00040000)) 
-    \cmds_reg[1]_i_5 
-       (.I0(ps2_din[0]),
-        .I1(flags_reg[1]),
-        .I2(flags_reg[0]),
-        .I3(ps2_mode),
-        .I4(ps2_dpok),
-        .O(\cmds_reg[1]_i_5_n_0 ));
+        .O(\cmds_reg[1]_i_1_n_0 ));
   LUT6 #(
-    .INIT(64'h0000000100000000)) 
-    \cmds_reg[1]_i_6 
+    .INIT(64'h00AA00FF00000001)) 
+    \cmds_reg[1]_i_2 
        (.I0(ps2_din[2]),
         .I1(ps2_din[5]),
         .I2(flags_reg[1]),
-        .I3(flags_reg[0]),
-        .I4(ps2_mode),
-        .I5(ps2_dpok),
-        .O(\cmds_reg[1]_i_6_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair8" *) 
-  LUT4 #(
-    .INIT(16'h0080)) 
-    \cmds_reg[1]_i_7 
-       (.I0(p_1_in),
-        .I1(ps2_din[2]),
+        .I3(\cmds_reg[2]_i_3_n_0 ),
+        .I4(flags_reg[0]),
+        .I5(p_1_in),
+        .O(\cmds_reg[1]_i_2_n_0 ));
+  LUT6 #(
+    .INIT(64'h2F20202020202020)) 
+    \cmds_reg[1]_i_3 
+       (.I0(\cmds_reg[1]_i_7_n_0 ),
+        .I1(ps2_din[0]),
+        .I2(flags_reg[1]),
+        .I3(ps2_din[5]),
+        .I4(ps2_dpok),
+        .I5(p_1_in),
+        .O(\cmds_reg[1]_i_3_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  LUT3 #(
+    .INIT(8'h80)) 
+    \cmds_reg[1]_i_4 
+       (.I0(ps2_din[5]),
+        .I1(ps2_mode),
         .I2(ps2_dpok),
-        .I3(ps2_mode),
+        .O(\cmds_reg[1]_i_4_n_0 ));
+  LUT6 #(
+    .INIT(64'h0000004000000000)) 
+    \cmds_reg[1]_i_5 
+       (.I0(state_reg[1]),
+        .I1(ps2_dvalid),
+        .I2(state_reg[3]),
+        .I3(state_reg[2]),
+        .I4(state_reg[0]),
+        .I5(\cmds_reg[2]_i_3_n_0 ),
+        .O(\cmds_reg[1]_i_5_n_0 ));
+  LUT6 #(
+    .INIT(64'h4444400040004000)) 
+    \cmds_reg[1]_i_6 
+       (.I0(ps2_din[7]),
+        .I1(\flags_reg[1]_i_2_n_0 ),
+        .I2(\cmds_reg[2]_i_7_n_0 ),
+        .I3(\cmds_reg[2]_i_6_n_0 ),
+        .I4(\cmds_reg[1]_i_8_n_0 ),
+        .I5(\cmds_reg[2]_i_5_n_0 ),
+        .O(\cmds_reg[1]_i_6_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  LUT3 #(
+    .INIT(8'h02)) 
+    \cmds_reg[1]_i_7 
+       (.I0(ps2_dpok),
+        .I1(ps2_mode),
+        .I2(flags_reg[0]),
         .O(\cmds_reg[1]_i_7_n_0 ));
+  LUT3 #(
+    .INIT(8'h40)) 
+    \cmds_reg[1]_i_8 
+       (.I0(ps2_din[6]),
+        .I1(ps2_din[3]),
+        .I2(ps2_din[0]),
+        .O(\cmds_reg[1]_i_8_n_0 ));
   LUT6 #(
     .INIT(64'hBBFFABFF8800A800)) 
     \cmds_reg[2]_i_1 
@@ -451,7 +438,7 @@ module design_1_input_controller_0_0_input_controller
         .I4(ps2_dpok),
         .I5(ps2_mode),
         .O(\cmds_reg[2]_i_2_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair14" *) 
+  (* SOFT_HLUTNM = "soft_lutpair13" *) 
   LUT2 #(
     .INIT(4'hB)) 
     \cmds_reg[2]_i_3 
@@ -513,7 +500,7 @@ module design_1_input_controller_0_0_input_controller
         .CLR(reset),
         .D(\cmds_reg[2]_i_1_n_0 ),
         .Q(p_2_in));
-  (* SOFT_HLUTNM = "soft_lutpair13" *) 
+  (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT4 #(
     .INIT(16'h0002)) 
     \craft_delta_y[0]_INST_0 
@@ -522,7 +509,7 @@ module design_1_input_controller_0_0_input_controller
         .I2(btn[0]),
         .I3(btn[1]),
         .O(craft_delta_y[0]));
-  (* SOFT_HLUTNM = "soft_lutpair13" *) 
+  (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT4 #(
     .INIT(16'h0002)) 
     \craft_delta_y[1]_INST_0 
@@ -531,7 +518,7 @@ module design_1_input_controller_0_0_input_controller
         .I2(btn[0]),
         .I3(btn[1]),
         .O(craft_delta_y[1]));
-  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  (* SOFT_HLUTNM = "soft_lutpair10" *) 
   LUT4 #(
     .INIT(16'h6766)) 
     \craft_delta_y[2]_INST_0 
@@ -548,20 +535,21 @@ module design_1_input_controller_0_0_input_controller
         .I2(btn[0]),
         .I3(btn[1]),
         .O(craft_delta_y[3]));
+  (* SOFT_HLUTNM = "soft_lutpair14" *) 
   LUT2 #(
     .INIT(4'h8)) 
     \craft_delta_y_reg[0]_i_1 
        (.I0(mouse_delta_y_reg[0]),
         .I1(ps2_mode),
         .O(p_0_in[0]));
-  (* SOFT_HLUTNM = "soft_lutpair15" *) 
+  (* SOFT_HLUTNM = "soft_lutpair14" *) 
   LUT2 #(
     .INIT(4'h8)) 
     \craft_delta_y_reg[1]_i_1 
        (.I0(mouse_delta_y_reg[1]),
         .I1(ps2_mode),
         .O(p_0_in[1]));
-  (* SOFT_HLUTNM = "soft_lutpair9" *) 
+  (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT4 #(
     .INIT(16'h8BB8)) 
     \craft_delta_y_reg[2]_i_1 
@@ -570,7 +558,7 @@ module design_1_input_controller_0_0_input_controller
         .I2(\cmds_reg_reg_n_0_[0] ),
         .I3(p_1_in),
         .O(p_0_in[2]));
-  (* SOFT_HLUTNM = "soft_lutpair15" *) 
+  (* SOFT_HLUTNM = "soft_lutpair13" *) 
   LUT2 #(
     .INIT(4'h8)) 
     \craft_delta_y_reg[3]_i_1 
@@ -601,7 +589,7 @@ module design_1_input_controller_0_0_input_controller
         .CLR(reset),
         .D(p_0_in[3]),
         .Q(craft_delta_y_reg[3]));
-  (* SOFT_HLUTNM = "soft_lutpair12" *) 
+  (* SOFT_HLUTNM = "soft_lutpair10" *) 
   LUT4 #(
     .INIT(16'h3302)) 
     craft_dir__0
@@ -622,7 +610,7 @@ module design_1_input_controller_0_0_input_controller
         .CLR(reset),
         .D(craft_dir_reg0),
         .Q(craft_dir_reg));
-  (* SOFT_HLUTNM = "soft_lutpair11" *) 
+  (* SOFT_HLUTNM = "soft_lutpair9" *) 
   LUT4 #(
     .INIT(16'hF0F2)) 
     fire__0
@@ -712,7 +700,7 @@ module design_1_input_controller_0_0_input_controller
         .CLR(reset),
         .D(ps2_din[7]),
         .Q(mouse_delta_y_reg[3]));
-  (* SOFT_HLUTNM = "soft_lutpair7" *) 
+  (* SOFT_HLUTNM = "soft_lutpair6" *) 
   LUT4 #(
     .INIT(16'h0001)) 
     \ps2_dout[0]_INST_0 
@@ -729,7 +717,7 @@ module design_1_input_controller_0_0_input_controller
         .I1(state_reg[0]),
         .I2(state_reg[3]),
         .O(ps2_dout[1]));
-  (* SOFT_HLUTNM = "soft_lutpair10" *) 
+  (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT4 #(
     .INIT(16'h1001)) 
     \ps2_dout[2]_INST_0 
@@ -756,7 +744,7 @@ module design_1_input_controller_0_0_input_controller
         .I2(state_reg[0]),
         .I3(state_reg[2]),
         .O(ps2_dout[3]));
-  (* SOFT_HLUTNM = "soft_lutpair11" *) 
+  (* SOFT_HLUTNM = "soft_lutpair9" *) 
   LUT4 #(
     .INIT(16'hFFFE)) 
     start__0
@@ -773,7 +761,7 @@ module design_1_input_controller_0_0_input_controller
         .I2(state_reg[1]),
         .I3(state_reg[0]),
         .O(start_next));
-  (* SOFT_HLUTNM = "soft_lutpair9" *) 
+  (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT4 #(
     .INIT(16'hAFAE)) 
     start_reg_i_2

@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
--- Date        : Mon Dec 20 12:07:37 2021
+-- Date        : Sun Jan  2 18:54:00 2022
 -- Host        : jsilva-kde running 64-bit KDE neon User - Plasma 25th Anniversary Edition
 -- Command     : write_vhdl -force -mode funcsim
 --               /media/joao/SSD/Development/artix-eprog/artix-eprog.gen/sources_1/bd/design_1/ip/design_1_input_controller_0_0/design_1_input_controller_0_0_sim_netlist.vhdl
@@ -46,8 +46,6 @@ architecture STRUCTURE of design_1_input_controller_0_0_input_controller is
   signal \cmds_reg[0]_i_2_n_0\ : STD_LOGIC;
   signal \cmds_reg[0]_i_3_n_0\ : STD_LOGIC;
   signal \cmds_reg[0]_i_4_n_0\ : STD_LOGIC;
-  signal \cmds_reg[0]_i_5_n_0\ : STD_LOGIC;
-  signal \cmds_reg[0]_i_6_n_0\ : STD_LOGIC;
   signal \cmds_reg[1]_i_1_n_0\ : STD_LOGIC;
   signal \cmds_reg[1]_i_2_n_0\ : STD_LOGIC;
   signal \cmds_reg[1]_i_3_n_0\ : STD_LOGIC;
@@ -55,6 +53,7 @@ architecture STRUCTURE of design_1_input_controller_0_0_input_controller is
   signal \cmds_reg[1]_i_5_n_0\ : STD_LOGIC;
   signal \cmds_reg[1]_i_6_n_0\ : STD_LOGIC;
   signal \cmds_reg[1]_i_7_n_0\ : STD_LOGIC;
+  signal \cmds_reg[1]_i_8_n_0\ : STD_LOGIC;
   signal \cmds_reg[2]_i_1_n_0\ : STD_LOGIC;
   signal \cmds_reg[2]_i_2_n_0\ : STD_LOGIC;
   signal \cmds_reg[2]_i_3_n_0\ : STD_LOGIC;
@@ -82,9 +81,9 @@ architecture STRUCTURE of design_1_input_controller_0_0_input_controller is
   signal \state_next__0\ : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal state_reg : STD_LOGIC_VECTOR ( 3 downto 0 );
   attribute SOFT_HLUTNM : string;
-  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[0]_i_1\ : label is "soft_lutpair10";
+  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[0]_i_1\ : label is "soft_lutpair8";
   attribute SOFT_HLUTNM of \FSM_sequential_state_reg[1]_i_1\ : label is "soft_lutpair3";
-  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[2]_i_1\ : label is "soft_lutpair7";
+  attribute SOFT_HLUTNM of \FSM_sequential_state_reg[2]_i_1\ : label is "soft_lutpair6";
   attribute SOFT_HLUTNM of \FSM_sequential_state_reg[3]_i_2\ : label is "soft_lutpair3";
   attribute SOFT_HLUTNM of \FSM_sequential_state_reg[3]_i_4\ : label is "soft_lutpair5";
   attribute SOFT_HLUTNM of \FSM_sequential_state_reg[3]_i_5\ : label is "soft_lutpair1";
@@ -95,30 +94,28 @@ architecture STRUCTURE of design_1_input_controller_0_0_input_controller is
   attribute FSM_ENCODED_STATES of \FSM_sequential_state_reg_reg[1]\ : label is "init_mouse1_wait_send:0011,init_mouse1_wait_ack:0100,init_mouse1:0010,register_cmds:1011,wait_mouse_y:1010,reset_wait_send:0001,reset_kb_mouse:0000,init_mouse2_wait_ack:0111,wait_mouse_x:1001,init_mouse2_wait_send:0110,wait_first:1000,init_mouse2:0101";
   attribute FSM_ENCODED_STATES of \FSM_sequential_state_reg_reg[2]\ : label is "init_mouse1_wait_send:0011,init_mouse1_wait_ack:0100,init_mouse1:0010,register_cmds:1011,wait_mouse_y:1010,reset_wait_send:0001,reset_kb_mouse:0000,init_mouse2_wait_ack:0111,wait_mouse_x:1001,init_mouse2_wait_send:0110,wait_first:1000,init_mouse2:0101";
   attribute FSM_ENCODED_STATES of \FSM_sequential_state_reg_reg[3]\ : label is "init_mouse1_wait_send:0011,init_mouse1_wait_ack:0100,init_mouse1:0010,register_cmds:1011,wait_mouse_y:1010,reset_wait_send:0001,reset_kb_mouse:0000,init_mouse2_wait_ack:0111,wait_mouse_x:1001,init_mouse2_wait_send:0110,wait_first:1000,init_mouse2:0101";
-  attribute SOFT_HLUTNM of \cmds_reg[0]_i_4\ : label is "soft_lutpair6";
-  attribute SOFT_HLUTNM of \cmds_reg[0]_i_6\ : label is "soft_lutpair8";
-  attribute SOFT_HLUTNM of \cmds_reg[1]_i_3\ : label is "soft_lutpair14";
-  attribute SOFT_HLUTNM of \cmds_reg[1]_i_5\ : label is "soft_lutpair6";
-  attribute SOFT_HLUTNM of \cmds_reg[1]_i_7\ : label is "soft_lutpair8";
-  attribute SOFT_HLUTNM of \cmds_reg[2]_i_3\ : label is "soft_lutpair14";
+  attribute SOFT_HLUTNM of \cmds_reg[1]_i_4\ : label is "soft_lutpair12";
+  attribute SOFT_HLUTNM of \cmds_reg[1]_i_7\ : label is "soft_lutpair12";
+  attribute SOFT_HLUTNM of \cmds_reg[2]_i_3\ : label is "soft_lutpair13";
   attribute SOFT_HLUTNM of \cmds_reg[2]_i_6\ : label is "soft_lutpair1";
   attribute SOFT_HLUTNM of \cmds_reg[2]_i_7\ : label is "soft_lutpair0";
-  attribute SOFT_HLUTNM of \craft_delta_y[0]_INST_0\ : label is "soft_lutpair13";
-  attribute SOFT_HLUTNM of \craft_delta_y[1]_INST_0\ : label is "soft_lutpair13";
-  attribute SOFT_HLUTNM of \craft_delta_y[2]_INST_0\ : label is "soft_lutpair12";
-  attribute SOFT_HLUTNM of \craft_delta_y_reg[1]_i_1\ : label is "soft_lutpair15";
-  attribute SOFT_HLUTNM of \craft_delta_y_reg[2]_i_1\ : label is "soft_lutpair9";
-  attribute SOFT_HLUTNM of \craft_delta_y_reg[3]_i_1\ : label is "soft_lutpair15";
-  attribute SOFT_HLUTNM of \craft_dir__0\ : label is "soft_lutpair12";
-  attribute SOFT_HLUTNM of \fire__0\ : label is "soft_lutpair11";
+  attribute SOFT_HLUTNM of \craft_delta_y[0]_INST_0\ : label is "soft_lutpair11";
+  attribute SOFT_HLUTNM of \craft_delta_y[1]_INST_0\ : label is "soft_lutpair11";
+  attribute SOFT_HLUTNM of \craft_delta_y[2]_INST_0\ : label is "soft_lutpair10";
+  attribute SOFT_HLUTNM of \craft_delta_y_reg[0]_i_1\ : label is "soft_lutpair14";
+  attribute SOFT_HLUTNM of \craft_delta_y_reg[1]_i_1\ : label is "soft_lutpair14";
+  attribute SOFT_HLUTNM of \craft_delta_y_reg[2]_i_1\ : label is "soft_lutpair7";
+  attribute SOFT_HLUTNM of \craft_delta_y_reg[3]_i_1\ : label is "soft_lutpair13";
+  attribute SOFT_HLUTNM of \craft_dir__0\ : label is "soft_lutpair10";
+  attribute SOFT_HLUTNM of \fire__0\ : label is "soft_lutpair9";
   attribute SOFT_HLUTNM of \flags_reg[1]_i_2\ : label is "soft_lutpair4";
-  attribute SOFT_HLUTNM of \ps2_dout[0]_INST_0\ : label is "soft_lutpair7";
+  attribute SOFT_HLUTNM of \ps2_dout[0]_INST_0\ : label is "soft_lutpair6";
   attribute SOFT_HLUTNM of \ps2_dout[1]_INST_0\ : label is "soft_lutpair5";
-  attribute SOFT_HLUTNM of \ps2_dout[2]_INST_0\ : label is "soft_lutpair10";
+  attribute SOFT_HLUTNM of \ps2_dout[2]_INST_0\ : label is "soft_lutpair8";
   attribute SOFT_HLUTNM of ps2_rx_enable_INST_0 : label is "soft_lutpair2";
   attribute SOFT_HLUTNM of ps2_tx_start_INST_0 : label is "soft_lutpair4";
-  attribute SOFT_HLUTNM of \start__0\ : label is "soft_lutpair11";
-  attribute SOFT_HLUTNM of start_reg_i_2 : label is "soft_lutpair9";
+  attribute SOFT_HLUTNM of \start__0\ : label is "soft_lutpair9";
+  attribute SOFT_HLUTNM of start_reg_i_2 : label is "soft_lutpair7";
 begin
 \FSM_sequential_state_reg[0]_i_1\: unisim.vcomponents.LUT1
     generic map(
@@ -282,149 +279,137 @@ begin
     );
 \cmds_reg[0]_i_2\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"FFFFFFFFFFFFFFF1"
+      INIT => X"FFFFFFFFFFFFA888"
     )
         port map (
-      I0 => ps2_din(3),
-      I1 => \cmds_reg[1]_i_3_n_0\,
-      I2 => \cmds_reg[0]_i_3_n_0\,
-      I3 => \cmds_reg[0]_i_4_n_0\,
-      I4 => \cmds_reg[0]_i_5_n_0\,
-      I5 => \cmds_reg[0]_i_6_n_0\,
+      I0 => \cmds_reg[1]_i_7_n_0\,
+      I1 => \cmds_reg_reg_n_0_[0]\,
+      I2 => ps2_din(0),
+      I3 => flags_reg(1),
+      I4 => \cmds_reg[0]_i_3_n_0\,
+      I5 => \cmds_reg[0]_i_4_n_0\,
       O => \cmds_reg[0]_i_2_n_0\
     );
 \cmds_reg[0]_i_3\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"0202220200000000"
+      INIT => X"0040404000400040"
     )
         port map (
-      I0 => ps2_dpok,
-      I1 => ps2_mode,
-      I2 => flags_reg(0),
-      I3 => ps2_din(5),
+      I0 => ps2_mode,
+      I1 => ps2_dpok,
+      I2 => \cmds_reg_reg_n_0_[0]\,
+      I3 => ps2_din(2),
       I4 => flags_reg(1),
-      I5 => \cmds_reg_reg_n_0_[0]\,
+      I5 => ps2_din(5),
       O => \cmds_reg[0]_i_3_n_0\
     );
-\cmds_reg[0]_i_4\: unisim.vcomponents.LUT5
+\cmds_reg[0]_i_4\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"00080000"
+      INIT => X"00000000AAAE0000"
     )
         port map (
-      I0 => flags_reg(1),
-      I1 => ps2_din(0),
-      I2 => flags_reg(0),
-      I3 => ps2_mode,
-      I4 => ps2_dpok,
-      O => \cmds_reg[0]_i_4_n_0\
-    );
-\cmds_reg[0]_i_5\: unisim.vcomponents.LUT6
-    generic map(
-      INIT => X"0000000200000000"
-    )
-        port map (
-      I0 => ps2_din(2),
-      I1 => ps2_din(5),
+      I0 => ps2_mode,
+      I1 => ps2_din(2),
       I2 => flags_reg(1),
       I3 => flags_reg(0),
-      I4 => ps2_mode,
-      I5 => ps2_dpok,
-      O => \cmds_reg[0]_i_5_n_0\
-    );
-\cmds_reg[0]_i_6\: unisim.vcomponents.LUT4
-    generic map(
-      INIT => X"0040"
-    )
-        port map (
-      I0 => ps2_din(2),
-      I1 => \cmds_reg_reg_n_0_[0]\,
-      I2 => ps2_dpok,
-      I3 => ps2_mode,
-      O => \cmds_reg[0]_i_6_n_0\
+      I4 => ps2_dpok,
+      I5 => ps2_din(5),
+      O => \cmds_reg[0]_i_4_n_0\
     );
 \cmds_reg[1]_i_1\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"BBFFABFF8800A800"
+      INIT => X"FEFEFEFFFEFEFE00"
     )
         port map (
       I0 => \cmds_reg[1]_i_2_n_0\,
-      I1 => \cmds_reg[2]_i_3_n_0\,
-      I2 => \cmds_reg[2]_i_4_n_0\,
-      I3 => \flags_reg[1]_i_2_n_0\,
-      I4 => ps2_din(7),
+      I1 => \cmds_reg[1]_i_3_n_0\,
+      I2 => \cmds_reg[1]_i_4_n_0\,
+      I3 => \cmds_reg[1]_i_5_n_0\,
+      I4 => \cmds_reg[1]_i_6_n_0\,
       I5 => p_1_in,
       O => \cmds_reg[1]_i_1_n_0\
     );
 \cmds_reg[1]_i_2\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"FFFFFFFFFFFFFFF4"
-    )
-        port map (
-      I0 => \cmds_reg[1]_i_3_n_0\,
-      I1 => ps2_din(3),
-      I2 => \cmds_reg[1]_i_4_n_0\,
-      I3 => \cmds_reg[1]_i_5_n_0\,
-      I4 => \cmds_reg[1]_i_6_n_0\,
-      I5 => \cmds_reg[1]_i_7_n_0\,
-      O => \cmds_reg[1]_i_2_n_0\
-    );
-\cmds_reg[1]_i_3\: unisim.vcomponents.LUT2
-    generic map(
-      INIT => X"7"
-    )
-        port map (
-      I0 => ps2_dpok,
-      I1 => ps2_mode,
-      O => \cmds_reg[1]_i_3_n_0\
-    );
-\cmds_reg[1]_i_4\: unisim.vcomponents.LUT6
-    generic map(
-      INIT => X"0202220200000000"
-    )
-        port map (
-      I0 => ps2_dpok,
-      I1 => ps2_mode,
-      I2 => flags_reg(0),
-      I3 => ps2_din(5),
-      I4 => flags_reg(1),
-      I5 => p_1_in,
-      O => \cmds_reg[1]_i_4_n_0\
-    );
-\cmds_reg[1]_i_5\: unisim.vcomponents.LUT5
-    generic map(
-      INIT => X"00040000"
-    )
-        port map (
-      I0 => ps2_din(0),
-      I1 => flags_reg(1),
-      I2 => flags_reg(0),
-      I3 => ps2_mode,
-      I4 => ps2_dpok,
-      O => \cmds_reg[1]_i_5_n_0\
-    );
-\cmds_reg[1]_i_6\: unisim.vcomponents.LUT6
-    generic map(
-      INIT => X"0000000100000000"
+      INIT => X"00AA00FF00000001"
     )
         port map (
       I0 => ps2_din(2),
       I1 => ps2_din(5),
       I2 => flags_reg(1),
-      I3 => flags_reg(0),
-      I4 => ps2_mode,
-      I5 => ps2_dpok,
-      O => \cmds_reg[1]_i_6_n_0\
+      I3 => \cmds_reg[2]_i_3_n_0\,
+      I4 => flags_reg(0),
+      I5 => p_1_in,
+      O => \cmds_reg[1]_i_2_n_0\
     );
-\cmds_reg[1]_i_7\: unisim.vcomponents.LUT4
+\cmds_reg[1]_i_3\: unisim.vcomponents.LUT6
     generic map(
-      INIT => X"0080"
+      INIT => X"2F20202020202020"
     )
         port map (
-      I0 => p_1_in,
-      I1 => ps2_din(2),
+      I0 => \cmds_reg[1]_i_7_n_0\,
+      I1 => ps2_din(0),
+      I2 => flags_reg(1),
+      I3 => ps2_din(5),
+      I4 => ps2_dpok,
+      I5 => p_1_in,
+      O => \cmds_reg[1]_i_3_n_0\
+    );
+\cmds_reg[1]_i_4\: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"80"
+    )
+        port map (
+      I0 => ps2_din(5),
+      I1 => ps2_mode,
       I2 => ps2_dpok,
-      I3 => ps2_mode,
+      O => \cmds_reg[1]_i_4_n_0\
+    );
+\cmds_reg[1]_i_5\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"0000004000000000"
+    )
+        port map (
+      I0 => state_reg(1),
+      I1 => ps2_dvalid,
+      I2 => state_reg(3),
+      I3 => state_reg(2),
+      I4 => state_reg(0),
+      I5 => \cmds_reg[2]_i_3_n_0\,
+      O => \cmds_reg[1]_i_5_n_0\
+    );
+\cmds_reg[1]_i_6\: unisim.vcomponents.LUT6
+    generic map(
+      INIT => X"4444400040004000"
+    )
+        port map (
+      I0 => ps2_din(7),
+      I1 => \flags_reg[1]_i_2_n_0\,
+      I2 => \cmds_reg[2]_i_7_n_0\,
+      I3 => \cmds_reg[2]_i_6_n_0\,
+      I4 => \cmds_reg[1]_i_8_n_0\,
+      I5 => \cmds_reg[2]_i_5_n_0\,
+      O => \cmds_reg[1]_i_6_n_0\
+    );
+\cmds_reg[1]_i_7\: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"02"
+    )
+        port map (
+      I0 => ps2_dpok,
+      I1 => ps2_mode,
+      I2 => flags_reg(0),
       O => \cmds_reg[1]_i_7_n_0\
+    );
+\cmds_reg[1]_i_8\: unisim.vcomponents.LUT3
+    generic map(
+      INIT => X"40"
+    )
+        port map (
+      I0 => ps2_din(6),
+      I1 => ps2_din(3),
+      I2 => ps2_din(0),
+      O => \cmds_reg[1]_i_8_n_0\
     );
 \cmds_reg[2]_i_1\: unisim.vcomponents.LUT6
     generic map(

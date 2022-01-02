@@ -40,10 +40,10 @@ architecture arch of input_controller is
     constant BRK:        std_logic_vector(7 downto 0) := "11110000"; -- 0xF0
     constant EXT:        std_logic_vector(7 downto 0) := "11100000"; -- 0xE0
 
-    constant MOUSE_LEFT_CLICK_BIT:  integer := 7; -- 0x80
-    constant MOUSE_RIGHT_CLICK_BIT: integer := 6; -- 0x40
-    constant MOUSE_X_SIGN_BIT:      integer := 4; -- 0x08
-    constant MOUSE_Y_SIGN_BIT:      integer := 3; -- 0x04
+    constant MOUSE_LEFT_CLICK_BIT:  integer := 0; -- 0x01
+    constant MOUSE_RIGHT_CLICK_BIT: integer := 1; -- 0x02
+    constant MOUSE_X_SIGN_BIT:      integer := 4; -- 0x10
+    constant MOUSE_Y_SIGN_BIT:      integer := 5; -- 0x20
 
     constant BRK_FLAG: std_logic_vector(1 downto 0) := "01";
     constant EXT_FLAG: std_logic_vector(1 downto 0) := "10";

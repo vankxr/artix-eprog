@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Dec 27 17:30:11 2021" VIVADOVERSION="2021.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Jan  2 18:53:16 2022" VIVADOVERSION="2021.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:basys3:part0:1.1" DEVICE="7a35t" NAME="design_1" PACKAGE="cpg236" SPEEDGRADE="-1"/>
 
@@ -742,11 +742,11 @@
             <CONNECTION INSTANCE="controller_0" PORT="clk"/>
             <CONNECTION INSTANCE="text_0" PORT="clk"/>
             <CONNECTION INSTANCE="ps2_rx_0" PORT="clk"/>
-            <CONNECTION INSTANCE="input_controller_0" PORT="clk"/>
             <CONNECTION INSTANCE="monster_move_speed_timer" PORT="clk"/>
             <CONNECTION INSTANCE="boost_spawn_timer" PORT="clk"/>
             <CONNECTION INSTANCE="graph_0" PORT="clk"/>
             <CONNECTION INSTANCE="ps2_tx_0" PORT="clk"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="locked" SIGIS="undef" SIGNAME="clk_wiz_0_locked">
@@ -1605,11 +1605,11 @@
             <CONNECTION INSTANCE="controller_0" PORT="reset"/>
             <CONNECTION INSTANCE="text_0" PORT="reset"/>
             <CONNECTION INSTANCE="ps2_rx_0" PORT="reset"/>
-            <CONNECTION INSTANCE="input_controller_0" PORT="reset"/>
             <CONNECTION INSTANCE="monster_move_speed_timer" PORT="reset"/>
             <CONNECTION INSTANCE="boost_spawn_timer" PORT="reset"/>
             <CONNECTION INSTANCE="graph_0" PORT="reset"/>
             <CONNECTION INSTANCE="ps2_tx_0" PORT="reset"/>
+            <CONNECTION INSTANCE="input_controller_0" PORT="reset"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
